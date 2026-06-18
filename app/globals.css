@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-lato);
+  --font-heading: var(--font-montserrat);
+}
+
+/* BI Paints brand colors (from official brand identity PDF) */
+@theme {
+  --color-navy: #1a3c8e;
+  --color-navy-dark: #122d6e;
+  --color-navy-light: #1e4aaa;
+  --color-accent: #f5a200;
+  --color-accent-dark: #d48c00;
+}
+
+/* Base typography */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-lato), Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
+}
+
+/* Match reference: all transitions 0.5s ease-in-out */
+a, button {
+  transition: all 0.5s ease-in-out;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
