@@ -5,13 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 
 const SLIDES = [
-  { src: "/product-slider.jpg",  alt: "BI Paints – Premium Coating Solutions" },
-  { src: "/product-slider0.jpg", alt: "BI Paints – Industrial Coatings" },
-  { src: "/product-img.jpg",     alt: "BI Paints – Product Range" },
-  { src: "/product-img0.jpg",    alt: "BI Paints – Exterior Paints" },
-  { src: "/product-img1.jpg",    alt: "BI Paints – Interior Paints" },
-  { src: "/product-img2.jpg",    alt: "BI Paints – Marine Coatings" },
-  { src: "/product-img3.jpg",    alt: "BI Paints – Decorative Finishes" },
+  { src: "/photo-1562259949-e8e7689d7828.avif",   alt: "BI Group – Paints" },
+  { src: "/photo-1637035640133-5f7f6dc20131.avif", alt: "BI Group – HVAC Systems" },
+  { src: "/photo-1722605090433-41d1183a792d.avif", alt: "BI Group – Modular Kitchens" },
+  { src: "/banner4.jpg",                            alt: "BI Group – Steel" },
+  { src: "/photo-1508450859948-4e04fabaa4ea.avif", alt: "BI Group – Cement" },
+  { src: "/banner1.jpg",                            alt: "BI Group – Chemicals" },
+  { src: "/photo-1698479603408-1a66a6d9e80f.avif", alt: "BI Group – Electronics & Home Appliances" },
+  { src: "/photo-1496247749665-49cf5b1022e9.avif", alt: "BI Group – Power Tools & Hardware" },
+  { src: "/photo-1599707254554-027aeb4deacd.avif", alt: "BI Group – Fabrication" },
 ];
 
 export default function HeroSection() {

@@ -18,8 +18,8 @@ function MarqueeTrack({ clients }: { clients: typeof CLIENTS }) {
       {clients.map((client, i) => (
         <div
           key={`${client.name}-${i}`}
-          className="flex-shrink-0 bg-white border border-gray-200 rounded flex items-center justify-center p-5 hover:border-accent hover:shadow-sm transition-all duration-200"
-          style={{ width: 180, height: 180 }}
+          className="flex-shrink-0 bg-white border border-gray-200 rounded flex items-center justify-center p-4 hover:border-accent hover:shadow-sm transition-all duration-200"
+          style={{ width: 150, height: 100 }}
         >
           <div className="relative w-full h-full">
             <Image
@@ -27,7 +27,7 @@ function MarqueeTrack({ clients }: { clients: typeof CLIENTS }) {
               alt={client.name}
               fill
               className="object-contain"
-              sizes="180px"
+              sizes="150px"
             />
           </div>
         </div>
@@ -47,14 +47,16 @@ export default function ClientLogosSection() {
         </FadeInSection>
       </div>
 
-      {/* ── Auto-sliding marquee (edge-to-edge) ── */}
-      <div
-        className="relative overflow-hidden py-2 mb-8"
-        style={{ maskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)" }}
-      >
-        <div className="flex gap-4" style={{ animation: "marquee 18s linear infinite" }}>
-          <MarqueeTrack clients={CLIENTS} />
-          <MarqueeTrack clients={CLIENTS} />
+      {/* ── Auto-sliding marquee (centered within page width) ── */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
+        <div
+          className="relative overflow-hidden py-2"
+          style={{ maskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)" }}
+        >
+          <div className="flex gap-4 justify-center" style={{ animation: "marquee 18s linear infinite", width: "max-content" }}>
+            <MarqueeTrack clients={CLIENTS} />
+            <MarqueeTrack clients={CLIENTS} />
+          </div>
         </div>
       </div>
 

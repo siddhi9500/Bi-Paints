@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const ABOUT_LINKS = [
   { label: "Overview",        href: "/about" },
@@ -119,10 +120,21 @@ export default function Footer() {
 
       {/* ── Copyright bar ── */}
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", background: "rgba(0,0,0,0.2)" }}>
-        <div className="max-w-screen-xl mx-auto px-6 sm:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p style={{ color: "rgba(255,255,255,0.60)", fontSize: 13 }}>
-            Copyrights &copy; {new Date().getFullYear()}, BI Group of Companies | All Rights Reserved
-          </p>
+        <div className="max-w-screen-xl mx-auto px-6 sm:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="relative flex-shrink-0" style={{ width: 40, height: 55 }}>
+              <Image
+                src="/iso_certified.png"
+                alt="ISO 9001:2015 Certified Company"
+                fill
+                className="object-contain"
+                sizes="40px"
+              />
+            </div>
+            <p style={{ color: "rgba(255,255,255,0.60)", fontSize: 13 }}>
+              Copyrights &copy; {new Date().getFullYear()}, BI Group of Companies | All Rights Reserved
+            </p>
+          </div>
           <p style={{ color: "rgba(255,255,255,0.60)", fontSize: 13 }}>
             Powered By <span className="font-bold text-white">B2C Info Solutions</span>
           </p>
