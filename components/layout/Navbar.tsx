@@ -2,7 +2,11 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import { Search, Menu, X, ChevronDown } from "lucide-react";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 type DropdownItem = { label: string; href: string };
 type NavItem = { label: string; href: string; dropdown?: DropdownItem[] };
@@ -86,7 +90,7 @@ export default function Navbar() {
       className="fixed top-0 left-0 right-0 z-50 bg-white"
       style={{
         boxShadow: scrolled ? "0px 2px 6px #424242" : "0px 1px 4px rgba(0,0,0,0.08)",
-        transition: "all 0.5s ease-in-out",
+        transition: "all 0.22s ease-in-out",
       }}
     >
       {/* ── Desktop: two-column layout (logo left | two-row nav right) ── */}
@@ -98,10 +102,11 @@ export default function Navbar() {
           style={{ minWidth: 310 }}
         >
           <Link href="/" className="flex flex-col items-end px-6">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src="/bi-logo.svg"
               alt="BI Paints"
+              width={3305}
+              height={650}
               style={{ height: 42, width: "auto" }}
             />
             <span
@@ -121,7 +126,7 @@ export default function Navbar() {
             <button
               aria-label="Search"
               className="p-1.5 text-gray-500 hover:text-navy"
-              style={{ transition: "all 0.5s ease-in-out" }}
+              style={{ transition: "all 0.22s ease-in-out" }}
             >
               <Search size={16} />
             </button>
@@ -134,7 +139,7 @@ export default function Navbar() {
                 key={item.label}
                 href={item.href}
                 className="px-3 py-1 text-sm text-gray-600 hover:text-navy font-medium"
-                style={{ transition: "all 0.5s ease-in-out" }}
+                style={{ transition: "all 0.22s ease-in-out" }}
               >
                 {item.label}
               </Link>
@@ -142,14 +147,14 @@ export default function Navbar() {
             <Link
               href="/my-account"
               className="px-3 py-1 text-sm font-bold"
-              style={{ color: "#f5a200", transition: "all 0.5s ease-in-out" }}
+              style={{ color: "#f5a200", transition: "all 0.22s ease-in-out" }}
             >
               My BI Paints
             </Link>
             <Link
               href="/contact"
               className="px-3 py-1 text-sm font-bold text-gray-800 hover:text-accent"
-              style={{ transition: "all 0.5s ease-in-out" }}
+              style={{ transition: "all 0.22s ease-in-out" }}
             >
               Get In Touch
             </Link>
@@ -167,7 +172,7 @@ export default function Navbar() {
                 <Link
                   href={item.href}
                   className="flex items-center gap-0.5 px-3.5 py-5 text-[0.87rem] font-medium text-gray-700 hover:text-accent uppercase tracking-wide whitespace-nowrap"
-                  style={{ transition: "all 0.5s ease-in-out" }}
+                  style={{ transition: "all 0.22s ease-in-out" }}
                 >
                   {item.label}
                   {item.dropdown && (
@@ -178,25 +183,31 @@ export default function Navbar() {
                   )}
                 </Link>
 
-                {item.dropdown && activeDropdown === item.label && (
-                  <div
-                    className="absolute top-full left-0 bg-white min-w-[210px] z-50 py-1"
-                    style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.12)", borderTop: "3px solid #1b4676" }}
-                    onMouseEnter={() => open(item.label)}
-                    onMouseLeave={close}
-                  >
-                    {item.dropdown.map((child) => (
-                      <Link
-                        key={child.label}
-                        href={child.href}
-                        className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-accent"
-                        style={{ transition: "all 0.5s ease-in-out" }}
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
+                <AnimatePresence>
+                  {item.dropdown && activeDropdown === item.label && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.22, ease: EASE }}
+                      className="absolute top-full left-0 bg-white min-w-[210px] z-50 py-1"
+                      style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.12)", borderTop: "3px solid #1b4676" }}
+                      onMouseEnter={() => open(item.label)}
+                      onMouseLeave={close}
+                    >
+                      {item.dropdown.map((child) => (
+                        <Link
+                          key={child.label}
+                          href={child.href}
+                          className="block px-5 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-accent"
+                          style={{ transition: "all 0.22s ease-in-out" }}
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             ))}
           </div>
@@ -206,8 +217,7 @@ export default function Navbar() {
       {/* ── Mobile: compact single row ── */}
       <div className="lg:hidden flex items-center justify-between px-4 h-16">
         <Link href="/" className="flex flex-col items-start">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/bi-logo.svg" alt="BI Paints" style={{ height: 32, width: "auto" }} />
+          <Image src="/bi-logo.svg" alt="BI Paints" width={3305} height={650} style={{ height: 32, width: "auto" }} />
           <span className="text-gray-400 tracking-widest uppercase font-medium" style={{ fontSize: "7px", letterSpacing: "0.18em" }}>
             Group of Companies
           </span>
@@ -215,69 +225,98 @@ export default function Navbar() {
         <button
           aria-label="Toggle menu"
           onClick={() => setMobileOpen((v) => !v)}
-          className="p-2 text-gray-700 hover:text-navy"
-          style={{ transition: "all 0.5s ease-in-out" }}
+          className="p-2 text-gray-700 hover:text-navy relative"
+          style={{ transition: "all 0.22s ease-in-out" }}
         >
-          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={mobileOpen ? "x" : "menu"}
+              initial={{ opacity: 0, rotate: -90, scale: 0.6 }}
+              animate={{ opacity: 1, rotate: 0, scale: 1 }}
+              exit={{ opacity: 0, rotate: 90, scale: 0.6 }}
+              transition={{ duration: 0.2, ease: EASE }}
+              className="flex"
+            >
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            </motion.span>
+          </AnimatePresence>
         </button>
       </div>
 
       {/* ── Mobile menu panel ── */}
-      {mobileOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-100 max-h-[75vh] overflow-y-auto">
-          <div className="px-4 py-3 space-y-0.5">
-            {MAIN_NAV.map((item) =>
-              item.dropdown ? (
-                <div key={item.label}>
-                  <button
-                    onClick={() =>
-                      setMobileExpanded((v) => (v === item.label ? null : item.label))
-                    }
-                    className="flex items-center justify-between w-full px-4 py-3 text-sm font-semibold text-gray-700 hover:text-accent hover:bg-gray-50 rounded uppercase"
-                    style={{ transition: "all 0.5s ease-in-out" }}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: EASE }}
+            className="lg:hidden bg-white border-t border-gray-100 overflow-hidden"
+          >
+            <div className="px-4 py-3 space-y-0.5 max-h-[75vh] overflow-y-auto">
+              {MAIN_NAV.map((item) =>
+                item.dropdown ? (
+                  <div key={item.label}>
+                    <button
+                      onClick={() =>
+                        setMobileExpanded((v) => (v === item.label ? null : item.label))
+                      }
+                      className="flex items-center justify-between w-full px-4 py-3 text-sm font-semibold text-gray-700 hover:text-accent hover:bg-gray-50 rounded uppercase"
+                      style={{ transition: "all 0.22s ease-in-out" }}
+                    >
+                      {item.label}
+                      <ChevronDown
+                        size={15}
+                        className={`transition-transform duration-300 ${mobileExpanded === item.label ? "rotate-180" : ""}`}
+                      />
+                    </button>
+                    <AnimatePresence>
+                      {mobileExpanded === item.label && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.25, ease: EASE }}
+                          className="ml-4 pl-4 border-l-2 border-navy overflow-hidden"
+                        >
+                          <div className="space-y-0.5 mb-1">
+                            {item.dropdown.map((child) => (
+                              <Link
+                                key={child.label}
+                                href={child.href}
+                                onClick={() => setMobileOpen(false)}
+                                className="block py-2 text-sm text-gray-600 hover:text-accent"
+                                style={{ transition: "all 0.22s ease-in-out" }}
+                              >
+                                {child.label}
+                              </Link>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ) : (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="block px-4 py-3 text-sm font-semibold text-gray-700 hover:text-accent hover:bg-gray-50 rounded uppercase"
+                    style={{ transition: "all 0.22s ease-in-out" }}
                   >
                     {item.label}
-                    <ChevronDown
-                      size={15}
-                      className={`transition-transform duration-300 ${mobileExpanded === item.label ? "rotate-180" : ""}`}
-                    />
-                  </button>
-                  {mobileExpanded === item.label && (
-                    <div className="ml-4 pl-4 border-l-2 border-navy space-y-0.5 mb-1">
-                      {item.dropdown.map((child) => (
-                        <Link
-                          key={child.label}
-                          href={child.href}
-                          onClick={() => setMobileOpen(false)}
-                          className="block py-2 text-sm text-gray-600 hover:text-accent"
-                          style={{ transition: "all 0.5s ease-in-out" }}
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="block px-4 py-3 text-sm font-semibold text-gray-700 hover:text-accent hover:bg-gray-50 rounded uppercase"
-                  style={{ transition: "all 0.5s ease-in-out" }}
-                >
-                  {item.label}
+                  </Link>
+                )
+              )}
+              <div className="pt-3 border-t border-gray-100 flex flex-col gap-2 px-4 pb-3">
+                <Link href="/contact" className="text-center text-sm font-bold text-navy py-2.5 border-2 border-navy rounded hover:bg-navy hover:text-white" style={{ transition: "all 0.22s ease-in-out" }}>
+                  Get In Touch
                 </Link>
-              )
-            )}
-            <div className="pt-3 border-t border-gray-100 flex flex-col gap-2 px-4 pb-3">
-              <Link href="/contact" className="text-center text-sm font-bold text-navy py-2.5 border-2 border-navy rounded hover:bg-navy hover:text-white" style={{ transition: "all 0.5s ease-in-out" }}>
-                Get In Touch
-              </Link>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

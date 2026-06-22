@@ -11,34 +11,34 @@ interface Solution {
 
 const SOLUTIONS: Solution[] = [
   {
-    title: "Residential",
+    title: "For HVAC",
     subtitle: "Painting Solutions",
     description:
-      "Complete interior and exterior painting packages for homes, villas, and apartments — designed for lasting beauty and easy maintenance.",
+      "End-to-end HVAC solutions — from load calculation and system design to supply, installation, testing, and annual maintenance. One partner for the complete HVAC lifecycle.",
     icon: "🏡",
     href: "/solutions/residential",
   },
   {
-    title: "Commercial",
+    title: "Painting Solutions",
     subtitle: "Coating Projects",
     description:
-      "Tailored coating systems for offices, retail spaces, hotels, and commercial buildings that combine aesthetics with durability.",
+      "Full-service painting — surface preparation, priming, paint application, and finishing. Interior, exterior, industrial, and decorative painting using our own BI Paints range.",
     icon: "🏢",
     href: "/solutions/commercial",
   },
   {
-    title: "Industrial",
+    title: "For Modular Kitchens",
     subtitle: "Protection Systems",
     description:
-      "Heavy-duty corrosion protection, fire-retardant coatings, and chemical-resistant finishes engineered for industrial environments.",
+      "Complete kitchen transformation — design consultation, material selection, precision manufacturing, and professional installation with post-delivery service support.",
     icon: "⚙️",
     href: "/solutions/industrial",
   },
   {
-    title: "Marine",
+    title: "Fabrication",
     subtitle: "Protective Coatings",
     description:
-      "Anti-fouling, anti-corrosion, and topcoat systems formulated for ships, jetties, offshore structures, and coastal infrastructure.",
+      "Turnkey fabrication — from raw material procurement and workshop fabrication to site erection and finishing. Structural, architectural, and industrial applications.",
     icon: "⚓",
     href: "/solutions/marine",
   },
@@ -50,15 +50,14 @@ export default function SolutionsSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <FadeInSection className="text-center mb-14">
           <span className="inline-block text-accent font-bold tracking-[0.2em] uppercase text-xs mb-3">
-            End to End
+            Our Approach
           </span>
           <h2 className="text-3xl md:text-4xl font-extrabold text-navy leading-tight">
-            Complete Coating Solutions
+            End to End Solutions
           </h2>
           <div className="w-12 h-1 bg-accent mx-auto mt-4 rounded" />
           <p className="text-gray-500 mt-5 max-w-xl mx-auto text-sm leading-relaxed">
-            From concept to completion, BI Paints provides fully managed coating
-            solutions across residential, commercial, industrial, and marine sectors.
+            One company, complete ownership — from concept to commissioning.
           </p>
         </FadeInSection>
 
@@ -67,7 +66,7 @@ export default function SolutionsSection() {
             <FadeInSection key={solution.title} delay={i * 0.1}>
               <div className="relative rounded-lg overflow-hidden h-80 group cursor-pointer">
                 {/* Background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-navy-dark via-navy to-navy-light group-hover:from-accent-dark group-hover:via-accent group-hover:to-accent transition-all duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-navy-dark via-navy to-navy-light  transition-all duration-500" />
 
                 {/* Decorative circle */}
                 <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-white/5 group-hover:bg-white/10 transition-all duration-500" />
@@ -76,20 +75,17 @@ export default function SolutionsSection() {
                 {/* Content */}
                 <div className="relative z-10 h-full flex flex-col justify-between p-7">
                   <div>
-                    <span className="text-4xl mb-4 block">{solution.icon}</span>
-                    <h3 className="text-xl font-black text-white leading-tight">
+                    <span className="text-xl mb-3 block">{solution.icon}</span>
+                    <h6 className="text-lg font-black text-white leading-tight mb-5">
                       {solution.title}
                       <br />
-                      <span className="text-white/70 font-semibold text-base">
-                        {solution.subtitle}
-                      </span>
-                    </h3>
-                  </div>
-
-                  <div>
+                    </h6>
                     <p className="text-white/70 text-sm leading-relaxed mb-5 line-clamp-3">
                       {solution.description}
                     </p>
+                  </div>
+
+                  <div>
                     <Link
                       href={solution.href}
                       className="inline-flex items-center gap-1.5 text-xs font-bold text-white border border-white/40 hover:border-white hover:bg-white hover:text-navy px-4 py-2 rounded-full transition-all duration-300"

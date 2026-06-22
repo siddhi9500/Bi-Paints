@@ -14,7 +14,7 @@
 
 /* BI Paints brand colors (from official brand identity PDF) */
 @theme {
-  --color-navy: #1a3c8e;
+  --color-navy: #1b4676;
   --color-navy-dark: #122d6e;
   --color-navy-light: #1e4aaa;
   --color-accent: #f5a200;
@@ -35,9 +35,8 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
 }
 
-/* Match reference: all transitions 0.5s ease-in-out */
 a, button {
-  transition: all 0.5s ease-in-out;
+  transition: all 0.22s ease-in-out;
 }
 
 @keyframes marquee {
