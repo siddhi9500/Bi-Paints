@@ -83,10 +83,10 @@ export default function BusinessAreasSection() {
           {STATS.map((stat, i) => (
             <FadeInSection key={stat.label} delay={i * 0.5}>
               <div
-                className="leading-none mb-2 text-center"
+                className="leading-none mb-4 text-center"
                 style={{
                   fontFamily: "var(--font-playfair), Georgia, serif",
-                  fontSize: "clamp(2.4rem, 4vw, 3.4rem)",
+                  fontSize: "clamp(2.4rem, 4vw, 4.4rem)",
                   color: "#1b4676",
                   fontWeight: 600,
                 }}
