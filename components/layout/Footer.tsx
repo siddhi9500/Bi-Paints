@@ -62,7 +62,7 @@ export default function Footer() {
     <footer style={{ background: "#1b4676" }}>
 
       {/* ── Main footer body ── */}
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-4 py-14">
+      <div className="page-container py-14">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
 
           {/* ── Column 1: Office info ── */}
@@ -120,7 +120,7 @@ export default function Footer() {
 
       {/* ── Copyright bar ── */}
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", background: "rgba(0,0,0,0.2)" }}>
-        <div className="max-w-screen-xl mx-auto px-6 sm:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="page-container py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="relative flex-shrink-0" style={{ width: 40, height: 55 }}>
               <Image

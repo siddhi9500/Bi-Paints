@@ -37,7 +37,7 @@ export default function CareerBannerSection() {
 
       {/* Content */}
       <div className="absolute inset-0 flex items-center">
-        <div className="max-w-7xl mx-auto px-8 sm:px-12 w-full">
+        <div className="page-container w-full">
           <div className="max-w-lg">
 
             {/* Overline */}

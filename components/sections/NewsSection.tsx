@@ -41,7 +41,7 @@ const NEWS_ITEMS: NewsItem[] = [
 export default function NewsSection() {
   return (
     <section className="py-20 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="page-container">
 
         <FadeInSection className="text-center mb-14">
           <span className="inline-block text-accent font-bold tracking-[0.2em] uppercase text-xs mb-3">

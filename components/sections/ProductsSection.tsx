@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Check, ArrowRight } from "lucide-react";
+import FadeInSection from "../ui/FadeInSection";
 
 const VIEW = { once: true, margin: "-60px" } as const;
 
@@ -142,32 +143,19 @@ function ProductCard({ product, index }: { product: (typeof PRODUCTS)[0]; index:
 
 export default function ProductsSection() {
   return (
-    <section className="py-16" style={{ background: "#f7f8fa" }}>
-      <div className="max-w-7xl mx-auto px-6 sm:px-8">
+    <section className="py-16">
+      <div className="page-container">
 
         {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={VIEW}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="text-center mb-10"
-        >
-          <p
-            className="font-bold uppercase mb-2"
-            style={{ color: "#f5a200", fontSize: 12, letterSpacing: "0.25em" }}
+        <FadeInSection className="my-4 xl:mb-10">
+           <h2
+            style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
+            className="text-3xl sm:text-4xl font-semibold text-navy"
           >
-            What We Offer
-          </p>
-          <h2
-            className="font-extrabold text-navy"
-            style={{ fontSize: "clamp(1.75rem, 4vw, 2.25rem)", fontFamily: "var(--font-montserrat), Arial, sans-serif" }}
-          >
-            Our Products
+            Explore Our Business Areas
           </h2>
-          <div className="w-12 h-1 mx-auto mt-4 rounded" style={{ background: "#f5a200" }} />
-        </motion.div>
-
+          <div className="w-12 h-1 bg-accent mt-4 rounded" />
+        </FadeInSection>
         {/* 3-column grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {PRODUCTS.map((product, i) => (

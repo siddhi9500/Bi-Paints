@@ -65,7 +65,7 @@ function AnimatedCounter({ value, suffix }: Pick<StatProps, "value" | "suffix">)
 export default function StatsSection() {
   return (
     <section className="py-20 bg-white relative overflow-hidden border-y border-gray-100">
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="page-container relative">
         <FadeInSection className="text-center mb-14">
           <span className="inline-block text-accent font-bold tracking-[0.2em] uppercase text-xs mb-3">
             Our Achievements

@@ -35,7 +35,7 @@ const STATS = [
 export default function WelcomeSection() {
   return (
     <section className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="page-container">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-center">
 
           {/* Left: Welcome text — 2 out of 5 columns */}

@@ -48,7 +48,7 @@ const SERVICES = [
 export default function ServiceHighlightsSection() {
   return (
     <section className="w-full py-20 lg:py-28 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="page-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
