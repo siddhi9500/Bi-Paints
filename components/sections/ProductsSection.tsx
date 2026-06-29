@@ -30,27 +30,27 @@ const PRODUCTS = [
     image: "/photo-1722605090433-41d1183a792d.avif",
     href: "/products/kitchen",
   },
-  {
-    title: "Steel",
-    badge: "Steel",
-    features: ["TMT Bars & Rods", "Structural Steel Sections", "GI & MS Sheets"],
-    image: "/banner4.jpg",
-    href: "/products/steels",
-  },
-  {
-    title: "Cement",
-    badge: "Cement",
-    features: ["OPC & PPC Cement Grades", "Ready-Mix Concrete", "Block & Tile Adhesives"],
-    image: "/photo-1508450859948-4e04fabaa4ea.avif",
-    href: "/products/cement",
-  },
-  {
-    title: "Chemicals",
-    badge: "Chemicals",
-    features: ["Construction Chemicals", "Waterproofing Compounds", "Epoxy & Adhesives"],
-    image: "/banner1.jpg",
-    href: "/products/chemicals",
-  },
+  // {
+  //   title: "Steel",
+  //   badge: "Steel",
+  //   features: ["TMT Bars & Rods", "Structural Steel Sections", "GI & MS Sheets"],
+  //   image: "/banner4.jpg",
+  //   href: "/products/steels",
+  // },
+  // {
+  //   title: "Cement",
+  //   badge: "Cement",
+  //   features: ["OPC & PPC Cement Grades", "Ready-Mix Concrete", "Block & Tile Adhesives"],
+  //   image: "/photo-1508450859948-4e04fabaa4ea.avif",
+  //   href: "/products/cement",
+  // },
+  // {
+  //   title: "Chemicals",
+  //   badge: "Chemicals",
+  //   features: ["Construction Chemicals", "Waterproofing Compounds", "Epoxy & Adhesives"],
+  //   image: "/banner1.jpg",
+  //   href: "/products/chemicals",
+  // },
   {
     title: "Electronics & Home Appliances",
     badge: "Electronics",
@@ -66,11 +66,11 @@ const PRODUCTS = [
     href: "/products/power-tools",
   },
   {
-    title: "Fabrication",
-    badge: "Fabrication",
-    features: ["Structural Fabrication", "Stainless Steel Work", "Architectural Metalwork"],
+    title: "Fashion & Lifestyle",
+    badge: "Fashion & Lifestyle",
+    features: ["Structural Fashion", "Stainless Steel Work", "Architectural Metalwork"],
     image: "/photo-1599707254554-027aeb4deacd.avif",
-    href: "/products/fabrication",
+    href: "/products/Fashion",
   },
 ];
 
@@ -79,11 +79,11 @@ function ProductCard({ product, index }: { product: (typeof PRODUCTS)[0]; index:
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 36 }}
+      initial={{ opacity: 0, y: 96 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={VIEW}
-      transition={{ duration: 0.5, delay, ease: "easeOut" }}
-      className="group bg-white rounded-lg overflow-hidden flex flex-col"
+      transition={{ duration: 1.9, delay, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative bg-white rounded-lg overflow-hidden flex flex-col"
       style={{ boxShadow: "0 2px 10px rgba(15,30,60,0.08)" }}
       whileHover={{ y: -4 }}
     >
@@ -137,6 +137,16 @@ function ProductCard({ product, index }: { product: (typeof PRODUCTS)[0]; index:
           </Link>
         </div>
       </div>
+
+      {/* Curtain reveal — covers the whole card, then rises away top-anchored so it unveils smoothly from bottom to top */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "#ffffff", transformOrigin: "top" }}
+        initial={{ scaleY: 1 }}
+        whileInView={{ scaleY: 0 }}
+        viewport={VIEW}
+        transition={{ duration: 2.4, delay: delay + 0.3, ease: "easeInOut" }}
+      />
     </motion.div>
   );
 }

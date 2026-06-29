@@ -13,7 +13,7 @@ interface BusinessArea {
 
 const STATS = [
   { value: "300K", suffix: "+", label: "Products Distributed Across India" },
-  { value: "500", suffix: "+", label: "Countries we export to — Dubai, Thailand, Bangladesh, Sri Lanka & Maldives" },
+  { value: "50", suffix: "+", label: "Countries we export to — Dubai, Thailand, Bangladesh, Sri Lanka & Maldives" },
   { value: "10", suffix: "", label: "Years of Industry Excellence" },
 ];
 

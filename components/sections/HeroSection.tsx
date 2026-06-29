@@ -4,24 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { GradualSpacing } from "@/components/ui/GradualSpacing";
 
-const EASE = [0.22, 1, 0.36, 1] as const;
+const EASE = [0.52, 1, 0.36, 1] as const;
 
-const HEADLINE_LINES = [
-  ["A", "Decade", "Of"],
-  ["Quality", "&", "Trust"],
-];
+const HEADLINE_LINES = ["A Decade Of", "Quality & Trust"];
 
-const headlineContainer = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.14, delayChildren: 0.45 },
-  },
-};
-
-const wordVariant = {
-  hidden: { opacity: 0, y: 26 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.75, ease: EASE } },
+const HEADLINE_STYLE = {
+  fontSize: "clamp(2.4rem, 6vw, 4.5rem)",
+  fontFamily: "var(--font-playfair), Georgia, serif",
+  fontWeight: 500,
+  color: "#ffffff",
+  textShadow: "0 2px 24px rgba(0,0,0,0.25)",
 };
 
 export default function HeroSection() {
@@ -57,38 +51,24 @@ export default function HeroSection() {
           <motion.span
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
+            transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
             className="font-semibold uppercase mb-5"
             style={{ color: "#f5a200", fontSize: 12, letterSpacing: "0.32em" }}
           >
             BI Group of Companies
           </motion.span>
-          <motion.h1
-            initial="hidden"
-            animate="show"
-            variants={headlineContainer}
-            className="text-white leading-[1.08]"
-            style={{
-              fontSize: "clamp(2.4rem, 6vw, 4.5rem)",
-              fontFamily: "var(--font-playfair), Georgia, serif",
-              fontWeight: 500,
-              textShadow: "0 2px 24px rgba(0,0,0,0.25)",
-            }}
-          >
-            {HEADLINE_LINES.map((line, lineIndex) => (
-              <span key={lineIndex} className="block">
-                {line.map((word, wordIndex) => (
-                  <motion.span
-                    key={word + wordIndex}
-                    variants={wordVariant}
-                    className="inline-block mr-[0.28em] last:mr-0"
-                  >
-                    {word}
-                  </motion.span>
-                ))}
-              </span>
+          <h1 className="text-white leading-[1.08]">
+            {HEADLINE_LINES.map((line, i) => (
+              <GradualSpacing
+                key={line}
+                text={line}
+                containerClassName="flex flex-wrap justify-center"
+                className="leading-[1.08]"
+                style={HEADLINE_STYLE}
+                startDelay={i === 0 ? 0.4 : 0.4 + HEADLINE_LINES[0].length * 0.1 + 0.25}
+              />
             ))}
-          </motion.h1>
+          </h1>
         </div>
 
         {/* Bottom row — text panel (left) + highlight card (right) */}
