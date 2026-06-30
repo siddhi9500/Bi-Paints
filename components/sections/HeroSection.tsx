@@ -22,17 +22,24 @@ export default function HeroSection() {
   return (
     <section
       className="relative overflow-hidden"
-      style={{ height: "clamp(440px, 62vh, 600px)", background: "#0a1628" }}
+      style={{ height: "clamp(800px, 62vh, 600px)", background: "#0a1628" }}
     >
-      {/* ── Background photo ── */}
-      <Image
-        src="/banner4.jpg"
-        alt="BI Group – engineering solutions built to last"
-        fill
-        priority
-        className="object-cover object-center"
-        sizes="100vw"
-      />
+      {/* ── Background photo — slow Ken Burns zoom ── */}
+      <motion.div
+        className="absolute inset-0"
+        initial={{ scale: 1 }}
+        animate={{ scale: 1.06 }}
+        transition={{ duration: 9, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
+      >
+        <Image
+          src="/banner4.jpg"
+          alt="BI Group – engineering solutions built to last"
+          fill
+          priority
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+      </motion.div>
 
       {/* ── Gradient overlay — light at top, deep at the bottom for text legibility ── */}
       <div
@@ -46,29 +53,47 @@ export default function HeroSection() {
       {/* ── Content ── */}
       <div className="relative z-10 h-full flex flex-col">
 
-        {/* Headline — upper, centered */}
-        <div className="flex-1 flex flex-col items-center justify-center text-center px-6 pt-10">
-          <motion.span
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
-            className="font-semibold uppercase mb-5"
-            style={{ color: "#f5a200", fontSize: 12, letterSpacing: "0.32em" }}
+        {/* Headline — 12-col grid, rows: [header-height, 1fr, 1fr], one line per row */}
+        <div
+          className="flex-1 grid grid-cols-12 gap-6 mx-auto w-full px-6 sm:px-10"
+          style={{ gridTemplateRows: "var(--header-height) 1fr 1fr", maxWidth: 1600 }}
+        >
+          <div className="col-span-12" aria-hidden />
+
+          <div
+            className="col-span-12 flex flex-col items-center text-center"
+            style={{ gridRow: "2 / span 2" }}
           >
-            BI Group of Companies
-          </motion.span>
-          <h1 className="text-white leading-[1.08]">
-            {HEADLINE_LINES.map((line, i) => (
-              <GradualSpacing
-                key={line}
-                text={line}
-                containerClassName="flex flex-wrap justify-center"
-                className="leading-[1.08]"
-                style={HEADLINE_STYLE}
-                startDelay={i === 0 ? 0.4 : 0.4 + HEADLINE_LINES[0].length * 0.1 + 0.25}
-              />
-            ))}
-          </h1>
+            <motion.span
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
+              className="font-semibold uppercase mb-5"
+              style={{ color: "#f5a200", fontSize: 12, letterSpacing: "0.32em" }}
+            >
+              BI Group of Companies
+            </motion.span>
+            <h1 className="text-white leading-[1.08] flex-1 flex flex-col w-full">
+              <span className="flex-1 flex items-end justify-center">
+                <GradualSpacing
+                  text={HEADLINE_LINES[0]}
+                  containerClassName="flex flex-wrap justify-center"
+                  className="leading-[1.08]"
+                  style={HEADLINE_STYLE}
+                  startDelay={0.4}
+                />
+              </span>
+              <span className="flex-1 flex items-start justify-center">
+                <GradualSpacing
+                  text={HEADLINE_LINES[1]}
+                  containerClassName="flex flex-wrap justify-center"
+                  className="leading-[1.08]"
+                  style={HEADLINE_STYLE}
+                  startDelay={0.4 + HEADLINE_LINES[0].length * 0.1 + 0.25}
+                />
+              </span>
+            </h1>
+          </div>
         </div>
 
         {/* Bottom row — text panel (left) + highlight card (right) */}
@@ -79,8 +104,9 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 1.35, ease: EASE }}
-              className="max-w-md rounded-md p-5 sm:p-6"
-              style={{ background: "rgba(10,22,45,0.55)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.12)" }}
+              whileHover={{ scale: 1.02 }}
+              className="max-w-md rounded-md p-5 sm:p-6 hover:shadow-2xl"
+              style={{ background: "rgba(10,22,45,0.55)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.12)", transition: "box-shadow 0.25s ease-out" }}
             >
               <p className="text-white/85 text-sm leading-relaxed mb-4">
                 For over a decade, BI Group has shaped homes, industries, and
@@ -100,14 +126,17 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 1.5, ease: EASE }}
+              whileHover={{ scale: 1.04 }}
+              style={{ transition: "box-shadow 0.25s ease-out" }}
+              className="rounded-md"
             >
               <Link
                 href="/products"
-                className="group flex items-center gap-4 rounded-md p-3.5 sm:p-4 w-full sm:w-72"
-                style={{ background: "rgba(255,255,255,0.1)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.18)" }}
+                className="group flex items-center gap-4 rounded-md p-3.5 sm:p-4 w-full sm:w-72 hover:shadow-2xl"
+                style={{ background: "rgba(255,255,255,0.1)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.18)", transition: "background 0.25s ease-out, box-shadow 0.25s ease-out" }}
               >
                 <span
-                  className="flex-shrink-0 flex items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-110"
+                  className="shrink-0 flex items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-110"
                   style={{ width: 44, height: 44, background: "#f5a200" }}
                 >
                   <ArrowRight size={18} className="text-navy" />

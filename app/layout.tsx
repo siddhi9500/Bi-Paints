@@ -3,6 +3,7 @@ import { Lato, Montserrat, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import MainOffset from "@/components/layout/MainOffset";
 
 const lato = Lato({
   weight: ["300", "400", "700", "900"],
@@ -41,10 +42,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${lato.variable} ${montserrat.variable} ${playfair.variable}`}>
-      {/* pt-[104px] offsets the fixed navbar (utility bar ~36px + main nav 64px + 4px buffer) */}
       <body className="min-h-screen flex flex-col bg-white">
         <Navbar />
-        <main className="flex-1 pt-[112px]">{children}</main>
+        <MainOffset>{children}</MainOffset>
         <Footer />
       </body>
     </html>

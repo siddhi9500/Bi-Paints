@@ -3,6 +3,13 @@
 :root {
   --background: #ffffff;
   --foreground: #000000;
+  --header-height: 4rem; /* mobile navbar height (h-16) */
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --header-height: 7.5rem; /* desktop navbar height (h-14 + h-16) */
+  }
 }
 
 @theme inline {
@@ -19,6 +26,10 @@
   --color-navy-light: #1e4aaa;
   --color-accent: #f5a200;
   --color-accent-dark: #d48c00;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 /* Base typography */

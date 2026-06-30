@@ -1,8 +1,11 @@
+"use client";
+
+import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import FadeInSection from "@/components/ui/FadeInSection";
-import { GradualSpacing } from "@/components/ui/GradualSpacing";
 
 interface BusinessArea {
   title: string;
@@ -16,6 +19,39 @@ const STATS = [
   { value: "50", suffix: "+", label: "Countries we export to — Dubai, Thailand, Bangladesh, Sri Lanka & Maldives" },
   { value: "10", suffix: "", label: "Years of Industry Excellence" },
 ];
+
+function CountUpStat({ value, suffix }: { value: string; suffix: string }) {
+  const match = value.match(/^(\d+)(\D*)$/);
+  const target = match ? parseInt(match[1], 10) : 0;
+  const unit = match ? match[2] : "";
+
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+    const duration = 1500;
+    const start = performance.now();
+    let frame = 0;
+    const step = (now: number) => {
+      frame++;
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [isInView, target]);
+
+  return (
+    <span ref={ref}>
+      {count}
+      {unit}
+      <span style={{ color: "#f5a200" }}>{suffix}</span>
+    </span>
+  );
+}
 
 // const AREAS: BusinessArea[] = [
 //   {
@@ -92,21 +128,7 @@ export default function BusinessAreasSection() {
                 }}
               >
                 <div className="inline-flex items-baseline justify-center w-full">
-                  <GradualSpacing
-                    text={stat.value}
-                    className="leading-none"
-                    containerClassName="inline-flex"
-                    startDelay={i * 0.5}
-                  />
-                  {stat.suffix && (
-                    <GradualSpacing
-                      text={stat.suffix}
-                      className="leading-none"
-                      containerClassName="inline-flex"
-                      style={{ color: "#f5a200" }}
-                      startDelay={i * 0.5 + stat.value.length * 0.1}
-                    />
-                  )}
+                  <CountUpStat value={stat.value} suffix={stat.suffix} />
                 </div>
               </div>
               <p className="text-gray-600 text-md leading-relaxed max-w-xs sm:max-w-none mx-auto sm:mx-0 text-center">
