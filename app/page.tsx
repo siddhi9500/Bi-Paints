@@ -1,4 +1,5 @@
 import HeroSection from "@/components/sections/HeroSection";
+import CoatingExpertiseSection from "@/components/sections/CoatingExpertiseSection";
 import GlobalFootprintSection from "@/components/sections/GlobalFootprintSection";
 import BusinessAreasSection from "@/components/sections/BusinessAreasSection";
 import ServiceHighlightsSection from "@/components/sections/ServiceHighlightsSection";
@@ -16,6 +17,7 @@ export default function Home() {
       <TrustedProjectsSection />
       <ServiceHighlightsSection />
       <ProductsSection />
+      <CoatingExpertiseSection />
       <SolutionsSection />
       <GlobalFootprintSection />
       <NewsSection />

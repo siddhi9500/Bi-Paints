@@ -59,18 +59,18 @@ const PRODUCTS = [
     href: "/products/electronics",
   },
   {
-    title: "Power Tools & Hardware",
-    badge: "Hardware",
+    title: "Homeopathy",
+    badge: "Homeopathy",
     features: ["Drilling & Cutting Tools", "Fasteners & Anchors", "Safety Equipment"],
-    image: "/photo-1496247749665-49cf5b1022e9.avif",
-    href: "/products/power-tools",
+    image: "/homeopathy.jpg",
+    href: "/products/homeopathy",
   },
   {
     title: "Fashion & Lifestyle",
     badge: "Fashion & Lifestyle",
     features: ["Structural Fashion", "Stainless Steel Work", "Architectural Metalwork"],
-    image: "/photo-1599707254554-027aeb4deacd.avif",
-    href: "/products/Fashion",
+    image: "/fashion.jpg",
+    href: "/products/fashion",
   },
 ];
 
@@ -88,7 +88,7 @@ function ProductCard({ product, index }: { product: (typeof PRODUCTS)[0]; index:
       whileHover={{ y: -4 }}
     >
       {/* Image */}
-      <div className="relative overflow-hidden" style={{ height: 200 }}>
+      <div className="relative overflow-hidden" style={{ height: 300 }}>
         <Image
           src={product.image}
           alt={product.title}

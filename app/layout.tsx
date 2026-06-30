@@ -26,9 +26,14 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "BI Paints – Premium Paints & Coatings Solutions",
+  title: "BI Group Of Companies – Engineering Solutions Built To Last",
   description:
     "BI Paints is a leading manufacturer of premium quality paints and coating solutions for residential, commercial, industrial, and marine applications.",
+  icons: {
+    icon: "/bi-icon.png",
+    shortcut: "/bi-icon.png",
+    apple: "/bi-icon.png",
+  },
 };
 
 export default function RootLayout({
