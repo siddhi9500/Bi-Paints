@@ -11,7 +11,7 @@ const EASE = [0.52, 1, 0.36, 1] as const;
 const HEADLINE_LINES = ["A Decade Of", "Quality & Trust"];
 
 const HEADLINE_STYLE = {
-  fontSize: "clamp(2.4rem, 6vw, 4.5rem)",
+  fontSize: "clamp(2rem, 5vw, 4rem)",
   fontFamily: "var(--font-playfair), Georgia, serif",
   fontWeight: 500,
   color: "#ffffff",
@@ -22,7 +22,7 @@ export default function HeroSection() {
   return (
     <section
       className="relative overflow-hidden"
-      style={{ height: "clamp(800px, 62vh, 600px)", background: "#0a1628" }}
+      style={{ height: "clamp(500px, 78vh, 860px)", background: "#0a1628" }}
     >
       {/* ── Background photo — slow Ken Burns zoom ── */}
       <motion.div
@@ -41,7 +41,7 @@ export default function HeroSection() {
         />
       </motion.div>
 
-      {/* ── Gradient overlay — light at top, deep at the bottom for text legibility ── */}
+      {/* ── Gradient overlay ── */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -53,52 +53,45 @@ export default function HeroSection() {
       {/* ── Content ── */}
       <div className="relative z-10 h-full flex flex-col">
 
-        {/* Headline — 12-col grid, rows: [header-height, 1fr, 1fr], one line per row */}
+        {/* Label + headline — centered in the flex-1 space below the navbar */}
         <div
-          className="flex-1 grid grid-cols-12 gap-6 mx-auto w-full px-6 sm:px-10"
-          style={{ gridTemplateRows: "var(--header-height) 1fr 1fr", maxWidth: 1600 }}
+          className="flex-1 flex flex-col items-center justify-center text-center px-6 sm:px-10 mx-auto w-full"
+          style={{
+            maxWidth: 1600,
+            paddingTop: "calc(var(--header-height) + clamp(0.75rem, 3vh, 3rem))",
+            paddingBottom: "clamp(0.5rem, 2vh, 2rem)",
+          }}
         >
-          <div className="col-span-12" aria-hidden />
-
-          <div
-            className="col-span-12 flex flex-col items-center text-center"
-            style={{ gridRow: "2 / span 2" }}
+          <motion.span
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
+            className="font-semibold uppercase mb-4 sm:mb-6"
+            style={{ color: "#f5a200", fontSize: 12, letterSpacing: "0.32em" }}
           >
-            <motion.span
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
-              className="font-semibold uppercase mb-5"
-              style={{ color: "#f5a200", fontSize: 12, letterSpacing: "0.32em" }}
-            >
-              BI Group of Companies
-            </motion.span>
-            <h1 className="text-white leading-[1.08] flex-1 flex flex-col w-full">
-              <span className="flex-1 flex items-end justify-center">
-                <GradualSpacing
-                  text={HEADLINE_LINES[0]}
-                  containerClassName="flex flex-wrap justify-center"
-                  className="leading-[1.08]"
-                  style={HEADLINE_STYLE}
-                  startDelay={0.4}
-                />
-              </span>
-              <span className="flex-1 flex items-start justify-center">
-                <GradualSpacing
-                  text={HEADLINE_LINES[1]}
-                  containerClassName="flex flex-wrap justify-center"
-                  className="leading-[1.08]"
-                  style={HEADLINE_STYLE}
-                  startDelay={0.4 + HEADLINE_LINES[0].length * 0.1 + 0.25}
-                />
-              </span>
-            </h1>
-          </div>
+            BI Group of Companies
+          </motion.span>
+          <h1 className="text-white leading-[1.1] w-full">
+            <GradualSpacing
+              text={HEADLINE_LINES[0]}
+              containerClassName="flex flex-wrap justify-center"
+              className="leading-[1.1]"
+              style={HEADLINE_STYLE}
+              startDelay={0.4}
+            />
+            <GradualSpacing
+              text={HEADLINE_LINES[1]}
+              containerClassName="flex flex-wrap justify-center mt-1 sm:mt-2"
+              className="leading-[1.1]"
+              style={HEADLINE_STYLE}
+              startDelay={0.4 + HEADLINE_LINES[0].length * 0.1 + 0.25}
+            />
+          </h1>
         </div>
 
-        {/* Bottom row — text panel (left) + highlight card (right) */}
-        <div className="px-6 sm:px-10 lg:px-14 pb-9 sm:pb-12">
-          <div className="page-container flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+        {/* Bottom row — description (left) + highlight card (right) */}
+        <div className="px-6 sm:px-10 lg:px-14 pb-8 sm:pb-12">
+          <div className="page-container flex flex-col sm:flex-row sm:items-end justify-between gap-5 sm:gap-6">
 
             <motion.div
               initial={{ opacity: 0, y: 18 }}

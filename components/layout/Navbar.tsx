@@ -10,7 +10,8 @@ import { Search, Menu, X, ChevronDown, ArrowRight } from "lucide-react";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 type DropdownItem = { label: string; href: string };
-type NavItem = { label: string; href: string; dropdown?: DropdownItem[] };
+type PromoItem = { image: string; text: string; cta: string; href: string };
+type NavItem = { label: string; href: string; dropdown?: DropdownItem[]; promo?: PromoItem };
 
 function chunkColumns<T>(items: T[], perColumn: number): T[][] {
   const columns: T[][] = [];
@@ -22,7 +23,7 @@ function chunkColumns<T>(items: T[], perColumn: number): T[][] {
 
 const MAIN_NAV: NavItem[] = [
   {
-    label: "About Us",
+    label: "Who we are",
     href: "/about",
     dropdown: [
       { label: "Overview", href: "/about" },
@@ -32,9 +33,15 @@ const MAIN_NAV: NavItem[] = [
       { label: "Leadership Team", href: "/about/team" },
       { label: "CSR & Sustainability", href: "/about/sustainability" },
     ],
+    promo: {
+      image: "/coating-advisors.jpg",
+      text: "Trusted by India's leading industries for over a decade.",
+      cta: "Discover our story",
+      href: "/about",
+    },
   },
   {
-    label: "Products",
+    label: "Our bussiness areas",
     href: "/products",
     dropdown: [
       { label: "HVAC Systems", href: "/products/hvac" },
@@ -48,9 +55,15 @@ const MAIN_NAV: NavItem[] = [
       { label: "Hardware", href: "/products/hardware" },
       { label: "Fabrication", href: "/products/fabrication" },
     ],
+    promo: {
+      image: "/business-protective.jpg",
+      text: "From paints to power tools — one trusted partner across sectors.",
+      cta: "Explore all business areas",
+      href: "/products",
+    },
   },
   {
-    label: "Services",
+    label: "Products and services",
     href: "/services",
     dropdown: [
       { label: "Colour Consultation", href: "/services/consultation" },
@@ -58,6 +71,12 @@ const MAIN_NAV: NavItem[] = [
       { label: "AMC & Maintenance", href: "/services/amc" },
       { label: "Waterproofing", href: "/services/waterproofing" },
     ],
+    promo: {
+      image: "/product-img.jpg",
+      text: "Professional-grade products and services for every surface.",
+      cta: "Browse our range",
+      href: "/services",
+    },
   },
   {
     label: "End to End Solutions",
@@ -68,9 +87,14 @@ const MAIN_NAV: NavItem[] = [
       { label: "Industrial", href: "/solutions/industrial" },
       { label: "Marine", href: "/solutions/marine" },
     ],
+    promo: {
+      image: "/project-lt.jpg",
+      text: "Complete project delivery — from consultation to final finish.",
+      cta: "See our solutions",
+      href: "/solutions",
+    },
   },
-  { label: "Investors", href: "/investors" },
-  { label: "Global", href: "/global" },
+  { label: "Careers", href: "/careers" },
 ];
 
 export default function Navbar() {
@@ -81,26 +105,41 @@ export default function Navbar() {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const transparent = isHome && !scrolled;
+  const transparent = isHome && !scrolled && !activeDropdown;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 100);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
+  console.log("activeDropdown", activeDropdown);
   const open = (label: string) => {
     if (timer.current) clearTimeout(timer.current);
     setActiveDropdown(label);
   };
   const close = () => {
-    timer.current = setTimeout(() => setActiveDropdown(null), 60);
+    timer.current = setTimeout(() => setActiveDropdown(null), 150);
   };
 
   const navText = transparent ? "text-white/90 hover:text-accent" : "text-gray-700 hover:text-accent";
   const utilityText = transparent ? "text-white/80 hover:text-white" : "text-gray-600 hover:text-navy";
 
   return (
+    <>
+      {/* ── Backdrop overlay — outside <header> so z-40 competes globally, not inside z-50 stacking context ── */}
+      <AnimatePresence>
+        {activeDropdown && (
+          <motion.div
+            key="nav-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 bg-black/40 z-40"
+            onClick={close}
+          />
+        )}
+      </AnimatePresence>
     <header
       className="fixed top-0 left-0 right-0 z-50 pt-5"
       style={{
@@ -116,14 +155,19 @@ export default function Navbar() {
 
         {/* Row 1: logo (left) + utility links (right) */}
         <div>
-          <div className="flex items-center justify-between px-10 h-20 mx-auto w-full" style={{borderBottom: transparent ? "1px solid rgba(255,255,255,0.2)" : "1px solid #f1f1f1", transition: "border-color 0.25s ease-in-out", maxWidth: 1600 }}>
+          <div className="flex items-center justify-between px-10 h-20 mx-auto w-full" style={{borderBottom: transparent ? "1px solid rgba(255,255,255,0.2)" : "1px solid #e0e0e0", transition: "border-color 0.25s ease-in-out", maxWidth: 1600 }}>
             <Link href="/" className="flex flex-col items-end">
               <Image
                 src={transparent ? "/bi-logo-white.svg" : "/bi-logo.svg"}
                 alt="BI Paints"
                 width={3305}
                 height={650}
-                style={{ height: 42, width: "auto", transition: "opacity 0.25s ease-in-out" }}
+                style={{
+                  height: 42,
+                  width: "auto",
+                  filter: transparent ? "drop-shadow(0 2px 6px rgba(0,0,0,0.9))" : "none",
+                  transition: "opacity 0.25s ease-in-out, filter 0.25s ease-in-out",
+                }}
               />
               <span
                 className={`font-semibold uppercase tracking-widest ${transparent ? "text-white/70" : "text-gray-500"}`}
@@ -164,16 +208,10 @@ export default function Navbar() {
               >
                 <Link
                   href={item.href}
-                  className={`flex items-center gap-0.5 px-3.5 py-5 text-sm font-medium whitespace-nowrap ${navText}`}
+                  className={`flex items-center gap-0.5 px-3.5 py-5 text-rg font-medium whitespace-nowrap ${navText}`}
                   style={{ transition: "color 0.25s ease-in-out" }}
                 >
                   {item.label}
-                  {item.dropdown && (
-                    <ChevronDown
-                      size={13}
-                      className={`ml-0.5 transition-transform duration-300 ${activeDropdown === item.label ? "rotate-180" : ""}`}
-                    />
-                  )}
                 </Link>
                 <span
                   aria-hidden
@@ -192,7 +230,7 @@ export default function Navbar() {
               <Link
                 key={item.label}
                 href={item.href}
-                className={`px-3 py-1 text-sm font-medium ${utilityText}`}
+                className={`px-3 py-1 text-md font-medium ${utilityText}`}
                 style={{ transition: "color 0.25s ease-in-out" }}
               >
                 {item.label}
@@ -215,20 +253,22 @@ export default function Navbar() {
         {activeDropdown && (() => {
           const item = MAIN_NAV.find((n) => n.label === activeDropdown);
           if (!item?.dropdown) return null;
-          const columns = chunkColumns(item.dropdown, 5);
+          const columns = chunkColumns(item.dropdown, 6);
           return (
             <motion.div
               key={activeDropdown}
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.15, ease: EASE }}
+              initial={{ clipPath: "inset(0 0 100% 0)", opacity: 1 }}
+              animate={{ clipPath: "inset(0 0 0% 0)", opacity: 1 }}
+              exit={{ clipPath: "inset(0 0 100% 0)", opacity: 1 }}
+              transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
               className="hidden lg:block absolute top-full left-0 right-0 bg-white z-50"
-              style={{ boxShadow: "0 12px 24px rgba(0,0,0,0.14)", borderTop: "3px solid #1b4676" }}
               onMouseEnter={() => open(item.label)}
               onMouseLeave={close}
             >
-              <div
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.22, ease: EASE } }}
+                exit={{ opacity: 0, y: 8, transition: { duration: 0.22 } }}
                 className="page-container py-8 grid gap-x-10 gap-y-6"
                 style={{ gridTemplateColumns: `repeat(${columns.length}, minmax(160px, 240px)) auto` }}
               >
@@ -269,7 +309,38 @@ export default function Navbar() {
                     View all {item.label}
                   </Link>
                 </div>
-              </div>
+              </motion.div>
+
+              {/* ── Promo strip ── */}
+              {item.promo && (
+                <Link
+                  href={item.promo.href}
+                  className="group block p-7"
+                >
+                  <div className="page-container flex items-center gap-6" style={{ height: 118, background: "#425b89" }}>
+                    <div className="relative shrink-0 overflow-hidden" style={{ width: 140, height: 88 }}>
+                      <Image
+                        src={item.promo.image}
+                        alt={item.promo.text}
+                        fill
+                        className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="flex flex-col justify-center gap-2">
+                      <p className="font-semibold leading-snug text-white" style={{ fontSize: 15, maxWidth: 500 }}>
+                        {item.promo.text}
+                      </p>
+                      <span
+                        className="inline-flex items-center gap-1.5 text-sm font-medium"
+                        style={{ color: "#f5a200" }}
+                      >
+                        {item.promo.cta}
+                        <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-1" />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              )}
             </motion.div>
           );
         })()}
@@ -283,7 +354,12 @@ export default function Navbar() {
             alt="BI Paints"
             width={3305}
             height={650}
-            style={{ height: 32, width: "auto", transition: "opacity 0.25s ease-in-out" }}
+            style={{
+              height: 32,
+              width: "auto",
+              filter: transparent ? "drop-shadow(0 1px 3px rgba(0,0,0,0.55))" : "none",
+              transition: "opacity 0.25s ease-in-out, filter 0.25s ease-in-out",
+            }}
           />
           <span className={`tracking-widest uppercase font-medium ${transparent ? "text-white/70" : "text-gray-400"}`} style={{ fontSize: "7px", letterSpacing: "0.18em", transition: "color 0.25s ease-in-out" }}>
             Group of Companies
@@ -385,5 +461,6 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </header>
+    </>
   );
 }
