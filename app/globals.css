@@ -8,7 +8,7 @@
 
 @media (min-width: 1024px) {
   :root {
-    --header-height: 7.5rem; /* desktop navbar height (h-14 + h-16) */
+    --header-height: 9rem; /* desktop navbar height (h-20 + h-16) */
   }
 }
 

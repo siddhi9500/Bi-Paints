@@ -10,7 +10,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function CoatingExpertiseSection() {
   return (
-    <section className="bg-white overflow-hidden">
+    <section className="bg-white overflow-hidden py-16">
       {/* page-container is the bounding box — navy absolute div stays within its right edge */}
       <div className="page-container relative py-14 sm:py-36">
 

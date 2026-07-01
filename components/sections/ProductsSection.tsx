@@ -82,7 +82,7 @@ function ProductCard({ product, index }: { product: (typeof PRODUCTS)[0]; index:
       initial={{ opacity: 0, y: 96 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={VIEW}
-      transition={{ duration: 1.2, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.9, delay, ease: [0.19, 1, 0.36, 1] }}
       className="group relative bg-white rounded-lg overflow-hidden flex flex-col"
       style={{ boxShadow: "0 2px 10px rgba(15,30,60,0.08)" }}
       whileHover={{ y: -4 }}

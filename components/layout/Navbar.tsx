@@ -108,7 +108,14 @@ export default function Navbar() {
   const transparent = isHome && !scrolled && !activeDropdown;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 100);
+    const onScroll = () => {
+      const isScrolled = window.scrollY > 100;
+      setScrolled(isScrolled);
+      document.documentElement.style.setProperty(
+        "--header-height",
+        isScrolled ? "4rem" : "9rem"
+      );
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -141,7 +148,7 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     <header
-      className="fixed top-0 left-0 right-0 z-50 pt-5"
+      className={`fixed top-0 left-0 right-0 z-50 ${scrolled ? "" : "pt-5"}`}
       style={{
         background: transparent
           ? "linear-gradient(to bottom, rgba(8,16,32,0.45) 0%, rgba(8,16,32,0.12) 80%, transparent 100%)"
@@ -150,55 +157,107 @@ export default function Navbar() {
         transition: "background 0.25s ease-in-out, box-shadow 0.25s ease-in-out",
       }}
     >
-      {/* ── Desktop: two stacked full-width rows (logo+utility | primary nav+secondary) ── */}
+      {/* ── Desktop ── */}
       <div className="hidden lg:flex flex-col">
 
-        {/* Row 1: logo (left) + utility links (right) */}
-        <div>
-          <div className="flex items-center justify-between px-10 h-20 mx-auto w-full" style={{borderBottom: transparent ? "1px solid rgba(255,255,255,0.2)" : "1px solid #e0e0e0", transition: "border-color 0.25s ease-in-out", maxWidth: 1600 }}>
-            <Link href="/" className="flex flex-col items-end">
-              <Image
-                src={transparent ? "/bi-logo-white.svg" : "/bi-logo.svg"}
-                alt="BI Paints"
-                width={3305}
-                height={650}
+        {/* Row 1: logo + utility — collapses away when scrolled */}
+        <AnimatePresence initial={false}>
+          {!scrolled && (
+            <motion.div
+              key="utility-row"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: EASE }}
+              className="overflow-hidden"
+            >
+              <div
+                className="flex items-center justify-between px-10 h-20 mx-auto w-full"
                 style={{
-                  height: 42,
-                  width: "auto",
-                  filter: transparent ? "drop-shadow(0 2px 6px rgba(0,0,0,0.9))" : "none",
-                  transition: "opacity 0.25s ease-in-out, filter 0.25s ease-in-out",
+                  borderBottom: transparent ? "1px solid rgba(255,255,255,0.2)" : "1px solid #e0e0e0",
+                  transition: "border-color 0.25s ease-in-out",
+                  maxWidth: 1600,
                 }}
-              />
-              <span
-                className={`font-semibold uppercase tracking-widest ${transparent ? "text-white/70" : "text-gray-500"}`}
-                style={{ fontSize: "8px", letterSpacing: "0.22em", marginTop: 4, transition: "color 0.25s ease-in-out" }}
               >
-                of Companies
-              </span>
-            </Link>
+                <Link href="/" className="flex flex-col items-end">
+                  <Image
+                    src={transparent ? "/bi-logo-white.svg" : "/bi-logo.svg"}
+                    alt="BI Paints"
+                    width={3305}
+                    height={650}
+                    style={{
+                      height: 42,
+                      width: "auto",
+                      filter: transparent ? "drop-shadow(0 2px 6px rgba(0,0,0,0.9))" : "none",
+                      transition: "opacity 0.25s ease-in-out, filter 0.25s ease-in-out",
+                    }}
+                  />
+                  <span
+                    className={`font-semibold uppercase tracking-widest ${transparent ? "text-white/70" : "text-gray-500"}`}
+                    style={{ fontSize: "8px", letterSpacing: "0.22em", marginTop: 4, transition: "color 0.25s ease-in-out" }}
+                  >
+                    of Companies
+                  </span>
+                </Link>
 
-            <div className="flex items-center gap-1">
-              <Link
-                href="/my-account"
-                className="px-3 py-1 text-sm font-bold"
-                style={{ color: "#f5a200", transition: "all 0.22s ease-in-out" }}
-              >
-                My BI Paints
-              </Link>
-              <Link
-                href="/contact"
-                className={`px-3 py-1 text-sm font-bold hover:text-accent ${transparent ? "text-white" : "text-gray-800"}`}
-                style={{ transition: "color 0.25s ease-in-out" }}
-              >
-                Get In Touch
-              </Link>
-            </div>
-          </div>
-        </div>
+                <div className="flex items-center gap-1">
+                  <Link
+                    href="/my-account"
+                    className="px-3 py-1 text-sm font-bold"
+                    style={{ color: "#f5a200", transition: "all 0.22s ease-in-out" }}
+                  >
+                    My BI Paints
+                  </Link>
+                  <Link
+                    href="/contact"
+                    className={`px-3 py-1 text-sm font-bold hover:text-accent ${transparent ? "text-white" : "text-gray-800"}`}
+                    style={{ transition: "color 0.25s ease-in-out" }}
+                  >
+                    Get In Touch
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {/* Row 2: primary nav (left) + secondary links (right) */}
-        <div className="flex items-center justify-between px-10 h-16 mx-auto w-full" style={{ maxWidth: 1600 }}>
-          <div className="flex items-center -ml-3.5">
+        {/* Row 2: nav row — always visible. Logo slides in here when scrolled */}
+        <div
+          className="flex items-center px-10 h-16 mx-auto w-full"
+          style={{ maxWidth: 1600 }}
+        >
+          {/* Logo — appears in this row only when scrolled */}
+          <AnimatePresence initial={false}>
+            {scrolled && (
+              <motion.div
+                key="scrolled-logo"
+                initial={{ opacity: 0, x: -14 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -14 }}
+                transition={{ duration: 0.25, ease: EASE }}
+                className="mr-10 shrink-0"
+              >
+                <Link href="/" className="flex flex-col items-end">
+                  <Image
+                    src="/bi-logo.svg"
+                    alt="BI Paints"
+                    width={3305}
+                    height={650}
+                    style={{ height: 36, width: "auto" }}
+                  />
+                  <span
+                    className="font-semibold uppercase tracking-widest text-gray-500"
+                    style={{ fontSize: "8px", letterSpacing: "0.22em", marginTop: 3 }}
+                  >
+                    of Companies
+                  </span>
+                </Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Primary nav */}
+          <div className="flex items-center -ml-3.5 flex-1">
             {MAIN_NAV.map((item) => (
               <div
                 key={item.label}
@@ -222,21 +281,38 @@ export default function Navbar() {
             ))}
           </div>
 
+          {/* Right side — full when at top, minimal when scrolled */}
           <div className="flex items-center gap-1">
-            {[
-              { label: "Home", href: "/" },
-              { label: "Partners", href: "/locations" },
-            ].map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={`px-3 py-1 text-md font-medium ${utilityText}`}
-                style={{ transition: "color 0.25s ease-in-out" }}
-              >
-                {item.label}
-              </Link>
-            ))}
-            <span className={`w-px h-3.5 mx-2 ${transparent ? "bg-white/30" : "bg-gray-300"}`} style={{ transition: "background 0.25s ease-in-out" }} />
+            <AnimatePresence initial={false}>
+              {!scrolled && (
+                <motion.div
+                  key="secondary-links"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex items-center gap-1"
+                >
+                  {[
+                    { label: "Home", href: "/" },
+                    { label: "Partners", href: "/locations" },
+                  ].map((item) => (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      className={`px-3 py-1 text-md font-medium ${utilityText}`}
+                      style={{ transition: "color 0.25s ease-in-out" }}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                  <span
+                    className={`w-px h-3.5 mx-2 ${transparent ? "bg-white/30" : "bg-gray-300"}`}
+                    style={{ transition: "background 0.25s ease-in-out" }}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
             <button
               aria-label="Search"
               className={`p-1.5 ${utilityText}`}
@@ -244,6 +320,25 @@ export default function Navbar() {
             >
               <Search size={16} />
             </button>
+            <AnimatePresence initial={false}>
+              {scrolled && (
+                <motion.div
+                  key="scrolled-cta"
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 10 }}
+                  transition={{ duration: 0.25, ease: EASE }}
+                >
+                  <Link
+                    href="/contact"
+                    className="ml-4 px-4 py-2 text-sm font-bold text-white rounded"
+                    style={{ background: "#f5a200", transition: "opacity 0.2s" }}
+                  >
+                    Get In Touch
+                  </Link>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>

@@ -1,119 +1,187 @@
+"use client";
+
+import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
-import FadeInSection from "@/components/ui/FadeInSection";
+import { motion } from "framer-motion";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
-interface Project {
-  client: string;
-  logo?: string;
-  sector: string;
-  quote: string;
-  image: string;
-}
+const EASE = [0.22, 1, 0.36, 1] as const;
+const GAP = 32; // px gap between cards
 
-const PROJECTS: Project[] = [
+const PROJECTS = [
   {
     client: "Ministry of Defence",
-    logo: "/client-ministry-of-defence.png",
+    badge: "Defence",
     sector: "Aerospace & Defence Manufacturing",
-    quote: "Bi Paints has delivered unparalleled protection for critical defence infrastructure — coatings engineered to endure the harshest conditions with exceptional durability and corrosion resistance.",
+    location: "Pan India",
     image: "/project-defence.jpg",
   },
   {
     client: "Godrej Group",
-    logo: "/client-godrej.png",
+    badge: "Industrial",
     sector: "Process Equipment Division",
-    quote: "Bi Paints has fortified their industrial assets with superior protective coatings engineered to withstand corrosion, wear, and environmental exposure.",
+    location: "Mumbai, Maharashtra",
     image: "/project-godrej.jpg",
   },
   {
     client: "Larsen & Toubro",
-    logo: "/client-lt.png",
+    badge: "Industrial",
     sector: "Power Boilers, Hazira",
-    quote: "Bi Paints has provided cutting-edge protective coatings to enhance the durability and performance of large-scale industrial projects.",
+    location: "Hazira, Gujarat",
     image: "/project-lt.jpg",
   },
   {
     client: "AM/NS Ports",
-    logo: "/client-amns-ports.png",
+    badge: "Marine",
     sector: "Marine & Port Infrastructure",
-    quote: "Bi Paints has delivered robust protective coatings designed to withstand the harsh marine environment — corrosion, saltwater, and weathering.",
+    location: "Gujarat Coast",
     image: "/project-amns-ports.jpg",
   },
 ];
 
 export default function TrustedProjectsSection() {
+  const [index, setIndex] = useState(0);
+  const [cardWidth, setCardWidth] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(3);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const measure = useCallback(() => {
+    if (!containerRef.current) return;
+    const w = containerRef.current.offsetWidth;
+    const count = w < 640 ? 1 : w < 1024 ? 2 : 3;
+    setVisibleCount(count);
+    setCardWidth((w - GAP * (count - 1)) / count);
+  }, []);
+
+  useEffect(() => {
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [measure]);
+
+  const maxIndex = Math.max(0, PROJECTS.length - visibleCount);
+  const prev = () => setIndex((i) => Math.max(i - 1, 0));
+  const next = () => setIndex((i) => Math.min(i + 1, maxIndex));
+
   return (
-    <section className="py-20">
+    <section className="py-20 sm:py-28 bg-white">
       <div className="page-container">
-        <FadeInSection className="mb-10">
-          <span className="inline-block text-accent font-bold tracking-[0.2em] uppercase text-xs mb-3">
+
+        {/* ── Header ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.65, ease: EASE }}
+          className="text-center mb-12"
+        >
+          <span
+            className="block text-xs font-bold uppercase tracking-widest mb-4"
+            style={{ color: "#f5a200" }}
+          >
             Real Projects, Real Clients
           </span>
-          <h2 className="text-3xl xl:text-4xl font-extrabold text-navy leading-tight">
+          <h6
+            className="font-extrabold text-navy mb-8"
+            style={{ fontSize: "clamp(2rem, 4.5vw, 2.25rem)" }}
+          >
             Trusted in the Field
-          </h2>
-          <p className="text-gray-500 text-sm mt-2">Hover a card to see who we worked with</p>
-        </FadeInSection>
+          </h6>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-          {PROJECTS.map((project, i) => (
-            <FadeInSection key={project.client} delay={i * 0.1} className="h-full">
-              <div className="group h-full" style={{ perspective: 1200 }}>
+          {/* Arrow navigation — simple line arrows, no circle */}
+          <div className="flex items-center justify-center gap-6">
+            <button
+              onClick={prev}
+              disabled={index === 0}
+              aria-label="Previous"
+              className="flex items-center gap-1.5 transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed group"
+              style={{ color: "#f5a200" }}
+            >
+              <ArrowLeft
+                size={20}
+                className="transition-transform duration-200 group-hover:-translate-x-1"
+              />
+            </button>
+            <button
+              onClick={next}
+              disabled={index >= maxIndex}
+              aria-label="Next"
+              className="flex items-center gap-1.5 transition-all duration-200 disabled:opacity-25 disabled:cursor-not-allowed group"
+              style={{ color: "#f5a200" }}
+            >
+              <ArrowRight
+                size={20}
+                className="transition-transform duration-200 group-hover:translate-x-1"
+              />
+            </button>
+          </div>
+        </motion.div>
+
+        {/* ── Carousel ── */}
+        <div ref={containerRef} className="overflow-hidden">
+          <motion.div
+            className="flex"
+            animate={{ x: -(index * (cardWidth + GAP)) }}
+            transition={{ duration: 0.6, ease: EASE }}
+            style={{ gap: `${GAP}px` }}
+          >
+            {PROJECTS.map((project, i) => (
+              <motion.div
+                key={project.client}
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.55, delay: i * 0.08, ease: EASE }}
+                className="shrink-0"
+                style={{ width: cardWidth > 0 ? cardWidth : `calc(${100 / 3}% - ${(GAP * 2) / 3}px)` }}
+              >
+                {/* Project image */}
                 <div
-                  className="relative h-full transition-transform duration-700 group-hover:transform-[rotateY(180deg)]"
-                  style={{ transformStyle: "preserve-3d" }}
+                  className="relative overflow-hidden rounded-2xl group"
+                  style={{ aspectRatio: "3/2" }}
                 >
-                  {/* Front face */}
-                  <div
-                    className="h-full bg-white rounded-lg overflow-hidden flex flex-col shadow-sm group-hover:shadow-md transition-shadow duration-300"
-                    style={{ backfaceVisibility: "hidden" }}
-                  >
-                    <div className="relative w-full" style={{ aspectRatio: "4 / 3" }}>
-                      <Image
-                        src={project.image}
-                        alt={`${project.client} — ${project.sector}`}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 50vw, 25vw"
-                      />
-                    </div>
-                    <div className="p-5 flex flex-col grow">
-                      <h3 className="font-bold text-navy text-base mb-0.5">{project.client}</h3>
-                      <p className="text-accent text-xs font-semibold uppercase tracking-wide mb-3">
-                        {project.sector}
-                      </p>
-                      <p className="text-gray-600 text-sm leading-relaxed">{project.quote}</p>
-                    </div>
-                  </div>
-
-                  {/* Back face */}
-                  <div
-                    className="absolute inset-0 bg-white rounded-lg shadow-sm flex flex-col items-center justify-center p-6 border border-gray-100"
-                    style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
-                  >
-                    {project.logo ? (
-                      <div className="relative w-56 h-24 max-w-full">
-                        <Image
-                          src={project.logo}
-                          alt={project.client}
-                          fill
-                          className="object-contain"
-                          sizes="224px"
-                        />
-                      </div>
-                    ) : (
-                      <h3 className="text-navy font-extrabold text-xl text-center leading-snug">
-                        {project.client}
-                      </h3>
-                    )}
-                    <p className="text-gray-400 text-xs font-semibold uppercase tracking-wide mt-5 text-center">
-                      {project.sector}
-                    </p>
-                  </div>
+                  <Image
+                    src={project.image}
+                    alt={project.client}
+                    fill
+                    className="object-cover transition-transform duration-600 group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
                 </div>
-              </div>
-            </FadeInSection>
-          ))}
+
+                {/* Category badge */}
+                <div className="mt-5">
+                  <span
+                    className="inline-block px-3 py-1 text-xs font-bold text-white uppercase tracking-wide"
+                    style={{ background: "#f5a200" }}
+                  >
+                    {project.badge}
+                  </span>
+                </div>
+
+                {/* Project name */}
+                <h3
+                  className="font-bold text-navy mt-4 mb-1 leading-snug"
+                  style={{ fontSize: "1.05rem" }}
+                >
+                  {project.client}
+                </h3>
+
+                {/* Sector */}
+                <p className="text-gray-500 text-sm mb-1">{project.sector}</p>
+
+                {/* Location in amber */}
+                <p className="text-sm font-semibold" style={{ color: "#f5a200" }}>
+                  {project.location}
+                </p>
+
+                {/* Bottom divider */}
+                <div className="mt-5 border-t border-gray-200" />
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
+
       </div>
     </section>
   );
