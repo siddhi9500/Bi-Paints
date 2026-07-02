@@ -148,10 +148,10 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     <header
-      className={`fixed top-0 left-0 right-0 z-50 ${scrolled ? "" : "pt-5"}`}
+      className={`fixed top-0 left-0 right-0 z-50 ${scrolled ? "" : "pt-1"}`}
       style={{
         background: transparent
-          ? "linear-gradient(to bottom, rgba(8,16,32,0.45) 0%, rgba(8,16,32,0.12) 80%, transparent 100%)"
+          ? "linear-gradient(to bottom, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.08) 80%, transparent 100%)"
           : "#ffffff",
         boxShadow: transparent ? "none" : scrolled ? "0px 2px 6px #424242" : "0px 1px 4px rgba(0,0,0,0.08)",
         transition: "background 0.25s ease-in-out, box-shadow 0.25s ease-in-out",
@@ -172,7 +172,7 @@ export default function Navbar() {
               className="overflow-hidden"
             >
               <div
-                className="flex items-center justify-between px-10 h-20 mx-auto w-full"
+                className="flex items-center justify-between px-8 h-20 mx-auto w-full"
                 style={{
                   borderBottom: transparent ? "1px solid rgba(255,255,255,0.2)" : "1px solid #e0e0e0",
                   transition: "border-color 0.25s ease-in-out",
@@ -192,19 +192,19 @@ export default function Navbar() {
                       transition: "opacity 0.25s ease-in-out, filter 0.25s ease-in-out",
                     }}
                   />
-                  <span
+                  {/* <span
                     className={`font-semibold uppercase tracking-widest ${transparent ? "text-white/70" : "text-gray-500"}`}
                     style={{ fontSize: "8px", letterSpacing: "0.22em", marginTop: 4, transition: "color 0.25s ease-in-out" }}
                   >
                     of Companies
-                  </span>
+                  </span> */}
                 </Link>
 
                 <div className="flex items-center gap-1">
                   <Link
                     href="/my-account"
                     className="px-3 py-1 text-sm font-bold"
-                    style={{ color: "#f5a200", transition: "all 0.22s ease-in-out" }}
+                    style={{ color: transparent ? "#ffffff" : "#f5a200", transition: "all 0.22s ease-in-out" }}
                   >
                     My BI Paints
                   </Link>

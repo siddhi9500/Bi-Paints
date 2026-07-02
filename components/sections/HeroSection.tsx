@@ -22,7 +22,7 @@ export default function HeroSection() {
   return (
     <section
       className="relative overflow-hidden"
-      style={{ height: "clamp(500px, 78vh, 860px)", background: "#0a1628" }}
+      style={{ height: "clamp(500px, 78vh, 860px)", background: "#000000" }}
     >
       {/* ── Background photo — slow Ken Burns zoom ── */}
       <motion.div
@@ -32,11 +32,13 @@ export default function HeroSection() {
         transition={{ duration: 9, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
       >
         <Image
-          src="/banner4.jpg"
+          src="/b50366e8-eb3b-4a51-91b7-0562eb68f53b.png"
+          //src="/banner4.jpg"
           alt="BI Group – engineering solutions built to last"
           fill
           priority
-          className="object-cover object-center"
+          className="object-cover"
+          style={{ objectPosition: "65% center" }}
           sizes="100vw"
         />
       </motion.div>
@@ -46,7 +48,7 @@ export default function HeroSection() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(8,16,32,0.35) 0%, rgba(8,16,32,0.05) 30%, rgba(8,16,32,0.55) 78%, rgba(8,16,32,0.82) 100%)",
+            "linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.45) 78%, rgba(0,0,0,0.72) 100%)",
         }}
       />
 
@@ -67,7 +69,7 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
             className="font-semibold uppercase mb-4 sm:mb-6"
-            style={{ color: "#f5a200", fontSize: 12, letterSpacing: "0.32em" }}
+            style={{ color: "#f5a200", fontSize: 12, letterSpacing: "0.32em", textShadow: "0 1px 8px rgba(0,0,0,0.6)" }}
           >
             BI Group of Companies
           </motion.span>
@@ -99,7 +101,7 @@ export default function HeroSection() {
               transition={{ duration: 0.7, delay: 1.35, ease: EASE }}
               whileHover={{ scale: 1.02 }}
               className="max-w-md rounded-md p-5 sm:p-6 hover:shadow-2xl"
-              style={{ background: "rgba(10,22,45,0.55)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.12)", transition: "box-shadow 0.25s ease-out" }}
+              style={{ background: "rgba(0,0,0,0.48)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.12)", transition: "box-shadow 0.25s ease-out" }}
             >
               <p className="text-white/85 text-sm leading-relaxed mb-4">
                 For over a decade, BI Group has shaped homes, industries, and
