@@ -158,12 +158,12 @@ export default function ProductsSection() {
 
         {/* Section header */}
         <FadeInSection className="my-4 xl:mb-10">
-           <h2
+           <h4
             style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-            className="text-3xl sm:text-4xl font-semibold text-navy"
+            className="text-3xl sm:text-3xl"
           >
             Explore Our Business Areas
-          </h2>
+          </h4>
           <div className="w-12 h-1 bg-accent mt-4 rounded" />
         </FadeInSection>
         {/* 3-column grid */}

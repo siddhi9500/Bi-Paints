@@ -112,7 +112,7 @@ function CountUpStat({ value, suffix }: { value: string; suffix: string }) {
 
 export default function BusinessAreasSection() {
   return (
-    <section className="py-20 bg-white">
+    <section className="pt-20 bg-white">
       <div className="page-container">
         {/* Stats row */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 mb-10 text-center sm:text-left">
@@ -123,7 +123,6 @@ export default function BusinessAreasSection() {
                 style={{
                   fontFamily: "var(--font-playfair), Georgia, serif",
                   fontSize: "clamp(2.4rem, 4vw, 4.4rem)",
-                  color: "#1b4676",
                   fontWeight: 600,
                 }}
               >
@@ -131,7 +130,7 @@ export default function BusinessAreasSection() {
                   <CountUpStat value={stat.value} suffix={stat.suffix} />
                 </div>
               </div>
-              <p className="text-gray-600 text-md leading-relaxed max-w-xs sm:max-w-none mx-auto sm:mx-0 text-center">
+              <p className="text-md leading-relaxed max-w-xs sm:max-w-none mx-auto sm:mx-0 text-center">
                 {stat.label}
               </p>
             </FadeInSection>
