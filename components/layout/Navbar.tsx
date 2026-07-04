@@ -125,7 +125,7 @@ export default function Navbar() {
     setActiveDropdown(label);
   };
   const close = () => {
-    timer.current = setTimeout(() => setActiveDropdown(null), 150);
+    timer.current = setTimeout(() => setActiveDropdown(null), 200);
   };
 
   const navText = transparent ? "text-white/90 hover:text-accent" : "text-gray-700 hover:text-accent";
@@ -158,7 +158,7 @@ export default function Navbar() {
       }}
     >
       {/* ── Desktop ── */}
-      <div className="hidden lg:flex flex-col">
+      <div className="hidden xl:flex flex-col">
 
         {/* Row 1: logo + utility — collapses away when scrolled */}
         <AnimatePresence initial={false}>
@@ -343,106 +343,8 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ── Mega menu: one full-width panel, content swapped per active item ── */}
-      <AnimatePresence>
-        {activeDropdown && (() => {
-          const item = MAIN_NAV.find((n) => n.label === activeDropdown);
-          if (!item?.dropdown) return null;
-          const columns = chunkColumns(item.dropdown, 6);
-          return (
-            <motion.div
-              key={activeDropdown}
-              initial={{ clipPath: "inset(0 0 100% 0)", opacity: 1 }}
-              animate={{ clipPath: "inset(0 0 0% 0)", opacity: 1 }}
-              exit={{ clipPath: "inset(0 0 100% 0)", opacity: 1 }}
-              transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
-              className="hidden lg:block absolute top-full left-0 right-0 bg-white z-50"
-              onMouseEnter={() => open(item.label)}
-              onMouseLeave={close}
-            >
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.22, ease: EASE } }}
-                exit={{ opacity: 0, y: 8, transition: { duration: 0.22 } }}
-                className="page-container py-8 grid gap-x-10 gap-y-6"
-                style={{ gridTemplateColumns: `repeat(${columns.length}, minmax(160px, 240px)) auto` }}
-              >
-                {columns.map((col, ci) => (
-                  <div key={ci}>
-                    {ci === 0 && (
-                      <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">
-                        {item.label}
-                      </p>
-                    )}
-                    <ul className="space-y-3">
-                      {col.map((child) => (
-                        <li key={child.label}>
-                          <Link
-                            href={child.href}
-                            className="text-sm text-gray-700 hover:text-accent"
-                            style={{ transition: "color 0.15s ease-out" }}
-                          >
-                            {child.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-                <div className="flex items-start justify-end">
-                  <Link
-                    href={item.href}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-navy hover:text-accent"
-                    style={{ transition: "color 0.15s ease-out" }}
-                  >
-                    <span
-                      className="flex items-center justify-center rounded shrink-0"
-                      style={{ width: 24, height: 24, background: "#f5a200" }}
-                    >
-                      <ArrowRight size={13} className="text-navy" />
-                    </span>
-                    View all {item.label}
-                  </Link>
-                </div>
-              </motion.div>
-
-              {/* ── Promo strip ── */}
-              {item.promo && (
-                <Link
-                  href={item.promo.href}
-                  className="group block p-7"
-                >
-                  <div className="page-container flex items-center gap-6" style={{ height: 118, background: "#425b89" }}>
-                    <div className="relative shrink-0 overflow-hidden" style={{ width: 140, height: 88 }}>
-                      <Image
-                        src={item.promo.image}
-                        alt={item.promo.text}
-                        fill
-                        className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-                    <div className="flex flex-col justify-center gap-2">
-                      <p className="font-semibold leading-snug text-white" style={{ fontSize: 15, maxWidth: 500 }}>
-                        {item.promo.text}
-                      </p>
-                      <span
-                        className="inline-flex items-center gap-1.5 text-sm font-medium"
-                        style={{ color: "#f5a200" }}
-                      >
-                        {item.promo.cta}
-                        <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-1" />
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              )}
-            </motion.div>
-          );
-        })()}
-      </AnimatePresence>
-
       {/* ── Mobile: compact single row ── */}
-      <div className="lg:hidden flex items-center justify-between px-6 h-16">
+      <div className="xl:hidden flex items-center justify-between px-6 h-16">
         <Link href="/" className="flex flex-col items-end">
           <Image
             src={transparent ? "/bi-logo-white.svg" : "/bi-logo.svg"}
@@ -556,6 +458,102 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </header>
+
+    {/* ── Mega menu: fixed panel that wipes down from the very top of the viewport ── */}
+    <AnimatePresence>
+      {activeDropdown && (() => {
+        const item = MAIN_NAV.find((n) => n.label === activeDropdown);
+        if (!item?.dropdown) return null;
+        const columns = chunkColumns(item.dropdown, 6);
+        return (
+          <motion.div
+            key={activeDropdown}
+            initial={{ clipPath: "inset(0 0 100% 0)" }}
+            animate={{ clipPath: "inset(0 0 0% 0)" }}
+            exit={{ clipPath: "inset(0 0 100% 0)" }}
+            transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
+            className="hidden xl:block fixed top-0 left-0 right-0 bg-white shadow-lg"
+            style={{ zIndex: 45, paddingTop: "var(--header-height)" }}
+            onMouseEnter={() => open(item.label)}
+            onMouseLeave={close}
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.25, delay: 0.18, ease: EASE } }}
+              exit={{ opacity: 0, transition: { duration: 0.1 } }}
+              className="page-container py-8 grid gap-x-10 gap-y-6"
+              style={{ gridTemplateColumns: `repeat(${columns.length}, minmax(160px, 240px)) auto` }}
+            >
+              {columns.map((col, ci) => (
+                <div key={ci}>
+                  {ci === 0 && (
+                    <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">
+                      {item.label}
+                    </p>
+                  )}
+                  <ul className="space-y-3">
+                    {col.map((child) => (
+                      <li key={child.label}>
+                        <Link
+                          href={child.href}
+                          className="text-sm text-gray-700 hover:text-accent"
+                          style={{ transition: "color 0.15s ease-out" }}
+                        >
+                          {child.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+              <div className="flex items-start justify-end">
+                <Link
+                  href={item.href}
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-navy hover:text-accent"
+                  style={{ transition: "color 0.15s ease-out" }}
+                >
+                  <span
+                    className="flex items-center justify-center rounded shrink-0"
+                    style={{ width: 24, height: 24, background: "#f5a200" }}
+                  >
+                    <ArrowRight size={13} className="text-navy" />
+                  </span>
+                  View all {item.label}
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* ── Promo strip ── */}
+            {item.promo && (
+              <Link href={item.promo.href} className="group block p-7">
+                <div className="page-container flex items-center gap-6" style={{ height: 118, background: "#425b89" }}>
+                  <div className="relative shrink-0 overflow-hidden" style={{ width: 140, height: 88 }}>
+                    <Image
+                      src={item.promo.image}
+                      alt={item.promo.text}
+                      fill
+                      className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center gap-2">
+                    <p className="font-semibold leading-snug text-white" style={{ fontSize: 15, maxWidth: 500 }}>
+                      {item.promo.text}
+                    </p>
+                    <span
+                      className="inline-flex items-center gap-1.5 text-sm font-medium"
+                      style={{ color: "#f5a200" }}
+                    >
+                      {item.promo.cta}
+                      <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-1" />
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            )}
+          </motion.div>
+        );
+      })()}
+    </AnimatePresence>
     </>
   );
 }

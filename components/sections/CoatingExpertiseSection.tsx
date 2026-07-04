@@ -84,7 +84,7 @@ export default function CoatingExpertiseSection() {
                 transition={{ duration: 0.6, delay: 0.18, ease: EASE }}
                 className="font-extrabold text-white leading-tight mb-6"
                 style={{
-                  fontSize: "clamp(1.9rem, 3.6vw, 3rem)",
+                  fontSize: "clamp(0.9rem, 3.6vw, 3rem)",
                   fontFamily: "var(--font-montserrat), Arial, sans-serif",
                 }}
               >

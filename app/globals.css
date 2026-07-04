@@ -6,7 +6,7 @@
   --header-height: 4rem; /* mobile navbar height (h-16) */
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
   :root {
     --header-height: 9rem; /* desktop navbar height (h-20 + h-16) */
   }
@@ -55,8 +55,22 @@ a, button {
   max-width: 1600px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 3rem;
-  padding-right: 3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .page-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
 }
 
 @keyframes marquee {

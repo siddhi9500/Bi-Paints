@@ -1,5 +1,6 @@
 import Link from "next/link";
 import FadeInSection from "@/components/ui/FadeInSection";
+import Image from "next/image";
 
 interface Solution {
   title: string;

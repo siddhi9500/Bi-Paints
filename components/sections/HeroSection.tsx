@@ -92,7 +92,7 @@ export default function HeroSection() {
         </div>
 
         {/* Bottom row — description (left) + highlight card (right) */}
-        <div className="px-6 sm:px-10 lg:px-14 pb-8 sm:pb-12">
+        <div className="pb-8 sm:pb-12">
           <div className="page-container flex flex-col sm:flex-row sm:items-end justify-between gap-5 sm:gap-6">
 
             <motion.div

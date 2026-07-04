@@ -1,185 +1,55 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { useInView } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import FadeInSection from "@/components/ui/FadeInSection";
-
-interface BusinessArea {
-  title: string;
-  description: string;
-  image: string;
-  href: string;
-}
+import { GradualSpacing } from "@/components/ui/GradualSpacing";
 
 const STATS = [
   { value: "300K", suffix: "+", label: "Products Distributed Across India" },
-  { value: "50", suffix: "+", label: "Countries we export to — Dubai, Thailand, Bangladesh, Sri Lanka & Maldives" },
-  { value: "10", suffix: "", label: "Years of Industry Excellence" },
+  { value: "50",   suffix: "+", label: "Countries we export to — Dubai, Thailand, Bangladesh, Sri Lanka & Maldives" },
+  { value: "10",   suffix: "",  label: "Years of Industry Excellence" },
 ];
-
-function CountUpStat({ value, suffix }: { value: string; suffix: string }) {
-  const match = value.match(/^(\d+)(\D*)$/);
-  const target = match ? parseInt(match[1], 10) : 0;
-  const unit = match ? match[2] : "";
-
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!isInView) return;
-    const duration = 1500;
-    const start = performance.now();
-    let frame = 0;
-    const step = (now: number) => {
-      frame++;
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.round(eased * target));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [isInView, target]);
-
-  return (
-    <span ref={ref}>
-      {count}
-      {unit}
-      <span style={{ color: "#f5a200" }}>{suffix}</span>
-    </span>
-  );
-}
-
-// const AREAS: BusinessArea[] = [
-//   {
-//     title: "Decorative Paints",
-//     description: "Interior and exterior coatings for homes, offices, and public spaces — premium emulsions, floor coating systems, and fully customised paint solutions.",
-//     image: "/business-decorative.jpg",
-//     href: "/products/paints",
-//   },
-//   {
-//     title: "Protective Coating",
-//     description: "Anti-corrosive systems for the harshest conditions — epoxy, polyurethane, zinc-rich primers, heat-resistant and fire-protection coatings for power plants and industry.",
-//     image: "/business-protective.jpg",
-//     href: "/solutions/industrial",
-//   },
-//   {
-//     title: "Automotive",
-//     description: "Surface treatments, base-coats and top-coats for motor vehicle manufacturing.",
-//     image: "/business-automotive.jpg",
-//     href: "/products",
-//   },
-//   {
-//     title: "Powder Coating",
-//     description: "Durable, eco-friendly powder finishes for structural steel and fabrication.",
-//     image: "/business-powder.jpg",
-//     href: "/products/fabrication",
-//   },
-//   {
-//     title: "Marine Coating",
-//     description: "Hull, ballast, and deck coatings that keep vessels protected at sea.",
-//     image: "/business-marine.jpg",
-//     href: "/solutions/marine",
-//   },
-//   {
-//     title: "Aerospace Coatings",
-//     description: "High-performance coatings that protect and reflect, built to aerospace standards.",
-//     image: "/business-aerospace.jpg",
-//     href: "/products",
-//   },
-//   {
-//     title: "Yacht & Boat Coating",
-//     description: "Premium finishes for yachts and boats, balancing durability with design.",
-//     image: "/business-yacht.jpg",
-//     href: "/products",
-//   },
-//   {
-//     title: "Container Coating",
-//     description: "Newbuild and repair coatings that extend container lifetimes worldwide.",
-//     image: "/business-container.jpg",
-//     href: "/products",
-//   },
-//   {
-//     title: "Industrial",
-//     description: "End-to-end industrial painting — surface preparation, abrasive blasting, water jetting, tank and structural steel painting, pipeline coating, and shutdown maintenance support.",
-//     image: "/business-industrial.jpg",
-//     href: "/solutions/industrial",
-//   },
-// ];
 
 export default function BusinessAreasSection() {
   return (
     <section className="pt-20 bg-white">
+      {/* Stats row */}
       <div className="page-container">
-        {/* Stats row */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 mb-10 text-center sm:text-left">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 mb-10 text-center">
           {STATS.map((stat, i) => (
             <FadeInSection key={stat.label} delay={i * 0.5}>
-              <div
-                className="leading-none mb-4 text-center"
-                style={{
-                  fontFamily: "var(--font-playfair), Georgia, serif",
-                  fontSize: "clamp(2.4rem, 4vw, 4.4rem)",
-                  fontWeight: 600,
-                }}
-              >
-                <div className="inline-flex items-baseline justify-center w-full">
-                  <CountUpStat value={stat.value} suffix={stat.suffix} />
-                </div>
+              <div className="flex items-baseline justify-center gap-0 mb-3">
+                <GradualSpacing
+                  text={stat.value}
+                  containerClassName="flex"
+                  className="leading-none font-semibold"
+                  style={{
+                    fontFamily: "var(--font-playfair), Georgia, serif",
+                    fontSize: "clamp(2.4rem, 4vw, 4.4rem)",
+                    fontWeight: 600,
+                    color: "#111827",
+                  }}
+                />
+                {stat.suffix && (
+                  <span
+                    style={{
+                      fontFamily: "var(--font-playfair), Georgia, serif",
+                      fontSize: "clamp(2.4rem, 4vw, 4.4rem)",
+                      fontWeight: 600,
+                      color: "#f5a200",
+                      lineHeight: 1,
+                    }}
+                  >
+                    {stat.suffix}
+                  </span>
+                )}
               </div>
-              <p className="text-md leading-relaxed max-w-xs sm:max-w-none mx-auto sm:mx-0 text-center">
+              <p className="text-sm leading-relaxed text-gray-500 max-w-xs mx-auto">
                 {stat.label}
               </p>
             </FadeInSection>
           ))}
         </div>
-
-        {/* Heading */}
-        {/* <FadeInSection className="my-4 xl:mb-10">
-          <GradualSpacing
-            text="Explore Our Business Areas"
-            className="text-3xl sm:text-4xl font-semibold text-navy"
-            containerClassName="flex flex-wrap space-x-1 justify-center sm:justify-start"
-            style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-          />
-          <div className="w-12 h-1 bg-accent mt-4 rounded mx-auto sm:mx-0" />
-        </FadeInSection> */}
-
-        {/* Grid */}
-        {/* <div className="grid grid-cols-2 gap-x-2 gap-y-4 md:grid-cols-3 md:gap-8">
-          {AREAS.map((area, i) => (
-            <FadeInSection key={area.title} delay={(i % 3) * 0.1}>
-              <Link href={area.href} className="group flex h-full flex-col">
-                <div className="relative overflow-hidden" style={{ aspectRatio: "4 / 2" }}>
-                  <Image
-                    src={area.image}
-                    alt={area.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 768px) 50vw, 33vw"
-                  />
-                </div>
-                <div className="flex grow flex-col items-start bg-gray-50 px-4 py-4 transition-colors md:px-6 md:py-6 group-hover:bg-gray-100">
-                  <div className="mb-2 flex w-full items-start justify-between gap-2 md:mb-4">
-                    <h3 className="text-xl font-light text-black md:text-2xl">
-                      {area.title}
-                    </h3>
-                    <ArrowRight
-                      size={20}
-                      className="mt-1 shrink-0 text-gray-400 transition-colors duration-300 group-hover:text-black"
-                    />
-                  </div>
-                  <p className="text-sm text-gray-600 leading-relaxed line-clamp-3 md:text-base">
-                    {area.description}
-                  </p>
-                </div>
-              </Link>
-            </FadeInSection>
-          ))}
-        </div> */}
       </div>
     </section>
   );
