@@ -75,14 +75,14 @@ const PRODUCTS = [
 ];
 
 function ProductCard({ product, index }: { product: (typeof PRODUCTS)[0]; index: number }) {
-  const delay = (index % 3) * 0.12 + Math.floor(index / 3) * 0.06;
+  const delay = (index % 3) * 0.2 + Math.floor(index / 3) * 0.6;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 96 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={VIEW}
-      transition={{ duration: 0.5, delay, ease: [0.09, 1, 0.36, 1] }}
+      transition={{ duration: 0.25, delay, ease: [0.2, 1, 0.36, 1] }}
       className="group relative bg-white rounded-lg overflow-hidden flex flex-col"
       style={{ boxShadow: "0 2px 10px rgba(15,30,60,0.08)" }}
       whileHover={{ y: -4 }}
@@ -121,7 +121,7 @@ function ProductCard({ product, index }: { product: (typeof PRODUCTS)[0]; index:
         <ul className="space-y-2 mb-4">
           {product.features.map((f) => (
             <li key={f} className="flex items-start gap-2 text-sm text-gray-600 leading-snug">
-              <Check size={15} strokeWidth={2.5} className="flex-shrink-0 mt-0.5" style={{ color: "#f5a200" }} />
+              <Check size={15} strokeWidth={2.5} className="mt-0.5" style={{ color: "#f5a200" }} />
               {f}
             </li>
           ))}

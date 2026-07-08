@@ -44,16 +44,12 @@ const MAIN_NAV: NavItem[] = [
     label: "Our bussiness areas",
     href: "/products",
     dropdown: [
+      { label: "Paints", href: "/products/paints" },
+      { label: "Homeopathy", href: "/products/hvac" },
+      { label: "Fashion & Style", href: "/products/electronics" },
+      { label: "Modular Kitchen", href: "/products/kitchen" },
       { label: "HVAC Systems", href: "/products/hvac" },
       { label: "Electronics Home Appliances", href: "/products/electronics" },
-      { label: "Modular Kitchen", href: "/products/kitchen" },
-      { label: "Steels", href: "/products/steels" },
-      { label: "Cement", href: "/products/cement" },
-      { label: "Chemicals", href: "/products/chemicals" },
-      { label: "Paints", href: "/products/paints" },
-      { label: "Power Tools", href: "/products/power-tools" },
-      { label: "Hardware", href: "/products/hardware" },
-      { label: "Fabrication", href: "/products/fabrication" },
     ],
     promo: {
       image: "/business-protective.jpg",
@@ -119,7 +115,7 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  console.log("activeDropdown", activeDropdown);
+
   const open = (label: string) => {
     if (timer.current) clearTimeout(timer.current);
     setActiveDropdown(label);
@@ -206,7 +202,7 @@ export default function Navbar() {
                     className="px-3 py-1 text-sm font-bold"
                     style={{ color: transparent ? "#ffffff" : "#f5a200", transition: "all 0.22s ease-in-out" }}
                   >
-                    My BI Paints
+                    Login
                   </Link>
                   <Link
                     href="/contact"
@@ -459,44 +455,42 @@ export default function Navbar() {
       </AnimatePresence>
     </header>
 
-    {/* ── Mega menu: fixed panel that wipes down from the very top of the viewport ── */}
+    {/* ── Mega menu: Jotun-style 3-column panel, wipes down from viewport top ── */}
     <AnimatePresence>
       {activeDropdown && (() => {
         const item = MAIN_NAV.find((n) => n.label === activeDropdown);
         if (!item?.dropdown) return null;
-        const columns = chunkColumns(item.dropdown, 6);
         return (
           <motion.div
             key={activeDropdown}
             initial={{ clipPath: "inset(0 0 100% 0)" }}
             animate={{ clipPath: "inset(0 0 0% 0)" }}
             exit={{ clipPath: "inset(0 0 100% 0)" }}
-            transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
-            className="hidden xl:block fixed top-0 left-0 right-0 bg-white shadow-lg"
-            style={{ zIndex: 45, paddingTop: "var(--header-height)" }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            className="hidden xl:block fixed top-0 left-0 right-0 bg-white"
+            style={{ zIndex: 45, paddingTop: "var(--header-height)", boxShadow: "0 8px 32px rgba(0,0,0,0.10)" }}
             onMouseEnter={() => open(item.label)}
             onMouseLeave={close}
           >
             <motion.div
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1, transition: { duration: 0.25, delay: 0.18, ease: EASE } }}
+              animate={{ opacity: 1, transition: { duration: 0.22, delay: 0.28, ease: EASE } }}
               exit={{ opacity: 0, transition: { duration: 0.1 } }}
-              className="page-container py-8 grid gap-x-10 gap-y-6"
-              style={{ gridTemplateColumns: `repeat(${columns.length}, minmax(160px, 240px)) auto` }}
+              className="page-container"
             >
-              {columns.map((col, ci) => (
-                <div key={ci}>
-                  {ci === 0 && (
-                    <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">
-                      {item.label}
-                    </p>
-                  )}
-                  <ul className="space-y-3">
-                    {col.map((child) => (
+              <div className="flex">
+
+                {/* ── Col 1: plain links list ── */}
+                <div className="w-60 shrink-0 border-r border-gray-100 py-10 pr-10">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-gray-400 mb-7">
+                    {item.label}
+                  </p>
+                  <ul className="space-y-4">
+                    {item.dropdown.map((child) => (
                       <li key={child.label}>
                         <Link
                           href={child.href}
-                          className="text-sm text-gray-700 hover:text-accent"
+                          className="text-[15px] text-gray-800 hover:text-accent block"
                           style={{ transition: "color 0.15s ease-out" }}
                         >
                           {child.label}
@@ -504,52 +498,76 @@ export default function Navbar() {
                       </li>
                     ))}
                   </ul>
-                </div>
-              ))}
-              <div className="flex items-start justify-end">
-                <Link
-                  href={item.href}
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-navy hover:text-accent"
-                  style={{ transition: "color 0.15s ease-out" }}
-                >
-                  <span
-                    className="flex items-center justify-center rounded shrink-0"
-                    style={{ width: 24, height: 24, background: "#f5a200" }}
+                  <Link
+                    href={item.href}
+                    className="inline-flex items-center gap-2 mt-8 px-4 py-2.5 text-[13px] font-bold text-white"
+                    style={{ background: "#f5a200" }}
                   >
-                    <ArrowRight size={13} className="text-navy" />
-                  </span>
-                  View all {item.label}
-                </Link>
+                    <ArrowRight size={13} />
+                    {item.label}
+                  </Link>
+                </div>
+
+                {/* ── Col 2: featured links ── */}
+                <div className="flex-1 py-10 px-12 border-r border-gray-100">
+                  <ul>
+                    {item.dropdown.slice(0, 3).map((child) => (
+                      <li key={child.label} className="border-b border-gray-100 last:border-0">
+                        <Link
+                          href={child.href}
+                          className="flex items-center justify-between py-5 group"
+                        >
+                          <span
+                            className="font-medium text-gray-800 group-hover:text-accent"
+                            style={{ fontSize: 20, transition: "color 0.15s ease-out" }}
+                          >
+                            {child.label}
+                          </span>
+                          <ArrowRight
+                            size={20}
+                            className="text-gray-300 group-hover:text-accent group-hover:translate-x-1 transition-all duration-200"
+                          />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* ── Col 3: image card ── */}
+                {item.promo && (
+                  <div className="w-80 shrink-0">
+                    <Link href={item.promo.href} className="group block h-full">
+                      <div className="relative overflow-hidden" style={{ height: 196 }}>
+                        <Image
+                          src={item.promo.image}
+                          alt={item.promo.text}
+                          fill
+                          className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
+                      <div className="px-8 py-7">
+                        <h4
+                          className="font-semibold text-gray-900 leading-snug mb-5"
+                          style={{ fontSize: 15, maxWidth: 240 }}
+                        >
+                          {item.promo.text}
+                        </h4>
+                        <span className="inline-flex items-center gap-2 text-[13px] font-bold" style={{ color: "#f5a200" }}>
+                          <span
+                            className="flex items-center justify-center shrink-0"
+                            style={{ width: 22, height: 22, background: "#f5a200" }}
+                          >
+                            <ArrowRight size={11} className="text-white" />
+                          </span>
+                          {item.promo.cta}
+                        </span>
+                      </div>
+                    </Link>
+                  </div>
+                )}
+
               </div>
             </motion.div>
-
-            {/* ── Promo strip ── */}
-            {item.promo && (
-              <Link href={item.promo.href} className="group block p-7">
-                <div className="page-container flex items-center gap-6" style={{ height: 118, background: "#425b89" }}>
-                  <div className="relative shrink-0 overflow-hidden" style={{ width: 140, height: 88 }}>
-                    <Image
-                      src={item.promo.image}
-                      alt={item.promo.text}
-                      fill
-                      className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="flex flex-col justify-center gap-2">
-                    <p className="font-semibold leading-snug text-white" style={{ fontSize: 15, maxWidth: 500 }}>
-                      {item.promo.text}
-                    </p>
-                    <span
-                      className="inline-flex items-center gap-1.5 text-sm font-medium"
-                      style={{ color: "#f5a200" }}
-                    >
-                      {item.promo.cta}
-                      <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-1" />
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            )}
           </motion.div>
         );
       })()}

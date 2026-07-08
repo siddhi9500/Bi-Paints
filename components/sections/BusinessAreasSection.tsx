@@ -1,13 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import FadeInSection from "@/components/ui/FadeInSection";
 import { GradualSpacing } from "@/components/ui/GradualSpacing";
 
 const STATS = [
-  { value: "300K", suffix: "+", label: "Products Distributed Across India" },
-  { value: "50",   suffix: "+", label: "Countries we export to — Dubai, Thailand, Bangladesh, Sri Lanka & Maldives" },
-  { value: "10",   suffix: "",  label: "Years of Industry Excellence" },
+  { value: "50K", suffix: "+", label: "Satisfied clients" },
+  { value: "15",   suffix: "+", label: "Years experiences" },
+  { value: "56",   suffix: "+",  label: "Qualty paramerters" },
+
 ];
 
 export default function BusinessAreasSection() {
@@ -38,13 +38,14 @@ export default function BusinessAreasSection() {
                       fontWeight: 600,
                       color: "#f5a200",
                       lineHeight: 1,
+                      paddingLeft: "0.1em",
                     }}
                   >
                     {stat.suffix}
                   </span>
                 )}
               </div>
-              <p className="text-sm leading-relaxed text-gray-500 max-w-xs mx-auto">
+              <p className="text-lg leading-relaxed text-gray-600 max-w-xs mx-auto">
                 {stat.label}
               </p>
             </FadeInSection>
