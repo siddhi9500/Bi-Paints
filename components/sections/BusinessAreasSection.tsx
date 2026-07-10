@@ -4,10 +4,21 @@ import FadeInSection from "@/components/ui/FadeInSection";
 import { GradualSpacing } from "@/components/ui/GradualSpacing";
 
 const STATS = [
-  { value: "50K", suffix: "+", label: "Satisfied clients" },
-  { value: "15",   suffix: "+", label: "Years experiences" },
-  { value: "56",   suffix: "+",  label: "Qualty paramerters" },
-
+  {
+    value: "50,000",
+    suffix: "+",
+    label: "Satisfied clients trust us nationwide for lasting color and finish",
+  },
+  {
+    value: "15",
+    suffix: "+",
+    label: "Years of experience formulating premium paints and coatings",
+  },
+  {
+    value: "400",
+    suffix: "+",
+    label: "Quality parameters tested on every batch before it reaches you",
+  },
 ];
 
 export default function BusinessAreasSection() {
@@ -45,7 +56,7 @@ export default function BusinessAreasSection() {
                   </span>
                 )}
               </div>
-              <p className="text-lg leading-relaxed text-gray-600 max-w-xs mx-auto">
+              <p className="text-lg leading-relaxed text-gray-600 max-w-sm mx-auto">
                 {stat.label}
               </p>
             </FadeInSection>
