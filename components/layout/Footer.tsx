@@ -177,7 +177,7 @@ export default function Footer() {
               />
             </Link>
             <p className="text-sm leading-relaxed mb-7" style={{ color: "#6b7280", maxWidth: 280 }}>
-              BI Group is one of India's leading paints and coatings solutions
+              BI Group is one of India&apos;s leading paints and coatings solutions
               providers, combining quality with innovation and trust across
               multiple sectors.
             </p>

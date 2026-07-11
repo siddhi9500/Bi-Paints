@@ -1,5 +1,11 @@
 "use client";
 
+/* ────────────────────────────────────────────────────────────────────────
+ * LEGACY — superseded by the Figma redesign below (node 19:522,
+ * "section.collaborate" — html.to.design Brixon import). Kept commented
+ * out for reference/rollback rather than deleted.
+ * ────────────────────────────────────────────────────────────────────────
+
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -11,10 +17,10 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 export default function CoatingExpertiseSection() {
   return (
     <section className="bg-white overflow-hidden py-16">
-      {/* page-container is the bounding box — navy absolute div stays within its right edge */}
+      {/* page-container is the bounding box — navy absolute div stays within its right edge *}
       <div className="page-container relative py-14 sm:py-36">
 
-        {/* Navy background — right ~62%, bounded by page-container so it has the same margin as content */}
+        {/* Navy background — right ~62%, bounded by page-container so it has the same margin as content *}
         <motion.div
           initial={{ opacity: 0, x: 80 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -23,18 +29,18 @@ export default function CoatingExpertiseSection() {
           className="absolute top-0 bottom-0 right-0 w-full lg:w-[62%] pointer-events-none rounded-3xl"
           style={{ background: "linear-gradient(135deg, #0d2240 0%, #1b4676 100%)" }}
         >
-          {/* glow accent */}
+          {/* glow accent *}
           <div
             className="absolute -top-20 -right-20 w-80 h-80 rounded-full blur-3xl opacity-20"
             style={{ background: "#0e9aa7" }}
           />
         </motion.div>
 
-        {/* Two-column layout */}
+        {/* Two-column layout *}
         <div className="relative z-10">
           <div className="flex flex-col lg:flex-row lg:items-stretch gap-0">
 
-            {/* LEFT — image column, negative margin so it spills above & below (video-py-60 equivalent) */}
+            {/* LEFT — image column, negative margin so it spills above & below (video-py-60 equivalent) *}
             <motion.div
               initial={{ opacity: 0, x: -40, scale: 0.95 }}
               whileInView={{ opacity: 1, x: 0, scale: 1 }}
@@ -55,7 +61,7 @@ export default function CoatingExpertiseSection() {
                 />
                 <div className="absolute inset-0" style={{ background: "rgba(8,18,38,0.12)" }} />
 
-                {/* Play button with pulse ring */}
+                {/* Play button with pulse ring *}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <motion.span
                     className="absolute rounded-full"
@@ -73,10 +79,10 @@ export default function CoatingExpertiseSection() {
               </div>
             </motion.div>
 
-            {/* RIGHT — text content, sits on top of the navy background */}
+            {/* RIGHT — text content, sits on top of the navy background *}
             <div className="w-full lg:w-[54%] flex flex-col justify-center py-12 lg:py-0 lg:pl-14 xl:pl-20">
 
-              {/* Headline */}
+              {/* Headline *}
               <motion.h2
                 initial={{ opacity: 0, y: 22 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -91,7 +97,7 @@ export default function CoatingExpertiseSection() {
                 Behind Every Great Coating
               </motion.h2>
 
-              {/* Large typographic quote */}
+              {/* Large typographic quote *}
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -103,7 +109,7 @@ export default function CoatingExpertiseSection() {
                 &ldquo;
               </motion.div>
 
-              {/* Amber subtitle */}
+              {/* Amber subtitle *}
               <motion.p
                 initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -162,6 +168,70 @@ export default function CoatingExpertiseSection() {
           </div>
         </div>
 
+      </div>
+    </section>
+  );
+}
+
+ * ──────────────────────────────────────────────────────────────────────── */
+
+import Image from "next/image";
+import { motion } from "framer-motion";
+import Button from "@/components/ui/Button";
+
+const VIEW = { once: true, margin: "-80px" } as const;
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+export default function CoatingExpertiseSection() {
+  return (
+    <section className="py-16 sm:py-20 bg-cream">
+      <div className="page-container">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+          {/* Left: quote + CTA + small handshake image */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={VIEW}
+            transition={{ duration: 0.7, ease: EASE }}
+            className="flex flex-col justify-between h-full gap-8"
+          >
+            <h3 className="text-h3 font-normal text-heading">
+              BI Paints India — trusted partner for ARCELOR MITTAL, Reliance, Adani,
+              Godrej &amp; Boyce, and the Indian Air Force. Delivering 3,00,000 litres of
+              premium coatings every day.
+            </h3>
+
+            <div className="flex items-end justify-between gap-6">
+              <Button href="/contact-us">Partner With Us</Button>
+              <div className="relative w-40 h-40 rounded-[10px] overflow-hidden shrink-0 bg-black">
+                <Image
+                  src="/collaborate-handshake.png"
+                  alt="BI Paints partnership signing"
+                  fill
+                  className="object-cover"
+                  sizes="160px"
+                />
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right: large plant image */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={VIEW}
+            transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
+            className="relative w-full aspect-748/449 rounded-[10px] overflow-hidden"
+          >
+            <Image
+              src="/collaborate-plant.png"
+              alt="BI Paints manufacturing plant, aerial view"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+          </motion.div>
+        </div>
       </div>
     </section>
   );

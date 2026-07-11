@@ -1,158 +1,153 @@
 "use client";
 
+/* ────────────────────────────────────────────────────────────────────────
+ * LEGACY — superseded by the Figma redesign below (node 19:293,
+ * "section.hero" — html.to.design Brixon import). Kept commented out for
+ * reference/rollback rather than deleted.
+ * ────────────────────────────────────────────────────────────────────────
+
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { GradualSpacing } from "@/components/ui/GradualSpacing";
 
-const EASE = [0.52, 1, 0.36, 1] as const;
-
-const HEADLINE_LINES = ["A Decade Of", "Quality & Trust"];
-
-const HEADLINE_STYLE = {
-  fontSize: "clamp(2rem, 5vw, 4rem)",
-  fontFamily: "var(--font-playfair), Georgia, serif",
-  fontWeight: 500,
-  color: "#ffffff",
-  textShadow: "0 2px 24px rgba(0,0,0,0.25)",
-};
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function HeroSection() {
   return (
-    <section
-      className="relative overflow-hidden"
-      style={{ height: "clamp(500px, 78vh, 860px)", background: "#000000" }}
-    >
-      {/* ── Background photo — slow Ken Burns zoom ── */}
+    <section style={{ paddingTop: "var(--header-height)" }}>
+      {/* Hero image with accent color block — full-bleed, edge to edge *}
       <motion.div
-        className="absolute inset-0"
-        initial={{ scale: 1 }}
-        animate={{ scale: 1.06 }}
-        transition={{ duration: 9, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
+        className="relative"
       >
-        <Image
-          src="/b50366e8-eb3b-4a51-91b7-0562eb68f53b.png"
-          //src="/banner4.jpg"
-          alt="BI Group – engineering solutions built to last"
-          fill
-          priority
-          className="object-cover"
-          style={{ objectPosition: "65% center" }}
-          sizes="100vw"
-        />
-      </motion.div>
-
-      {/* ── Gradient overlay ── */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.45) 78%, rgba(0,0,0,0.72) 100%)",
-        }}
-      />
-
-      {/* ── Content ── */}
-      <div className="relative z-10 h-full flex flex-col">
-
-        {/* Label + headline — centered in the flex-1 space below the navbar */}
         <div
-          className="flex-1 flex flex-col items-center justify-center text-center px-6 sm:px-10 mx-auto w-full"
-          style={{
-            maxWidth: 1600,
-            paddingTop: "calc(var(--header-height) + clamp(0.75rem, 3vh, 3rem))",
-            paddingBottom: "clamp(0.5rem, 2vh, 2rem)",
-          }}
+          aria-hidden
+          className="absolute -top-2 left-0 sm:-top-4 z-10"
         >
-          <motion.span
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
-            className="font-semibold uppercase mb-4 sm:mb-6"
-            style={{ color: "#f5a200", fontSize: 12, letterSpacing: "0.32em", textShadow: "0 1px 8px rgba(0,0,0,0.6)" }}
-          >
-            BI Group of Companies
-          </motion.span>
-          <h1 className="text-white leading-[1.1] w-full">
-            <GradualSpacing
-              text={HEADLINE_LINES[0]}
-              containerClassName="flex flex-wrap justify-center"
-              className="leading-[1.1]"
-              style={HEADLINE_STYLE}
-              startDelay={0.4}
-            />
-            <GradualSpacing
-              text={HEADLINE_LINES[1]}
-              containerClassName="flex flex-wrap justify-center mt-1 sm:mt-2"
-              className="leading-[1.1]"
-              style={HEADLINE_STYLE}
-              startDelay={0.4 + HEADLINE_LINES[0].length * 0.1 + 0.25}
-            />
-          </h1>
+          <div className="w-16 h-16 sm:w-24 sm:h-24 bg-primary" />
+          <div className="w-11 h-11 sm:w-16 sm:h-16 bg-white ml-9 -mt-5 sm:ml-14 sm:-mt-7" />
         </div>
+        <div
+          className="relative w-full overflow-hidden"
+          style={{ height: "clamp(320px, 50vh, 560px)" }}
+        >
+          <Image
+            src="/6836b1d6d99cb6abd6c9c72d_hero-02.jpg"
+            alt="BI Group teams at work on-site"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+        </div>
+      </motion.div>
+    </section>
+  );
+}
 
-        {/* Bottom row — description (left) + highlight card (right) */}
-        <div className="pb-8 sm:pb-12">
-          <div className="page-container flex flex-col sm:flex-row sm:items-end justify-between gap-5 sm:gap-6">
+ * ──────────────────────────────────────────────────────────────────────── */
 
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 1.35, ease: EASE }}
-              whileHover={{ scale: 1.02 }}
-              className="max-w-md rounded-md p-5 sm:p-6 hover:shadow-2xl"
-              style={{ background: "rgba(0,0,0,0.48)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.12)", transition: "box-shadow 0.25s ease-out" }}
-            >
-              <p className="text-white/85 text-sm leading-relaxed mb-4">
-                For over a decade, BI Group has shaped homes, industries, and
-                infrastructure across India with paints, coatings, and end-to-end
-                solutions built to last — from a single trusted partner to a
-                multi-sector group serving clients nationwide.
-              </p>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 text-white font-semibold text-sm border-b border-white/40 hover:border-accent hover:text-accent pb-0.5"
-              >
-                Get In Touch <ArrowRight size={14} />
-              </Link>
-            </motion.div>
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { BUSINESS_GROUPS } from "@/lib/data/business-groups";
 
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 1.5, ease: EASE }}
-              whileHover={{ scale: 1.04 }}
-              style={{ transition: "box-shadow 0.25s ease-out" }}
-              className="rounded-md"
-            >
-              <Link
-                href="/products"
-                className="group flex items-center gap-4 rounded-md p-3.5 sm:p-4 w-full sm:w-72 hover:shadow-2xl"
-                style={{ background: "rgba(255,255,255,0.1)", backdropFilter: "blur(6px)", border: "1px solid rgba(255,255,255,0.18)", transition: "background 0.25s ease-out, box-shadow 0.25s ease-out" }}
-              >
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const HERO_AVATARS = ["/hero-avatar-1.jpg", "/hero-avatar-2.jpg", "/hero-avatar-3.jpg"];
+
+export default function HeroSection() {
+  return (
+    <section style={{ paddingTop: "var(--header-height)" }}>
+      <div className="page-container">
+        <div className="max-w-[1296px] mx-auto flex flex-col pt-10 sm:pt-14 lg:pt-[60px]">
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: EASE }}
+            className="font-medium text-heading"
+            style={{ fontSize: "clamp(2.25rem, 5vw, 4.25rem)", lineHeight: 1.3 }}
+          >
+            Innovative Solutions
+            <br />
+            Across Six Industries
+          </motion.h1>
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
+            className="flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-10 border-t border-black/10 mt-10 pt-8 pb-12"
+          >
+            {/* Avatar stack */}
+            <div className="flex -space-x-2.5 shrink-0" aria-hidden>
+              {HERO_AVATARS.map((src, i) => (
                 <span
-                  className="shrink-0 flex items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-110"
-                  style={{ width: 44, height: 44, background: "#f5a200" }}
+                  key={src}
+                  className="relative w-[46px] h-[46px] rounded-full overflow-hidden bg-cream"
+                  style={{ zIndex: HERO_AVATARS.length - i }}
                 >
-                  <ArrowRight size={18} className="text-navy" />
+                  <Image src={src} alt="" fill className="object-cover" sizes="46px" />
                 </span>
-                <span>
-                  <span className="block text-white/60 text-xs uppercase tracking-wider mb-0.5">
-                    Discover
-                  </span>
-                  <span
-                    className="block text-white font-semibold"
-                    style={{ fontFamily: "var(--font-playfair), Georgia, serif" }}
-                  >
-                    Our Products
-                  </span>
-                </span>
-              </Link>
-            </motion.div>
+              ))}
+            </div>
 
-          </div>
+            {/* Business group blurbs */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 flex-1">
+              {BUSINESS_GROUPS.map((group) => (
+                <div key={group.title} className="flex flex-col gap-2.5">
+                  <h6 className="text-h6 font-medium text-heading">{group.title}</h6>
+                  <p className="text-small leading-relaxed text-ink">{group.description}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </div>
+
+      {/* Hero image with geometric accent pattern — full-bleed, edge to edge */}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.8, delay: 0.3, ease: EASE }}
+        className="relative"
+      >
+        <div
+          aria-hidden
+          className="absolute top-0 left-0 z-10 grid grid-cols-2 grid-rows-2 w-20 h-20 sm:w-28 sm:h-28"
+        >
+          <div className="bg-primary" />
+          <div className="bg-white/15 backdrop-blur-[2.5px]" />
+          <div className="bg-white/15 backdrop-blur-[2.5px]" />
+          <div className="bg-[#11120f]" />
+        </div>
+
+        <div
+          aria-hidden
+          className="absolute bottom-0 right-0 z-10 grid grid-cols-2 grid-rows-2 w-20 h-20 sm:w-28 sm:h-28"
+        >
+          <div className="bg-white/15 backdrop-blur-[2.5px]" />
+          <div />
+          <div />
+          <div className="bg-white/15 backdrop-blur-[2.5px]" />
+        </div>
+
+        <div
+          className="relative w-full overflow-hidden"
+          style={{ height: "clamp(320px, 50vh, 600px)" }}
+        >
+          <Image
+            src="/6836b1d6d99cb6abd6c9c72d_hero-02.jpg"
+            alt="BI Group teams at work on-site"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+        </div>
+      </motion.div>
     </section>
   );
 }

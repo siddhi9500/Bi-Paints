@@ -3,371 +3,203 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Menu, X, ChevronDown, ArrowRight } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
+import Button from "@/components/ui/Button";
+import { BUSINESS_GROUPS } from "@/lib/data/business-groups";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-type DropdownItem = { label: string; href: string };
-type PromoItem = { image: string; text: string; cta: string; href: string };
-type NavItem = { label: string; href: string; dropdown?: DropdownItem[]; promo?: PromoItem };
+// Direct top-level links — no dropdown, matches the reference nav exactly.
+const PRIMARY_LINKS = [
+  { label: "Projects", href: "/projects" },
+  { label: "Services", href: "/services" },
+  { label: "Blogs", href: "/blogs" },
+];
 
-function chunkColumns<T>(items: T[], perColumn: number): T[][] {
-  const columns: T[][] = [];
-  for (let i = 0; i < items.length; i += perColumn) {
-    columns.push(items.slice(i, i + perColumn));
-  }
-  return columns;
-}
+// Business-area highlights shown when hovering "About Us" — shared with HeroSection.
+const ABOUT_HIGHLIGHTS = BUSINESS_GROUPS;
 
-const MAIN_NAV: NavItem[] = [
-  {
-    label: "Who we are",
-    href: "/about",
-    dropdown: [
-      { label: "Overview", href: "/about" },
-      { label: "Vision & Values", href: "/about/vision" },
-      { label: "History", href: "/about/history" },
-      { label: "Awards & Recognition", href: "/about/awards" },
-      { label: "Leadership Team", href: "/about/team" },
-      { label: "CSR & Sustainability", href: "/about/sustainability" },
-    ],
-    promo: {
-      image: "/coating-advisors.jpg",
-      text: "Trusted by India's leading industries for over a decade.",
-      cta: "Discover our story",
-      href: "/about",
-    },
-  },
-  {
-    label: "Our bussiness areas",
-    href: "/products",
-    dropdown: [
-      { label: "Paints", href: "/products/paints" },
-      { label: "Homeopathy", href: "/products/hvac" },
-      { label: "Fashion & Style", href: "/products/electronics" },
-      { label: "Modular Kitchen", href: "/products/kitchen" },
-      { label: "HVAC Systems", href: "/products/hvac" },
-      { label: "Electronics Home Appliances", href: "/products/electronics" },
-    ],
-    promo: {
-      image: "/business-protective.jpg",
-      text: "From paints to power tools — one trusted partner across sectors.",
-      cta: "Explore all business areas",
-      href: "/products",
-    },
-  },
-  {
-    label: "Products and services",
-    href: "/services",
-    dropdown: [
-      { label: "Colour Consultation", href: "/services/consultation" },
-      { label: "Painting Services", href: "/services/painting" },
-      { label: "AMC & Maintenance", href: "/services/amc" },
-      { label: "Waterproofing", href: "/services/waterproofing" },
-    ],
-    promo: {
-      image: "/product-img.jpg",
-      text: "Professional-grade products and services for every surface.",
-      cta: "Browse our range",
-      href: "/services",
-    },
-  },
-  {
-    label: "End to End Solutions",
-    href: "/solutions",
-    dropdown: [
-      { label: "Residential", href: "/solutions/residential" },
-      { label: "Commercial", href: "/solutions/commercial" },
-      { label: "Industrial", href: "/solutions/industrial" },
-      { label: "Marine", href: "/solutions/marine" },
-    ],
-    promo: {
-      image: "/project-lt.jpg",
-      text: "Complete project delivery — from consultation to final finish.",
-      cta: "See our solutions",
-      href: "/solutions",
-    },
-  },
+// Everything else in the site lives behind the "Pages" catch-all dropdown.
+const PAGES_LINKS = [
+  { label: "Our Business Areas", href: "/products" },
+  { label: "End to End Solutions", href: "/solutions" },
   { label: "Careers", href: "/careers" },
+  { label: "My Account", href: "/my-account" },
 ];
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [slideDir, setSlideDir] = useState<1 | -1>(1);
-  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [pagesOpen, setPagesOpen] = useState(false);
+  const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
+  const [mobilePagesOpen, setMobilePagesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const pathname = usePathname();
-  const isHome = pathname === "/";
-  const transparent = isHome && !scrolled && !activeDropdown;
+  const aboutTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pagesTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const onScroll = () => {
-      const isScrolled = window.scrollY > 100;
-      setScrolled(isScrolled);
-      document.documentElement.style.setProperty(
-        "--header-height",
-        isScrolled ? "4rem" : "9rem"
-      );
-    };
+    const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const open = (label: string) => {
-    if (timer.current) clearTimeout(timer.current);
-    if (activeDropdown && activeDropdown !== label) {
-      const prevIdx = MAIN_NAV.findIndex((n) => n.label === activeDropdown);
-      const nextIdx = MAIN_NAV.findIndex((n) => n.label === label);
-      setSlideDir(nextIdx >= prevIdx ? 1 : -1);
-    }
-    setActiveDropdown(label);
+  const openAbout = () => {
+    if (aboutTimer.current) clearTimeout(aboutTimer.current);
+    setAboutOpen(true);
   };
-  const close = () => {
-    timer.current = setTimeout(() => setActiveDropdown(null), 200);
+  const closeAbout = () => {
+    aboutTimer.current = setTimeout(() => setAboutOpen(false), 150);
   };
 
-  const navText = transparent ? "text-white/90 hover:text-accent" : "text-gray-700 hover:text-accent";
-  const utilityText = transparent ? "text-white/80 hover:text-white" : "text-gray-600 hover:text-navy";
+  const openPages = () => {
+    if (pagesTimer.current) clearTimeout(pagesTimer.current);
+    setPagesOpen(true);
+  };
+  const closePages = () => {
+    pagesTimer.current = setTimeout(() => setPagesOpen(false), 150);
+  };
 
   return (
-    <>
-      {/* ── Backdrop overlay — outside <header> so z-40 competes globally, not inside z-50 stacking context ── */}
-      <AnimatePresence>
-        {activeDropdown && (
-          <motion.div
-            key="nav-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 bg-black/40 z-40"
-            onClick={close}
-          />
-        )}
-      </AnimatePresence>
     <header
-      className={`fixed top-0 left-0 right-0 z-50 ${scrolled ? "" : "pt-1"}`}
+      className="fixed top-0 left-0 right-0 z-50 bg-white"
       style={{
-        background: transparent
-          ? "linear-gradient(to bottom, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.08) 80%, transparent 100%)"
-          : "#ffffff",
-        boxShadow: transparent ? "none" : scrolled ? "0px 2px 6px #424242" : "0px 1px 4px rgba(0,0,0,0.08)",
-        transition: "background 0.25s ease-in-out, box-shadow 0.25s ease-in-out",
+        boxShadow: scrolled ? "0px 2px 10px rgba(0,0,0,0.08)" : "0px 1px 0px rgba(0,0,0,0.06)",
+        transition: "box-shadow 0.25s ease-in-out",
       }}
     >
-      {/* ── Desktop ── */}
-      <div className="hidden xl:flex flex-col">
+      {/* ── Desktop: single row — logo left, links centered, CTA right ── */}
+      <div
+        className="hidden xl:flex items-center justify-between px-10 h-24 mx-auto w-full"
+        style={{ maxWidth: 1600 }}
+      >
+        <Link href="/" className="shrink-0">
+          <Image
+            src="/bi-logo.svg"
+            alt="BI Paints"
+            width={3305}
+            height={650}
+            style={{ height: 38, width: "auto" }}
+          />
+        </Link>
 
-        {/* Row 1: logo + utility — collapses away when scrolled */}
-        <AnimatePresence initial={false}>
-          {!scrolled && (
-            <motion.div
-              key="utility-row"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: EASE }}
-              className="overflow-hidden"
+        <div className="flex items-center gap-8">
+          <div className="relative" onMouseEnter={openAbout} onMouseLeave={closeAbout}>
+            <Link
+              href="/about"
+              className="flex items-center gap-1 text-small font-medium uppercase tracking-wide whitespace-nowrap text-heading/80 hover:text-primary"
+              style={{ transition: "color 0.2s ease-in-out" }}
             >
-              <div
-                className="flex items-center justify-between px-8 h-20 mx-auto w-full"
-                style={{
-                  borderBottom: transparent ? "1px solid rgba(255,255,255,0.2)" : "1px solid #e0e0e0",
-                  transition: "border-color 0.25s ease-in-out",
-                  maxWidth: 1600,
-                }}
-              >
-                <Link href="/" className="flex flex-col items-end">
-                  <Image
-                    src={transparent ? "/bi-logo-white.svg" : "/bi-logo.svg"}
-                    alt="BI Paints"
-                    width={3305}
-                    height={650}
-                    style={{
-                      height: 42,
-                      width: "auto",
-                      filter: transparent ? "drop-shadow(0 2px 6px rgba(0,0,0,0.9))" : "none",
-                      transition: "opacity 0.25s ease-in-out, filter 0.25s ease-in-out",
-                    }}
-                  />
-                  {/* <span
-                    className={`font-semibold uppercase tracking-widest ${transparent ? "text-white/70" : "text-gray-500"}`}
-                    style={{ fontSize: "8px", letterSpacing: "0.22em", marginTop: 4, transition: "color 0.25s ease-in-out" }}
-                  >
-                    of Companies
-                  </span> */}
-                </Link>
-
-                <div className="flex items-center gap-1">
-                  <Link
-                    href="/my-account"
-                    className="px-3 py-1 text-sm font-bold"
-                    style={{ color: transparent ? "#ffffff" : "#f5a200", transition: "all 0.22s ease-in-out" }}
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    href="/contact"
-                    className={`px-3 py-1 text-sm font-bold hover:text-accent ${transparent ? "text-white" : "text-gray-800"}`}
-                    style={{ transition: "color 0.25s ease-in-out" }}
-                  >
-                    Get In Touch
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Row 2: nav row — always visible. Logo slides in here when scrolled */}
-        <div
-          className="flex items-center px-10 h-16 mx-auto w-full"
-          style={{ maxWidth: 1600 }}
-        >
-          {/* Logo — appears in this row only when scrolled */}
-          <AnimatePresence initial={false}>
-            {scrolled && (
-              <motion.div
-                key="scrolled-logo"
-                initial={{ opacity: 0, x: -14 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -14 }}
-                transition={{ duration: 0.25, ease: EASE }}
-                className="mr-10 shrink-0"
-              >
-                <Link href="/" className="flex flex-col items-end">
-                  <Image
-                    src="/bi-logo.svg"
-                    alt="BI Paints"
-                    width={3305}
-                    height={650}
-                    style={{ height: 36, width: "auto" }}
-                  />
-                  <span
-                    className="font-semibold uppercase tracking-widest text-gray-500"
-                    style={{ fontSize: "8px", letterSpacing: "0.22em", marginTop: 3 }}
-                  >
-                    of Companies
-                  </span>
-                </Link>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Primary nav */}
-          <div className="flex items-center -ml-3.5 flex-1">
-            {MAIN_NAV.map((item) => (
-              <div
-                key={item.label}
-                className="relative group"
-                onMouseEnter={() => item.dropdown && open(item.label)}
-                onMouseLeave={() => item.dropdown && close()}
-              >
-                <Link
-                  href={item.href}
-                  className={`flex items-center gap-0.5 px-3.5 py-5 text-rg font-medium whitespace-nowrap ${navText}`}
-                  style={{ transition: "color 0.25s ease-in-out" }}
-                >
-                  {item.label}
-                </Link>
-                <span
-                  aria-hidden
-                  className="absolute left-3.5 right-3.5 bottom-4 h-0.5 origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"
-                  style={{ background: "#f5a200" }}
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Right side — full when at top, minimal when scrolled */}
-          <div className="flex items-center gap-1">
-            <AnimatePresence initial={false}>
-              {!scrolled && (
+              About Us
+              <ChevronDown
+                size={14}
+                className={`transition-transform duration-300 ${aboutOpen ? "rotate-180" : ""}`}
+              />
+            </Link>
+            <AnimatePresence>
+              {aboutOpen && (
                 <motion.div
-                  key="secondary-links"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex items-center gap-1"
+                  initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                  transition={{ duration: 0.2, ease: EASE }}
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[920px] rounded-3xl bg-white p-12 border border-black/5"
+                  style={{ boxShadow: "0 32px 64px -16px rgba(0,0,0,0.22)" }}
                 >
-                  {[
-                    { label: "Home", href: "/" },
-                    { label: "Partners", href: "/locations" },
-                  ].map((item) => (
-                    <Link
-                      key={item.label}
-                      href={item.href}
-                      className={`px-3 py-1 text-md font-medium ${utilityText}`}
-                      style={{ transition: "color 0.25s ease-in-out" }}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                  <span
-                    className={`w-px h-3.5 mx-2 ${transparent ? "bg-white/30" : "bg-gray-300"}`}
-                    style={{ transition: "background 0.25s ease-in-out" }}
-                  />
+                  <h2 className="text-h3 font-medium text-heading max-w-lg mb-8 pb-8 border-b border-black/10">
+                    Innovative Solutions
+                    <br />
+                    Across Six Industries
+                  </h2>
+                  <div className="grid grid-cols-3 gap-10">
+                    {ABOUT_HIGHLIGHTS.map((item) => (
+                      <Link key={item.title} href={item.href} className="group block">
+                        <h3 className="text-h5 font-medium text-heading group-hover:text-primary mb-3">
+                          {item.title}
+                        </h3>
+                        <p className="text-small leading-relaxed text-ink">
+                          {item.description}
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
-            <button
-              aria-label="Search"
-              className={`p-1.5 ${utilityText}`}
-              style={{ transition: "color 0.25s ease-in-out" }}
+          </div>
+
+          {PRIMARY_LINKS.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="text-small font-medium uppercase tracking-wide whitespace-nowrap text-heading/80 hover:text-primary"
+              style={{ transition: "color 0.2s ease-in-out" }}
             >
-              <Search size={16} />
+              {item.label}
+            </Link>
+          ))}
+
+          <div
+            className="relative"
+            onMouseEnter={openPages}
+            onMouseLeave={closePages}
+          >
+            <button
+              className="flex items-center gap-1 text-small font-medium uppercase tracking-wide whitespace-nowrap text-heading/80 hover:text-primary"
+              style={{ transition: "color 0.2s ease-in-out" }}
+            >
+              Pages
+              <ChevronDown
+                size={14}
+                className={`transition-transform duration-300 ${pagesOpen ? "rotate-180" : ""}`}
+              />
             </button>
-            <AnimatePresence initial={false}>
-              {scrolled && (
+            <AnimatePresence>
+              {pagesOpen && (
                 <motion.div
-                  key="scrolled-cta"
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 10 }}
-                  transition={{ duration: 0.25, ease: EASE }}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.18, ease: EASE }}
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-56 rounded-2xl bg-white p-2 border border-black/5"
+                  style={{ boxShadow: "0 20px 40px -12px rgba(0,0,0,0.18)" }}
                 >
-                  <Link
-                    href="/contact"
-                    className="ml-4 px-4 py-2 text-sm font-bold text-white rounded"
-                    style={{ background: "#f5a200", transition: "opacity 0.2s" }}
-                  >
-                    Get In Touch
-                  </Link>
+                  {PAGES_LINKS.map((page) => (
+                    <Link
+                      key={page.label}
+                      href={page.href}
+                      className="block px-4 py-2.5 rounded-xl text-small text-heading/85 hover:bg-cream hover:text-primary"
+                      style={{ transition: "all 0.15s ease-out" }}
+                    >
+                      {page.label}
+                    </Link>
+                  ))}
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
         </div>
+
+        <Button href="/contact" size="sm">
+          Contact us
+        </Button>
       </div>
 
       {/* ── Mobile: compact single row ── */}
       <div className="xl:hidden flex items-center justify-between px-6 h-16">
-        <Link href="/" className="flex flex-col items-end">
+        <Link href="/">
           <Image
-            src={transparent ? "/bi-logo-white.svg" : "/bi-logo.svg"}
+            src="/bi-logo.svg"
             alt="BI Paints"
             width={3305}
             height={650}
-            style={{
-              height: 32,
-              width: "auto",
-              filter: transparent ? "drop-shadow(0 1px 3px rgba(0,0,0,0.55))" : "none",
-              transition: "opacity 0.25s ease-in-out, filter 0.25s ease-in-out",
-            }}
+            style={{ height: 32, width: "auto" }}
           />
-          <span className={`tracking-widest uppercase font-medium ${transparent ? "text-white/70" : "text-gray-400"}`} style={{ fontSize: "7px", letterSpacing: "0.18em", transition: "color 0.25s ease-in-out" }}>
-            Group of Companies
-          </span>
         </Link>
         <button
           aria-label="Toggle menu"
           onClick={() => setMobileOpen((v) => !v)}
-          className={`p-2 relative ${transparent ? "text-white hover:text-accent" : "text-gray-700 hover:text-navy"}`}
+          className="p-2 relative text-heading hover:text-primary"
           style={{ transition: "color 0.25s ease-in-out" }}
         >
           <AnimatePresence mode="wait" initial={false}>
@@ -393,203 +225,107 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: EASE }}
-            className="lg:hidden bg-white border-t border-gray-100 overflow-hidden"
+            className="xl:hidden bg-white border-t border-black/10 overflow-hidden"
           >
             <div className="px-4 py-3 space-y-0.5 max-h-[75vh] overflow-y-auto">
-              {MAIN_NAV.map((item) =>
-                item.dropdown ? (
-                  <div key={item.label}>
-                    <button
-                      onClick={() =>
-                        setMobileExpanded((v) => (v === item.label ? null : item.label))
-                      }
-                      className="flex items-center justify-between w-full px-4 py-3 text-sm font-semibold text-gray-700 hover:text-accent hover:bg-gray-50 rounded"
-                      style={{ transition: "all 0.22s ease-in-out" }}
+              <div>
+                <button
+                  onClick={() => setMobileAboutOpen((v) => !v)}
+                  className="flex items-center justify-between w-full px-4 py-3 text-small font-semibold text-heading hover:text-primary hover:bg-black/3 rounded"
+                  style={{ transition: "all 0.22s ease-in-out" }}
+                >
+                  About Us
+                  <ChevronDown
+                    size={15}
+                    className={`transition-transform duration-300 ${mobileAboutOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+                <AnimatePresence>
+                  {mobileAboutOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.25, ease: EASE }}
+                      className="ml-4 pl-4 border-l-2 border-primary overflow-hidden"
                     >
-                      {item.label}
-                      <ChevronDown
-                        size={15}
-                        className={`transition-transform duration-300 ${mobileExpanded === item.label ? "rotate-180" : ""}`}
-                      />
-                    </button>
-                    <AnimatePresence>
-                      {mobileExpanded === item.label && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.25, ease: EASE }}
-                          className="ml-4 pl-4 border-l-2 border-navy overflow-hidden"
-                        >
-                          <div className="space-y-0.5 mb-1">
-                            {item.dropdown.map((child) => (
-                              <Link
-                                key={child.label}
-                                href={child.href}
-                                onClick={() => setMobileOpen(false)}
-                                className="block py-2 text-sm text-gray-600 hover:text-accent"
-                                style={{ transition: "all 0.22s ease-in-out" }}
-                              >
-                                {child.label}
-                              </Link>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ) : (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="block px-4 py-3 text-sm font-semibold text-gray-700 hover:text-accent hover:bg-gray-50 rounded"
-                    style={{ transition: "all 0.22s ease-in-out" }}
-                  >
-                    {item.label}
-                  </Link>
-                )
-              )}
-              <div className="pt-3 border-t border-gray-100 flex flex-col gap-2 px-4 pb-3">
-                <Link href="/contact" className="text-center text-sm font-bold text-navy py-2.5 border-2 border-navy rounded hover:bg-navy hover:text-white" style={{ transition: "all 0.22s ease-in-out" }}>
-                  Get In Touch
+                      <div className="space-y-3 mb-2 py-1">
+                        {ABOUT_HIGHLIGHTS.map((item) => (
+                          <Link
+                            key={item.title}
+                            href={item.href}
+                            onClick={() => setMobileOpen(false)}
+                            className="block py-1 text-small text-ink hover:text-primary"
+                          >
+                            {item.title}
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {PRIMARY_LINKS.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="block px-4 py-3 text-small font-semibold text-heading hover:text-primary hover:bg-black/3 rounded"
+                  style={{ transition: "all 0.22s ease-in-out" }}
+                >
+                  {item.label}
                 </Link>
+              ))}
+
+              <div>
+                <button
+                  onClick={() => setMobilePagesOpen((v) => !v)}
+                  className="flex items-center justify-between w-full px-4 py-3 text-small font-semibold text-heading hover:text-primary hover:bg-black/3 rounded"
+                  style={{ transition: "all 0.22s ease-in-out" }}
+                >
+                  Pages
+                  <ChevronDown
+                    size={15}
+                    className={`transition-transform duration-300 ${mobilePagesOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+                <AnimatePresence>
+                  {mobilePagesOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.25, ease: EASE }}
+                      className="ml-4 pl-4 border-l-2 border-primary overflow-hidden"
+                    >
+                      <div className="space-y-0.5 mb-1">
+                        {PAGES_LINKS.map((page) => (
+                          <Link
+                            key={page.label}
+                            href={page.href}
+                            onClick={() => setMobileOpen(false)}
+                            className="block py-2 text-small text-ink hover:text-primary"
+                            style={{ transition: "all 0.22s ease-in-out" }}
+                          >
+                            {page.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <div className="pt-3 border-t border-black/10 flex flex-col gap-2 px-4 pb-3">
+                <Button href="/contact" className="justify-center">
+                  Contact us
+                </Button>
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </header>
-
-    {/* ── Mega menu: outer panel wipes down once; inner content slides L↔R when switching ── */}
-    <AnimatePresence>
-      {activeDropdown && (
-        <motion.div
-          key="mega-panel"
-          initial={{ clipPath: "inset(0 0 100% 0)" }}
-          animate={{ clipPath: "inset(0 0 0% 0)" }}
-          exit={{ clipPath: "inset(0 0 100% 0)" }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-          className="hidden xl:block fixed top-0 left-0 right-0 bg-white overflow-hidden"
-          style={{ zIndex: 45, paddingTop: "var(--header-height)", boxShadow: "0 8px 32px rgba(0,0,0,0.10)" }}
-        >
-          <AnimatePresence mode="wait" custom={slideDir}>
-            {(() => {
-              const item = MAIN_NAV.find((n) => n.label === activeDropdown);
-              if (!item?.dropdown) return null;
-              return (
-                <motion.div
-                  key={activeDropdown}
-                  custom={slideDir}
-                  variants={{
-                    initial: (dir: number) => ({ x: dir * 72, opacity: 0 }),
-                    animate: { x: 0, opacity: 1 },
-                    exit: (dir: number) => ({ x: -dir * 72, opacity: 0 }),
-                  }}
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                  className="page-container"
-                  onMouseEnter={() => open(item.label)}
-                  onMouseLeave={close}
-                >
-                  <div className="flex">
-
-                    {/* ── Col 1: plain links list ── */}
-                    <div className="w-60 shrink-0 border-r border-gray-100 py-10 pr-10">
-                      <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-gray-400 mb-7">
-                        {item.label}
-                      </p>
-                      <ul className="space-y-4">
-                        {item.dropdown.map((child) => (
-                          <li key={child.label}>
-                            <Link
-                              href={child.href}
-                              className="text-[15px] text-gray-800 hover:text-accent block"
-                              style={{ transition: "color 0.15s ease-out" }}
-                            >
-                              {child.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                      <Link
-                        href={item.href}
-                        className="inline-flex items-center gap-2 mt-8 px-4 py-2.5 text-[13px] font-bold text-white"
-                        style={{ background: "#f5a200" }}
-                      >
-                        <ArrowRight size={13} />
-                        {item.label}
-                      </Link>
-                    </div>
-
-                    {/* ── Col 2: featured links ── */}
-                    <div className="flex-1 py-10 px-12 border-r border-gray-100">
-                      <ul>
-                        {item.dropdown.slice(0, 3).map((child) => (
-                          <li key={child.label} className="border-b border-gray-100 last:border-0">
-                            <Link
-                              href={child.href}
-                              className="flex items-center justify-between py-5 group"
-                            >
-                              <span
-                                className="font-medium text-gray-800 group-hover:text-accent"
-                                style={{ fontSize: 20, transition: "color 0.15s ease-out" }}
-                              >
-                                {child.label}
-                              </span>
-                              <ArrowRight
-                                size={20}
-                                className="text-gray-300 group-hover:text-accent group-hover:translate-x-1 transition-all duration-200"
-                              />
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* ── Col 3: image card ── */}
-                    {item.promo && (
-                      <div className="w-80 shrink-0">
-                        <Link href={item.promo.href} className="group block h-full">
-                          <div className="relative overflow-hidden" style={{ height: 196 }}>
-                            <Image
-                              src={item.promo.image}
-                              alt={item.promo.text}
-                              fill
-                              className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                            />
-                          </div>
-                          <div className="px-8 py-7">
-                            <h4
-                              className="font-semibold text-gray-900 leading-snug mb-5"
-                              style={{ fontSize: 15, maxWidth: 240 }}
-                            >
-                              {item.promo.text}
-                            </h4>
-                            <span className="inline-flex items-center gap-2 text-[13px] font-bold" style={{ color: "#f5a200" }}>
-                              <span
-                                className="flex items-center justify-center shrink-0"
-                                style={{ width: 22, height: 22, background: "#f5a200" }}
-                              >
-                                <ArrowRight size={11} className="text-white" />
-                              </span>
-                              {item.promo.cta}
-                            </span>
-                          </div>
-                        </Link>
-                      </div>
-                    )}
-
-                  </div>
-                </motion.div>
-              );
-            })()}
-          </AnimatePresence>
-        </motion.div>
-      )}
-    </AnimatePresence>
-    </>
   );
 }

@@ -1,5 +1,11 @@
 "use client";
 
+/* ────────────────────────────────────────────────────────────────────────
+ * LEGACY — superseded by the Figma redesign below (node 19:543,
+ * "div.w-layout-blockcontainer" / "Our Divisions" — html.to.design Brixon
+ * import). Kept commented out for reference/rollback rather than deleted.
+ * ────────────────────────────────────────────────────────────────────────
+
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -125,6 +131,70 @@ export default function ServiceHighlightsSection() {
               </div>
             </motion.div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+ * ──────────────────────────────────────────────────────────────────────── */
+
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { House, Paintbrush, FlaskConical, Shirt, Wind, ChefHat } from "lucide-react";
+import SectionHeader from "@/components/ui/SectionHeader";
+
+const VIEW = { once: true, margin: "-60px" } as const;
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const DIVISIONS = [
+  { icon: Paintbrush, title: "Paints & Coatings", href: "/products/paints" },
+  { icon: FlaskConical, title: "Homeopathy", href: "/products/hvac" },
+  { icon: Shirt, title: "Fashion & Lifestyle", href: "/products/electronics" },
+  { icon: Wind, title: "HVAC Systems", href: "/products/hvac" },
+  { icon: ChefHat, title: "Modular Kitchens", href: "/products/kitchen" },
+];
+
+export default function ServiceHighlightsSection() {
+  return (
+    <section className="py-16 sm:py-20 bg-white">
+      <div className="page-container flex flex-col gap-8">
+        <SectionHeader icon={House} eyebrow="What We Offer" title="Our Divisions" />
+
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-15 items-center">
+          <div className="relative w-full lg:w-[492px] aspect-492/560 rounded-[10px] overflow-hidden shrink-0">
+            <Image
+              src="/division-fabrication.png"
+              alt="BI Paints fabrication workshop"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 492px"
+            />
+          </div>
+
+          <div className="flex flex-col w-full">
+            {DIVISIONS.map((division, i) => (
+              <motion.a
+                key={division.title}
+                href={division.href}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={VIEW}
+                transition={{ duration: 0.45, delay: i * 0.08, ease: EASE }}
+                className="group flex items-center justify-between gap-6 py-5 border-b border-black/10 first:pt-0 last:border-b-0"
+              >
+                <div className="flex items-baseline gap-6">
+                  <span className="text-small text-ink">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="text-h3 font-normal text-heading group-hover:text-primary transition-colors duration-300">
+                    {division.title}
+                  </h3>
+                </div>
+                <span className="flex items-center justify-center w-15 h-15 shrink-0 text-heading group-hover:text-primary transition-colors duration-300">
+                  <division.icon size={32} strokeWidth={1.25} />
+                </span>
+              </motion.a>
+            ))}
+          </div>
         </div>
       </div>
     </section>
