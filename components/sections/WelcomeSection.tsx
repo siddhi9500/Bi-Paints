@@ -142,14 +142,23 @@ export default function WelcomeSection() {
 
  * ──────────────────────────────────────────────────────────────────────── */
 
+import { useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { ShieldCheck, Factory } from "lucide-react";
-import Button from "@/components/ui/Button";
+import {
+  LazyMotion,
+  domAnimation,
+  m,
+  useMotionValue,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  type Variants,
+} from "framer-motion";
+import { ShieldCheck, Factory, ArrowRight } from "lucide-react";
 import Card from "@/components/ui/Card";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const VIEW = { once: true, margin: "-80px" } as const;
+const VIEW = { once: true, amount: 0.25 } as const;
 
 const CREDENTIALS = [
   {
@@ -166,77 +175,208 @@ const CREDENTIALS = [
   },
 ];
 
+const HEADING_LINES = [
+  "Uncompromising Quality,",
+  "Engineered to Perform —",
+  "Trusted by Reliance, Adani, Godrej & Boyce, and the Indian Air Force.",
+];
+
+// ── Reusable entrance variants ──────────────────────────────────────────
+const leftCardVariants: Variants = {
+  hidden: { opacity: 0, x: -80, rotate: -3, scale: 0.95, filter: "blur(8px)" },
+  visible: {
+    opacity: 1,
+    x: 0,
+    rotate: 0,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: { duration: 1.1, ease: EASE },
+  },
+};
+
+const headingContainerVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15, delayChildren: 0.3 } },
+};
+const headingLineVariants: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE } },
+};
+
+const cardsContainerVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15, delayChildren: 0.65 } },
+};
+const cardVariants: Variants = {
+  hidden: { opacity: 0, x: 40 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: EASE } },
+};
+
+const buttonVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: EASE, delay: 0.9 } },
+};
+
+const middleImageVariants: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: EASE, delay: 0.2 } },
+};
+
 export default function WelcomeSection() {
+  const shouldReduceMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+  // ── Scroll parallax: whole section drifts translateY(0 → -40px) ──
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const sectionY = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [0, -40]);
+
+  // ── Mouse parallax ──
+  const mouseY = useMotionValue(0);
+  const leftParallaxY = useTransform(mouseY, (v) => v * 6);
+  const middleParallaxY = useTransform(mouseY, (v) => v * 12);
+  const headingParallaxY = useTransform(mouseY, (v) => v * 3);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (shouldReduceMotion) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const relY = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+    mouseY.set(relY);
+  };
+  const handleMouseLeave = () => mouseY.set(0);
+
+  // When reduced motion is preferred, elements start already in their
+  // "visible" state — whileInView still fires later but is a no-op, so
+  // nothing ever animates in (no risk of a mid-transition freeze from
+  // swapping variant objects reactively).
+  const initialState = shouldReduceMotion ? "visible" : "hidden";
+
   return (
-    <section className="py-16 sm:py-20 bg-white">
-      <div className="page-container">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
-          {/* Left: image pair + caption + CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={VIEW}
-            transition={{ duration: 0.7, ease: EASE }}
-            className="flex gap-5 items-stretch"
-          >
-            <div className="flex flex-col gap-6 w-[42%] shrink-0">
-              <div className="relative w-full aspect-253/352 rounded-[10px] overflow-hidden bg-cream">
+    <LazyMotion features={domAnimation}>
+      <m.section
+        ref={sectionRef}
+        className="py-16 sm:py-20 bg-white overflow-hidden"
+        style={{ y: sectionY }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div className="page-container">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+            {/* Left: image pair + caption + CTA */}
+            <div className="flex gap-5 items-stretch">
+              <m.div style={{ y: leftParallaxY }} className="flex flex-col gap-6 w-[42%] shrink-0">
+                <m.div
+                  initial={initialState}
+                  whileInView="visible"
+                  viewport={VIEW}
+                  variants={leftCardVariants}
+                  whileHover={shouldReduceMotion ? undefined : { scale: 1.04 }}
+                  transition={{ duration: 0.8 }}
+                  className="relative w-full aspect-253/352 rounded-[10px] overflow-hidden bg-cream transform-gpu"
+                  style={{ willChange: "transform" }}
+                >
+                  <Image
+                    src="/about-lab.png"
+                    alt="BI Paints quality-control laboratory"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 40vw, 20vw"
+                  />
+                </m.div>
+                <p className="text-body text-ink">
+                  From formulation to final finish, we ensure consistent quality and
+                  seamless delivery.
+                </p>
+                <m.div
+                  initial={initialState}
+                  whileInView="visible"
+                  viewport={VIEW}
+                  variants={buttonVariants}
+                  whileHover={shouldReduceMotion ? undefined : { scale: 1.05 }}
+                  className="self-start"
+                >
+                  <a
+                    href="/about"
+                    className="group/cta inline-flex items-center gap-2.5 rounded-[10px] bg-primary text-white font-medium px-5 py-2.5 text-small transition-colors duration-300 hover:bg-primary-dark"
+                  >
+                    About us
+                    <m.span
+                      className="flex items-center justify-center"
+                      whileHover={shouldReduceMotion ? undefined : { x: [0, 5, 0] }}
+                      transition={{ duration: 0.5, ease: EASE }}
+                    >
+                      <ArrowRight size={14} strokeWidth={2.25} />
+                    </m.span>
+                  </a>
+                </m.div>
+              </m.div>
+
+              <m.div
+                initial={initialState}
+                whileInView="visible"
+                viewport={VIEW}
+                variants={middleImageVariants}
+                style={{ y: middleParallaxY }}
+                className="relative flex-1 rounded-[10px] overflow-hidden bg-cream"
+              >
                 <Image
-                  src="/about-lab.png"
-                  alt="BI Paints quality-control laboratory"
+                  src="/about-factory.png"
+                  alt="BI Paints warehouse with stacked coil hardening ink cans"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 1024px) 40vw, 20vw"
+                  sizes="(max-width: 1024px) 50vw, 25vw"
                 />
-              </div>
-              <p className="text-body text-ink">
-                From formulation to final finish, we ensure consistent quality and
-                seamless delivery.
-              </p>
-              <Button href="/about" size="sm" className="self-start">
-                About us
-              </Button>
+              </m.div>
             </div>
-            <div className="relative flex-1 rounded-[10px] overflow-hidden bg-cream">
-              <Image
-                src="/about-factory.png"
-                alt="BI Paints manufacturing production line"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 50vw, 25vw"
-              />
-            </div>
-          </motion.div>
 
-          {/* Right: heading + credential cards */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={VIEW}
-            transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
-            className="flex flex-col gap-32"
-          >
-            <h2 className="text-h3 font-normal text-heading">
-              Uncompromising Quality, Engineered to Perform — Trusted by Reliance,
-              Adani, Godrej &amp; Boyce, and the Indian Air Force.
-            </h2>
+            {/* Right: heading + credential cards */}
+            <div className="flex flex-col gap-20">
+              <m.h2
+                initial={initialState}
+                whileInView="visible"
+                viewport={VIEW}
+                variants={headingContainerVariants}
+                style={{ y: headingParallaxY }}
+                className="text-h3 font-normal text-heading"
+              >
+                {HEADING_LINES.map((line) => (
+                  <m.span key={line} variants={headingLineVariants} className="block">
+                    {line}
+                  </m.span>
+                ))}
+              </m.h2>
 
-            <div className="flex flex-col gap-8">
-              {CREDENTIALS.map((item) => (
-                <Card key={item.title} className="rounded-[10px] bg-cream p-4 border-0">
-                  <div className="flex items-center gap-2.5 mb-3.5">
-                    <span className="flex items-center justify-center w-[45px] h-[45px] shrink-0 text-primary">
-                      <item.icon size={52} strokeWidth={1.5} />
-                    </span>
-                    <h5 className="text-h5 font-medium text-heading">{item.title}</h5>
-                  </div>
-                  <p className="text-sm leading-relaxed text-ink">{item.description}</p>
-                </Card>
-              ))}
+              <m.div
+                initial={initialState}
+                whileInView="visible"
+                viewport={VIEW}
+                variants={cardsContainerVariants}
+                className="flex flex-col gap-8"
+              >
+                {CREDENTIALS.map((item) => (
+                  <m.div
+                    key={item.title}
+                    variants={cardVariants}
+                    whileHover={shouldReduceMotion ? undefined : { y: -8 }}
+                    transition={{ duration: 0.3, ease: EASE }}
+                  >
+                    <Card className="rounded-[10px] bg-cream p-4 border-0 hover:shadow-none">
+                      <div className="flex items-center gap-2.5 mb-3.5">
+                        <span className="flex items-center justify-center shrink-0 text-primary">
+                          <item.icon size={52} strokeWidth={1.5} />
+                        </span>
+                        <h5 className="text-h5 font-medium text-heading">{item.title}</h5>
+                      </div>
+                      <p className="text-sm leading-relaxed text-ink">{item.description}</p>
+                    </Card>
+                  </m.div>
+                ))}
+              </m.div>
             </div>
-          </motion.div>
+          </div>
         </div>
-      </div>
-    </section>
+      </m.section>
+    </LazyMotion>
   );
 }

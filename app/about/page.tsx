@@ -1,39 +1,29 @@
-import Image from "next/image";
-import Link from "next/link";
-import WelcomeSection from "@/components/sections/WelcomeSection";
+import AboutHeroSection from "@/components/sections/AboutHeroSection";
+import AboutStorySection from "@/components/sections/AboutStorySection";
+import MissionVisionSection from "@/components/sections/MissionVisionSection";
+import CoreValuesSection from "@/components/sections/CoreValuesSection";
+import GlobalFootprintSection from "@/components/sections/GlobalFootprintSection";
+import FactsSection from "@/components/sections/FactsSection";
+import TeamSection from "@/components/sections/TeamSection";
+import VerticalsRecapSection from "@/components/sections/VerticalsRecapSection";
+
+export const metadata = {
+  title: "About Us — BI Group of Companies",
+  description:
+    "BI Group is a diversified business organization engaged in paint manufacturing, homeopathy products, and industrial solutions across India.",
+};
 
 export default function AboutPage() {
   return (
     <>
-      {/* Page header banner */}
-      <section className="relative" style={{ height: 280 }}>
-        <Image
-          src="/banner1.jpg"
-          alt="BI Group of Companies"
-          fill
-          className="object-cover"
-          priority
-          sizes="100vw"
-        />
-        <div className="absolute inset-0" style={{ background: "rgba(13, 30, 51, 0.72)" }} />
-        <div className="page-container relative h-full flex flex-col items-start justify-center">
-          <h1
-            className="text-white text-3xl md:text-4xl font-extrabold"
-            style={{ fontFamily: "var(--font-montserrat), Arial, sans-serif" }}
-          >
-            About Us
-          </h1>
-          <div className="flex items-center gap-2 mt-3 text-sm">
-            <Link href="/" className="text-white/70 hover:text-white">
-              Home
-            </Link>
-            <span className="text-white/50">/</span>
-            <span className="text-white font-semibold">About Us</span>
-          </div>
-        </div>
-      </section>
-
-      <WelcomeSection />
+      <AboutHeroSection />
+      <AboutStorySection />
+      <MissionVisionSection />
+      <CoreValuesSection />
+      <GlobalFootprintSection />
+      <FactsSection />
+      <TeamSection />
+      <VerticalsRecapSection />
     </>
   );
 }

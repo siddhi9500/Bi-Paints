@@ -1,36 +1,53 @@
-// Shared across Navbar's "About Us" dropdown, the homepage hero, and the
-// "Our Verticals" section.
+// Shared across Navbar's "About Us"/"Products" dropdowns, the homepage hero,
+// the "Our Verticals" section, and the /products/[slug] detail pages.
 export interface BusinessGroup {
   title: string;
   href: string;
   description: string;
   subtitle?: string;
   image?: string;
+  highlights?: string[];
 }
 
 export const BUSINESS_GROUPS: BusinessGroup[] = [
   {
-    title: "BI Paints India",
+    title: "BI Paints & Coatings",
     href: "/products/paints",
     subtitle: "Paints & Coatings",
     image: "/vertical-paints.png",
     description:
-      "India's leading manufacturer of high-performance protective coatings. Trusted by Reliance, Adani, Godrej & Boyce, and the Indian Air Force.",
+      "Paint manufacturing, industrial painting services, and protective, marine & power plant coatings — trusted by Reliance, Adani, Godrej & Boyce, and the Indian Air Force.",
+    highlights: [
+      "3,00,000 litres daily production capacity",
+      "ISO 9001:2015 & ISO 14001:2015 certified manufacturing",
+      "Protective, marine & power plant coatings",
+      "Industrial painting services end to end",
+    ],
   },
   {
-    title: "Wellness & Homeopathy",
-    href: "/products/hvac",
-    subtitle: "Homeopathy",
+    title: "Homeopathy Products",
+    href: "/products/homeopathy",
+    subtitle: "Wellness",
     image: "/vertical-wellness.png",
     description:
       "Holistic health solutions rooted in traditional homeopathic science, crafted for modern living and everyday well-being.",
+    highlights: [
+      "Formulated on traditional homeopathic science",
+      "Crafted for modern, everyday wellness routines",
+      "Held to the same quality standards as every BI Group business",
+    ],
   },
   {
-    title: "Fashion & Lifestyle",
-    href: "/products/electronics",
-    subtitle: "Lifestyle Brand",
-    image: "/vertical-fashion.png",
+    title: "Industrial Solutions",
+    href: "/products/industrial-solutions",
+    subtitle: "Industrial",
+    image: "/business-industrial.jpg",
     description:
-      "Contemporary fashion and lifestyle products that blend style with substance, designed for the discerning modern consumer.",
+      "End-to-end industrial solutions supporting manufacturers and infrastructure projects across India with reliable, high-quality delivery.",
+    highlights: [
+      "End-to-end support for manufacturers & infrastructure projects",
+      "Reliable, high-quality delivery across India",
+      "Backed by BI Group's manufacturing and QC infrastructure",
+    ],
   },
 ];

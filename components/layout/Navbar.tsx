@@ -14,11 +14,13 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 const PRIMARY_LINKS = [
   { label: "Projects", href: "/projects" },
   { label: "Services", href: "/services" },
-  { label: "Blogs", href: "/blogs" },
 ];
 
 // Business-area highlights shown when hovering "About Us" — shared with HeroSection.
 const ABOUT_HIGHLIGHTS = BUSINESS_GROUPS;
+
+// Product verticals shown when hovering "Products" — same data, compact list.
+const PRODUCT_LINKS = BUSINESS_GROUPS;
 
 // Everything else in the site lives behind the "Pages" catch-all dropdown.
 const PAGES_LINKS = [
@@ -30,12 +32,15 @@ const PAGES_LINKS = [
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [aboutOpen, setAboutOpen] = useState(false);
+  //const [aboutOpen, setAboutOpen] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
   const [pagesOpen, setPagesOpen] = useState(false);
   const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [mobilePagesOpen, setMobilePagesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const aboutTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const productsTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pagesTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -44,12 +49,20 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const openAbout = () => {
-    if (aboutTimer.current) clearTimeout(aboutTimer.current);
-    setAboutOpen(true);
+  // const openAbout = () => {
+  //   if (aboutTimer.current) clearTimeout(aboutTimer.current);
+  //   setAboutOpen(true);
+  // };
+  // const closeAbout = () => {
+  //   aboutTimer.current = setTimeout(() => setAboutOpen(false), 150);
+  // };
+
+  const openProducts = () => {
+    if (productsTimer.current) clearTimeout(productsTimer.current);
+    setProductsOpen(true);
   };
-  const closeAbout = () => {
-    aboutTimer.current = setTimeout(() => setAboutOpen(false), 150);
+  const closeProducts = () => {
+    productsTimer.current = setTimeout(() => setProductsOpen(false), 150);
   };
 
   const openPages = () => {
@@ -84,20 +97,20 @@ export default function Navbar() {
         </Link>
 
         <div className="flex items-center gap-8">
-          <div className="relative" onMouseEnter={openAbout} onMouseLeave={closeAbout}>
+          <div className="relative">
             <Link
               href="/about"
               className="flex items-center gap-1 text-small font-medium uppercase tracking-wide whitespace-nowrap text-heading/80 hover:text-primary"
               style={{ transition: "color 0.2s ease-in-out" }}
             >
               About Us
-              <ChevronDown
+              {/* <ChevronDown
                 size={14}
                 className={`transition-transform duration-300 ${aboutOpen ? "rotate-180" : ""}`}
-              />
+              /> */}
             </Link>
             <AnimatePresence>
-              {aboutOpen && (
+              {/* {aboutOpen && (
                 <motion.div
                   initial={{ opacity: 0, y: 8, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -123,6 +136,55 @@ export default function Navbar() {
                       </Link>
                     ))}
                   </div>
+                </motion.div>
+              )} */}
+            </AnimatePresence>
+          </div>
+
+          <div className="relative" onMouseEnter={openProducts} onMouseLeave={closeProducts}>
+            <Link
+              href="/products"
+              className="flex items-center gap-1 text-small font-medium uppercase tracking-wide whitespace-nowrap text-heading/80 hover:text-primary"
+              style={{ transition: "color 0.2s ease-in-out" }}
+            >
+              Products
+              <ChevronDown
+                size={14}
+                className={`transition-transform duration-300 ${productsOpen ? "rotate-180" : ""}`}
+              />
+            </Link>
+            <AnimatePresence>
+              {productsOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.18, ease: EASE }}
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-72 rounded-2xl bg-white p-2 border border-black/5"
+                  style={{ boxShadow: "0 20px 40px -12px rgba(0,0,0,0.18)" }}
+                >
+                  {PRODUCT_LINKS.map((item) => (
+                    <Link
+                      key={item.title}
+                      href={item.href}
+                      className="block px-4 py-2.5 rounded-xl hover:bg-cream group"
+                      style={{ transition: "all 0.15s ease-out" }}
+                    >
+                      <span className="block text-small font-medium text-heading/85 group-hover:text-primary">
+                        {item.title}
+                      </span>
+                      {item.subtitle && (
+                        <span className="block text-small text-ink/60">{item.subtitle}</span>
+                      )}
+                    </Link>
+                  ))}
+                  <Link
+                    href="/products"
+                    className="block px-4 py-2.5 mt-1 rounded-xl text-small font-medium text-primary hover:bg-cream border-t border-black/10"
+                    style={{ transition: "all 0.15s ease-out" }}
+                  >
+                    View All Products
+                  </Link>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -251,6 +313,44 @@ export default function Navbar() {
                     >
                       <div className="space-y-3 mb-2 py-1">
                         {ABOUT_HIGHLIGHTS.map((item) => (
+                          <Link
+                            key={item.title}
+                            href={item.href}
+                            onClick={() => setMobileOpen(false)}
+                            className="block py-1 text-small text-ink hover:text-primary"
+                          >
+                            {item.title}
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <div>
+                <button
+                  onClick={() => setMobileProductsOpen((v) => !v)}
+                  className="flex items-center justify-between w-full px-4 py-3 text-small font-semibold text-heading hover:text-primary hover:bg-black/3 rounded"
+                  style={{ transition: "all 0.22s ease-in-out" }}
+                >
+                  Products
+                  <ChevronDown
+                    size={15}
+                    className={`transition-transform duration-300 ${mobileProductsOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+                <AnimatePresence>
+                  {mobileProductsOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.25, ease: EASE }}
+                      className="ml-4 pl-4 border-l-2 border-primary overflow-hidden"
+                    >
+                      <div className="space-y-3 mb-2 py-1">
+                        {PRODUCT_LINKS.map((item) => (
                           <Link
                             key={item.title}
                             href={item.href}

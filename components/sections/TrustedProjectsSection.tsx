@@ -4,40 +4,10 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { PROJECTS } from "@/lib/data/projects";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const GAP = 32; // px gap between cards
-
-const PROJECTS = [
-  {
-    client: "Ministry of Defence",
-    badge: "Defence",
-    sector: "Aerospace & Defence Manufacturing",
-    location: "Pan India",
-    image: "/project-defence.jpg",
-  },
-  {
-    client: "Godrej Group",
-    badge: "Industrial",
-    sector: "Process Equipment Division",
-    location: "Mumbai, Maharashtra",
-    image: "/project-godrej.jpg",
-  },
-  {
-    client: "Larsen & Toubro",
-    badge: "Industrial",
-    sector: "Power Boilers, Hazira",
-    location: "Hazira, Gujarat",
-    image: "/project-lt.jpg",
-  },
-  {
-    client: "AM/NS Ports",
-    badge: "Marine",
-    sector: "Marine & Port Infrastructure",
-    location: "Gujarat Coast",
-    image: "/project-amns-ports.jpg",
-  },
-];
 
 export default function TrustedProjectsSection() {
   const [index, setIndex] = useState(0);

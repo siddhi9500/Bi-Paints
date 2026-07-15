@@ -139,7 +139,7 @@ export default function HeroSection() {
           style={{ height: "clamp(320px, 50vh, 600px)" }}
         >
           <Image
-            src="/6836b1d6d99cb6abd6c9c72d_hero-02.jpg"
+            src="/b50366e8-eb3b-4a51-91b7-0562eb68f53b.png"
             alt="BI Group teams at work on-site"
             fill
             priority
