@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
 import Button from "@/components/ui/Button";
 import { BUSINESS_GROUPS } from "@/lib/data/business-groups";
 
@@ -34,6 +34,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   //const [aboutOpen, setAboutOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const [activeProduct, setActiveProduct] = useState(0);
   const [pagesOpen, setPagesOpen] = useState(false);
   const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
@@ -156,35 +157,59 @@ export default function Navbar() {
             <AnimatePresence>
               {productsOpen && (
                 <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 8 }}
-                  transition={{ duration: 0.18, ease: EASE }}
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-72 rounded-2xl bg-white p-2 border border-black/5"
-                  style={{ boxShadow: "0 20px 40px -12px rgba(0,0,0,0.18)" }}
+                  initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                  transition={{ duration: 0.2, ease: EASE }}
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-245 rounded-3xl bg-white p-5 border border-black/5"
+                  style={{ boxShadow: "0 32px 64px -16px rgba(0,0,0,0.22)" }}
                 >
-                  {PRODUCT_LINKS.map((item) => (
-                    <Link
-                      key={item.title}
-                      href={item.href}
-                      className="block px-4 py-2.5 rounded-xl hover:bg-cream group"
-                      style={{ transition: "all 0.15s ease-out" }}
-                    >
-                      <span className="block text-small font-medium text-heading/85 group-hover:text-primary">
-                        {item.title}
-                      </span>
-                      {item.subtitle && (
-                        <span className="block text-small text-ink/60">{item.subtitle}</span>
-                      )}
-                    </Link>
-                  ))}
-                  <Link
-                    href="/products"
-                    className="block px-4 py-2.5 mt-1 rounded-xl text-small font-medium text-primary hover:bg-cream border-t border-black/10"
-                    style={{ transition: "all 0.15s ease-out" }}
-                  >
-                    View All Products
-                  </Link>
+                  <div className="grid grid-cols-[340px_1fr] gap-4">
+                    <div className="flex flex-col py-2">
+                      {PRODUCT_LINKS.map((item, i) => (
+                        <Link
+                          key={item.title}
+                          href={item.href}
+                          onMouseEnter={() => setActiveProduct(i)}
+                          className={`flex items-center justify-between gap-2 px-5 py-4 rounded-xl text-body font-medium transition-colors duration-150 ${
+                            activeProduct === i
+                              ? "bg-cream text-primary"
+                              : "text-heading/85 hover:bg-cream hover:text-primary"
+                          }`}
+                        >
+                          {item.title}
+                          <ChevronRight size={17} className="shrink-0" />
+                        </Link>
+                      ))}
+                    </div>
+
+                    <div className="flex flex-col p-6">
+                      <div className="relative w-full aspect-16/10 rounded-2xl overflow-hidden bg-cream">
+                        {PRODUCT_LINKS[activeProduct].image && (
+                          <Image
+                            src={PRODUCT_LINKS[activeProduct].image!}
+                            alt={PRODUCT_LINKS[activeProduct].title}
+                            fill
+                            className="object-cover"
+                            sizes="480px"
+                          />
+                        )}
+                      </div>
+                      <h3 className="text-h4 font-medium text-heading mt-5 mb-1.5">
+                        {PRODUCT_LINKS[activeProduct].title}
+                      </h3>
+                      <p className="text-small text-ink mb-3 line-clamp-2">
+                        {PRODUCT_LINKS[activeProduct].description}
+                      </p>
+                      <Link
+                        href={PRODUCT_LINKS[activeProduct].href}
+                        className="inline-flex items-center gap-1.5 text-body font-medium text-primary hover:gap-2.5 transition-all duration-200"
+                      >
+                        Go to {PRODUCT_LINKS[activeProduct].title}
+                        <ChevronRight size={15} />
+                      </Link>
+                    </div>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>

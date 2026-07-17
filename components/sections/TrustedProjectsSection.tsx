@@ -128,7 +128,8 @@ export default function TrustedProjectsSection() {
                     {project.badge}
                   </span>
                 </div>
-
+                //technical product manager - 
+                
                 {/* Project name */}
                 <h3
                   className="font-bold text-navy mt-4 mb-1 leading-snug"

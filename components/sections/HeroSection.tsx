@@ -60,7 +60,7 @@ const HERO_AVATARS = ["/hero-avatar-1.jpg", "/hero-avatar-2.jpg", "/hero-avatar-
 export default function HeroSection() {
   return (
     <section style={{ paddingTop: "var(--header-height)" }}>
-      <div className="page-container">
+      {/* <div className="page-container">
         <div className="max-w-[1296px] mx-auto flex flex-col pt-10 sm:pt-14 lg:pt-[60px]">
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
@@ -80,7 +80,6 @@ export default function HeroSection() {
             transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
             className="flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-10 border-t border-black/10 mt-10 pt-8 pb-12"
           >
-            {/* Avatar stack */}
             <div className="flex -space-x-2.5 shrink-0" aria-hidden>
               {HERO_AVATARS.map((src, i) => (
                 <span
@@ -93,7 +92,6 @@ export default function HeroSection() {
               ))}
             </div>
 
-            {/* Business group blurbs */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 flex-1">
               {BUSINESS_GROUPS.map((group) => (
                 <div key={group.title} className="flex flex-col gap-2.5">
@@ -104,7 +102,7 @@ export default function HeroSection() {
             </div>
           </motion.div>
         </div>
-      </div>
+      </div> */}
 
       {/* Hero image with geometric accent pattern — full-bleed, edge to edge */}
       <motion.div

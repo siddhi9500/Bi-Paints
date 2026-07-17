@@ -174,6 +174,7 @@ export default function ServiceHighlightsSection() {
 
           <div className="flex flex-col w-full">
             {DIVISIONS.map((division, i) => (
+              
               <motion.a
                 key={division.title}
                 href={division.href}
