@@ -1,43 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { ArrowRight, ChevronRight, Zap } from "lucide-react";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 const LEFT_LINKS = [
-  { label: "Contact us",       href: "/contact" },
-  { label: "News and Insights", href: "/news" },
-  { label: "Partners",         href: "/locations" },
+  { label: "Contact us", href: "/contact" },
+  { label: "News and Insights", href: "/newsroom" },
+  { label: "Partners", href: "/about" },
 ];
 
 const NAV_LINKS = [
-  { label: "Who we are",           href: "/about" },
-  { label: "Our business areas",   href: "/products" },
+  { label: "Who we are", href: "/about" },
+  { label: "Our business areas", href: "/products" },
   { label: "Products and services", href: "/services" },
   { label: "End to End Solutions", href: "/solutions" },
-  { label: "Careers",              href: "/careers" },
+  { label: "Careers", href: "/careers" },
 ];
 
 const BOTTOM_LINKS = [
   { label: "Accessibility Statement", href: "/accessibility", accent: false },
-  { label: "Cookie Policy",           href: "/cookie-policy",  accent: false },
-  { label: "Human Rights Request",    href: "/human-rights",   accent: true  },
-  { label: "Privacy Policy",          href: "/privacy",        accent: false },
+  { label: "Cookie Policy", href: "/cookie-policy", accent: false },
+  { label: "Human Rights Request", href: "/human-rights", accent: true },
+  { label: "Privacy Policy", href: "/privacy", accent: false },
 ];
 
+const INDUSTRIES = ["Paints & Coatings", "Wellness", "Fashion & Lifestyle", "Modular Kitchens", "Other"];
+
 const SvgFacebook = () => (
-  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
   </svg>
 );
 const SvgLinkedin = () => (
-  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4V9h4v1.5A6 6 0 0 1 16 8zM2 9h4v12H2zm2-7a2 2 0 1 1 0 4 2 2 0 0 1 0-4z" />
   </svg>
 );
 const SvgInstagram = () => (
-  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2">
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2">
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
@@ -45,23 +49,15 @@ const SvgInstagram = () => (
 );
 
 const SOCIALS = [
-  { icon: SvgFacebook,  href: "#", label: "Facebook" },
-  { icon: SvgLinkedin,  href: "#", label: "LinkedIn" },
+  { icon: SvgFacebook, href: "#", label: "Facebook" },
+  { icon: SvgLinkedin, href: "#", label: "LinkedIn" },
   { icon: SvgInstagram, href: "#", label: "Instagram" },
-];
-
-const INDUSTRIES = [
-  "Paints & Coatings",
-  "Construction",
-  "Marine",
-  "Oil & Gas",
-  "Manufacturing",
-  "Infrastructure",
-  "Other",
 ];
 
 export default function Footer() {
   const [form, setForm] = useState({ name: "", email: "", industry: "", consent: false });
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,238 +65,202 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-white" style={{ borderTop: "1px solid #e8e8e8" }}>
+    <footer ref={ref} className="bg-white">
+      {/* section.newsletter (2276:549): px-312 py-64, gap-80 */}
+      <div style={{ borderTop: "1px solid #e8e0ce" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+          transition={{ duration: 0.6, ease: EASE }}
+          className="page-container flex flex-col lg:flex-row lg:items-center"
+          style={{ paddingTop: 64, paddingBottom: 64, gap: 80 }}
+        >
+          <p className="lg:flex-1" style={{ fontWeight: 700, fontSize: 32, lineHeight: "42px", color: "#0f1f3d" }}>
+            Subscribe to BI Insider and get the latest industry updates
+          </p>
 
-      {/* ── Newsletter strip ── */}
-      <div style={{ background: "#f5f5f5", borderBottom: "1px solid #e8e8e8" }}>
-        <div className="page-container py-14">
-          <div className="flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-20">
-
-            {/* Left: heading */}
-            <div className="lg:w-2/5 shrink-0">
-              <h2
-                className="font-bold leading-snug"
-                style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", color: "#111827", fontFamily: "var(--font-playfair), Georgia, serif" }}
+          <form onSubmit={handleSubmit} className="lg:flex-1 flex flex-col" style={{ gap: 16 }}>
+            <div className="grid grid-cols-1 sm:grid-cols-3" style={{ gap: 16 }}>
+              <input
+                type="text"
+                placeholder="First and last name"
+                value={form.name}
+                onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                required
+                className="bg-white outline-none placeholder:text-[#999] focus:border-brand"
+                style={{ padding: "14px 16px", borderRadius: 8, border: "1px solid #d1c9b8", fontSize: 14, color: "#0f1f3d" }}
+              />
+              <input
+                type="email"
+                placeholder="Your e-mail address"
+                value={form.email}
+                onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                required
+                className="bg-white outline-none placeholder:text-[#999] focus:border-brand"
+                style={{ padding: "14px 16px", borderRadius: 8, border: "1px solid #d1c9b8", fontSize: 14, color: "#0f1f3d" }}
+              />
+              <select
+                value={form.industry}
+                onChange={(e) => setForm((f) => ({ ...f, industry: e.target.value }))}
+                className="bg-white outline-none appearance-none focus:border-brand"
+                style={{
+                  padding: "14px 16px",
+                  borderRadius: 8,
+                  border: "1px solid #d1c9b8",
+                  fontSize: 14,
+                  color: form.industry ? "#0f1f3d" : "#999",
+                }}
               >
-                Subscribe to BI Insider and get the latest industry updates
-              </h2>
+                <option value="" disabled>
+                  Choose your preferred…
+                </option>
+                {INDUSTRIES.map((ind) => (
+                  <option key={ind} value={ind}>
+                    {ind}
+                  </option>
+                ))}
+              </select>
             </div>
 
-            {/* Right: form */}
-            <form onSubmit={handleSubmit} className="flex-1">
-              {/* Three fields in a row */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
-                <div className="flex flex-col gap-1">
-                  <label className="text-xs font-medium" style={{ color: "#6b7280" }}>Name</label>
-                  <input
-                    type="text"
-                    placeholder="First and last name"
-                    value={form.name}
-                    onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                    required
-                    className="px-4 py-2.5 text-sm bg-white outline-none placeholder:text-gray-400"
-                    style={{ border: "1px solid #d1d5db", color: "#111827" }}
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label className="text-xs font-medium" style={{ color: "#6b7280" }}>E-mail</label>
-                  <input
-                    type="email"
-                    placeholder="Your e-mail address"
-                    value={form.email}
-                    onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                    required
-                    className="px-4 py-2.5 text-sm bg-white outline-none placeholder:text-gray-400"
-                    style={{ border: "1px solid #d1d5db", color: "#111827" }}
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label className="text-xs font-medium" style={{ color: "#6b7280" }}>Industry</label>
-                  <select
-                    value={form.industry}
-                    onChange={(e) => setForm((f) => ({ ...f, industry: e.target.value }))}
-                    className="px-4 py-2.5 text-sm bg-white outline-none appearance-none"
-                    style={{ border: "1px solid #d1d5db", color: form.industry ? "#111827" : "#9ca3af" }}
-                  >
-                    <option value="" disabled>Choose your preferred…</option>
-                    {INDUSTRIES.map((ind) => (
-                      <option key={ind} value={ind}>{ind}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Consent checkbox */}
-              <label className="flex items-start gap-2.5 mb-5 cursor-pointer select-none">
+            <div className="flex flex-col sm:flex-row sm:items-center" style={{ gap: 24 }}>
+              <label className="flex items-start flex-1 cursor-pointer select-none" style={{ gap: 10 }}>
                 <input
                   type="checkbox"
                   checked={form.consent}
                   onChange={(e) => setForm((f) => ({ ...f, consent: e.target.checked }))}
                   required
-                  className="mt-0.5 shrink-0 accent-accent"
+                  className="mt-0.5 shrink-0 accent-brand"
+                  style={{ width: 16, height: 16, borderRadius: 3 }}
                 />
-                <span className="text-sm" style={{ color: "#6b7280" }}>
+                <span style={{ fontSize: 13, color: "#555" }}>
                   I consent to my e-mail address being used in accordance with our{" "}
-                  <Link href="/privacy" className="underline hover:text-accent transition-colors" style={{ color: "#374151" }}>
+                  <Link href="/privacy" className="underline hover:text-brand" style={{ transition: "color 0.2s ease-in-out" }}>
                     privacy policy
                   </Link>
                   .
                 </span>
               </label>
 
-              {/* Submit */}
               <button
                 type="submit"
-                className="px-8 py-2.5 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
-                style={{ background: "#f5a200" }}
+                className="shrink-0 hover:bg-brand-dark"
+                style={{ padding: "14px 32px", borderRadius: 8, fontSize: 15, fontWeight: 600, color: "#fff", background: "#1a5276" }}
               >
                 Subscribe
               </button>
-            </form>
-          </div>
-        </div>
+            </div>
+          </form>
+        </motion.div>
       </div>
 
-      {/* ── Main 3-column body ── */}
-      <div className="page-container py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
-
-          {/* ── Col 1: Logo + description + quick links ── */}
-          <div className="pr-10 md:pr-14">
-            <Link href="/" className="inline-block mb-6">
-              <Image
-                src="/bi-logo.svg"
-                alt="BI Group of Companies"
-                width={3305}
-                height={650}
-                style={{ height: 38, width: "auto" }}
-              />
+      {/* section.footer-main (2276:567): px-312 py-72, gap-80 */}
+      <div style={{ borderTop: "1px solid #e8e0ce" }}>
+        <div className="page-container grid grid-cols-1 md:grid-cols-3" style={{ paddingTop: 72, paddingBottom: 72, gap: 80 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5, ease: EASE }}
+            className="flex flex-col"
+            style={{ gap: 24 }}
+          >
+            <Link href="/" className="inline-block">
+              <span style={{ fontWeight: 800, fontSize: 24, color: "#0f1f3d" }}>BI GROUP</span>
             </Link>
-            <p className="text-sm leading-relaxed mb-7" style={{ color: "#6b7280", maxWidth: 280 }}>
-              BI Group is one of India&apos;s leading paints and coatings solutions
-              providers, combining quality with innovation and trust across
-              multiple sectors.
+            <p style={{ fontSize: 14, lineHeight: "24px", color: "#555" }}>
+              BI Group is one of India&apos;s leading paints and coatings solutions providers,
+              combining quality with innovation and trust across multiple sectors.
             </p>
-            <ul className="space-y-2.5">
+            <div className="flex flex-col" style={{ gap: 12 }}>
               {LEFT_LINKS.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm underline transition-colors duration-200"
-                    style={{ color: "#374151", textDecorationColor: "#9ca3af" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = "#f5a200")}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "#374151")}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
+                <Link key={link.label} href={link.href} className="group inline-flex items-center hover:text-brand-dark" style={{ gap: 8 }}>
+                  <span style={{ fontWeight: 600, fontSize: 14, color: "#1a5276" }}>{link.label}</span>
+                  <ArrowRight size={12} className="text-brand transition-transform duration-200 group-hover:translate-x-1" />
+                </Link>
               ))}
-            </ul>
-          </div>
+            </div>
+          </motion.div>
 
-          {/* ── Col 2: Nav links with arrows ── */}
-          <div
-            className="py-8 md:py-0 md:px-14"
-            style={{ borderLeft: "1px solid #e8e8e8", borderTop: "none" }}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5, delay: 0.1, ease: EASE }}
+            className="flex flex-col overflow-hidden self-start w-full"
+            style={{ border: "1px solid #ede8df", borderRadius: 12 }}
           >
-            <ul>
-              {NAV_LINKS.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="group flex items-center justify-between py-4 text-base transition-colors duration-200"
-                    style={{ borderBottom: "1px solid #f3f4f6", color: "#374151" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = "#f5a200")}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "#374151")}
-                  >
-                    <span>{link.label}</span>
-                    <ArrowRight
-                      size={16}
-                      className="transition-transform duration-200 group-hover:translate-x-1"
-                      style={{ color: "#9ca3af" }}
-                    />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+            {NAV_LINKS.map((link, i) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="group flex items-center justify-between hover:bg-cream/60"
+                style={{
+                  padding: "18px 24px",
+                  borderTop: i === 0 ? "none" : "1px solid #ede8df",
+                  transition: "background-color 0.2s ease-in-out",
+                }}
+              >
+                <span style={{ fontWeight: 500, fontSize: 15, color: "#0f1f3d" }}>{link.label}</span>
+                <ChevronRight size={14} className="shrink-0 text-ink-dark transition-transform duration-200 group-hover:translate-x-1" />
+              </Link>
+            ))}
+          </motion.div>
 
-          {/* ── Col 3: CTA + Follow us ── */}
-          <div
-            className="pt-8 md:pt-0 md:pl-14"
-            style={{ borderLeft: "1px solid #e8e8e8" }}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5, delay: 0.2, ease: EASE }}
+            className="flex flex-col"
+            style={{ gap: 32 }}
           >
-            <h3
-              className="font-bold leading-snug mb-6"
-              style={{ fontSize: "clamp(1.1rem, 2vw, 1.35rem)", color: "#111827" }}
-            >
-              Looking for the right coating solution for your project?
-            </h3>
-
-            {/* Jotun-style amber icon CTA */}
-            <Link
-              href="/contact"
-              className="group inline-flex items-center gap-3 mb-12"
-            >
-              <span
-                className="flex items-center justify-center shrink-0 transition-opacity duration-200 group-hover:opacity-80"
-                style={{ width: 30, height: 30, background: "#f5a200" }}
+            <div className="flex flex-col" style={{ gap: 20 }}>
+              <h3 style={{ fontWeight: 700, fontSize: 22, color: "#0f1f3d" }}>
+                Looking for the right coating solution for your project?
+              </h3>
+              <Link
+                href="/contact"
+                className="inline-flex items-center hover:bg-brand-dark w-fit"
+                style={{ gap: 10, padding: "14px 24px", borderRadius: 10, background: "#1a5276" }}
               >
-                <ArrowRight size={15} className="text-white" />
-              </span>
-              <span
-                className="text-sm underline transition-colors duration-200 group-hover:text-accent"
-                style={{ color: "#374151", textDecorationColor: "#9ca3af" }}
-              >
-                Get in touch with our experts
-              </span>
-            </Link>
+                <Zap size={14} className="text-white" />
+                <span style={{ fontWeight: 600, fontSize: 15, color: "#fff" }}>Get in touch with our experts</span>
+              </Link>
+            </div>
 
-            {/* Follow us */}
-            <div>
-              <p className="text-sm mb-3" style={{ color: "#6b7280" }}>
-                Follow us
-              </p>
-              <div className="flex items-center gap-4">
+            <div className="flex flex-col" style={{ gap: 16 }}>
+              <p style={{ fontWeight: 600, fontSize: 14, color: "#0f1f3d" }}>Follow us</p>
+              <div className="flex items-center" style={{ gap: 12 }}>
                 {SOCIALS.map(({ icon: Icon, href, label }) => (
                   <Link
                     key={label}
                     href={href}
                     aria-label={label}
-                    className="transition-colors duration-200 hover:text-accent"
-                    style={{ color: "#374151" }}
+                    className="flex items-center justify-center text-ink-dark hover:bg-brand hover:text-white"
+                    style={{ width: 36, height: 36, borderRadius: 18, background: "#f0ede8", transition: "all 0.2s ease-in-out" }}
                   >
                     <Icon />
                   </Link>
                 ))}
               </div>
             </div>
-          </div>
-
+          </motion.div>
         </div>
       </div>
 
-      {/* ── Copyright bar ── */}
-      <div style={{ borderTop: "1px solid #e8e8e8" }}>
-        <div className="page-container py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-sm" style={{ color: "#6b7280" }}>
-            {new Date().getFullYear()} © BI Group of Companies. All rights reserved.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1">
+      {/* section.copyright (2276:629): bg #f5f3ee, px-312 py-20, text 13px */}
+      <div style={{ borderTop: "1px solid #e8e0ce", background: "#f5f3ee" }}>
+        <div className="page-container flex flex-col sm:flex-row items-center justify-between" style={{ paddingTop: 20, paddingBottom: 20, gap: 12 }}>
+          <p style={{ fontSize: 13, color: "#777" }}>{new Date().getFullYear()} © BI Group of Companies. All rights reserved.</p>
+          <div className="flex flex-wrap items-center justify-center" style={{ columnGap: 32, rowGap: 4 }}>
             {BOTTOM_LINKS.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="text-sm transition-colors duration-200 hover:text-accent"
-                style={{ color: item.accent ? "#f5a200" : "#6b7280" }}
-              >
+              <Link key={item.label} href={item.href} className="hover:text-brand" style={{ fontSize: 13, color: item.accent ? "#1a5276" : "#555", transition: "color 0.2s ease-in-out" }}>
                 {item.label}
               </Link>
             ))}
           </div>
         </div>
       </div>
-
     </footer>
   );
 }

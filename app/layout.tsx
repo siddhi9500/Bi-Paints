@@ -1,45 +1,29 @@
 import type { Metadata } from "next";
-import { Lato, Montserrat, Playfair_Display, Public_Sans } from "next/font/google";
+import { Inter, Public_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import MainOffset from "@/components/layout/MainOffset";
 
-// Legacy fonts — still referenced by inline styles in sections not yet
-// migrated to the Public Sans design system. Remove once every section
-// that references var(--font-lato/montserrat/playfair) has been migrated.
-const lato = Lato({
-  weight: ["300", "400", "700", "900"],
-  subsets: ["latin"],
-  variable: "--font-lato",
-  display: "swap",
-});
-
-const montserrat = Montserrat({
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-  subsets: ["latin"],
-  variable: "--font-montserrat",
-  display: "swap",
-});
-
-const playfair = Playfair_Display({
-  weight: ["500", "600", "700"],
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  display: "swap",
-});
-
+// Public Sans — the site's default typeface (nav, section copy, footer).
 const publicSans = Public_Sans({
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   subsets: ["latin"],
   variable: "--font-public-sans",
+  display: "swap",
+});
+
+// Inter — used only by the hero carousel and career banner, per the Figma spec.
+const inter = Inter({
+  weight: ["400", "700", "800"],
+  subsets: ["latin"],
+  variable: "--font-inter",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "BI Group Of Companies – Engineering Solutions Built To Last",
   description:
-    "BI Paints is a leading manufacturer of premium quality paints and coating solutions for residential, commercial, industrial, and marine applications.",
+    "BI Group is one of India's leading paints and coatings solutions providers, combining quality with innovation and trust across multiple sectors.",
   icons: {
     icon: "/bi-icon.png",
     shortcut: "/bi-icon.png",
@@ -51,13 +35,10 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${lato.variable} ${montserrat.variable} ${playfair.variable} ${publicSans.variable}`}
-    >
+    <html lang="en" className={`${publicSans.variable} ${inter.variable}`}>
       <body className="min-h-screen flex flex-col">
         <Navbar />
-        <MainOffset>{children}</MainOffset>
+        <main className="flex-1">{children}</main>
         <Footer />
       </body>
     </html>
