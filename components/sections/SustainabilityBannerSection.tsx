@@ -1,20 +1,23 @@
 "use client";
 
-import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-
-const EASE = [0.22, 1, 0.36, 1] as const;
+import {
+  fadeUp,
+  fadeUpSmall,
+  hoverScaleButton,
+  hoverTransition,
+  staggerContainer,
+  tapScaleButton,
+  viewportOnce,
+} from "@/lib/motion";
 
 export default function SustainabilityBannerSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
   return (
     // Figma: bi-sustainability-banner (3021:150), px-120 py-80
-    <section ref={ref} className="relative overflow-hidden w-full flex flex-col justify-center" style={{ padding: "80px 120px", minHeight: 640 }}>
+    <section className="relative overflow-hidden w-full flex flex-col justify-center" style={{ padding: "80px 120px", minHeight: 640 }}>
       <Image src="/sustainability-banner.jpg" alt="BI Group sustainability" fill className="object-cover" sizes="100vw" />
       <div
         className="absolute inset-0"
@@ -23,12 +26,17 @@ export default function SustainabilityBannerSection() {
         }}
       />
 
-      <div className="relative flex flex-col items-start" style={{ gap: 32, width: 840, maxWidth: "100%" }}>
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOnce}
+        variants={staggerContainer(0.12)}
+        className="relative flex flex-col items-start"
+        style={{ gap: 32, width: 840, maxWidth: "100%" }}
+      >
         <div className="flex flex-col items-start w-full" style={{ gap: 20 }}>
           <motion.span
-            initial={{ opacity: 0, y: 16 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-            transition={{ duration: 0.5, ease: EASE }}
+            variants={fadeUpSmall}
             className="uppercase w-full"
             style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "rgba(255,255,255,0.8)" }}
           >
@@ -36,9 +44,7 @@ export default function SustainabilityBannerSection() {
           </motion.span>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: EASE }}
+            variants={fadeUp}
             className="w-full"
             style={{ fontWeight: 800, fontSize: 52, letterSpacing: "-1.5px", color: "#ffffff" }}
           >
@@ -47,9 +53,7 @@ export default function SustainabilityBannerSection() {
           </motion.div>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, delay: 0.2, ease: EASE }}
+            variants={fadeUp}
             className="w-full"
             style={{ fontWeight: 400, fontSize: 16, lineHeight: 1.6, color: "rgba(255,255,255,0.85)" }}
           >
@@ -60,9 +64,9 @@ export default function SustainabilityBannerSection() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-          transition={{ duration: 0.5, delay: 0.32, ease: EASE }}
+          variants={fadeUpSmall}
+          whileHover={{ ...hoverScaleButton, transition: hoverTransition }}
+          whileTap={{ ...tapScaleButton, transition: hoverTransition }}
         >
           <Link
             href="/sustainability"
@@ -79,7 +83,7 @@ export default function SustainabilityBannerSection() {
             <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 }

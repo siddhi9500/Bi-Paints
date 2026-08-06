@@ -1,11 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight, Zap } from "lucide-react";
-
-const EASE = [0.22, 1, 0.36, 1] as const;
+import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const LEFT_LINKS = [
   { label: "Contact us", href: "/contact" },
@@ -56,8 +55,6 @@ const SOCIALS = [
 
 export default function Footer() {
   const [form, setForm] = useState({ name: "", email: "", industry: "", consent: false });
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,13 +62,14 @@ export default function Footer() {
   };
 
   return (
-    <footer ref={ref} className="bg-white">
+    <footer className="bg-white">
       {/* section.newsletter (2276:549): px-312 py-64, gap-80 */}
       <div style={{ borderTop: "1px solid #e8e0ce" }}>
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-          transition={{ duration: 0.6, ease: EASE }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          variants={fadeUp}
           className="page-container flex flex-col lg:flex-row lg:items-center"
           style={{ paddingTop: 64, paddingBottom: 64, gap: 80 }}
         >
@@ -155,15 +153,15 @@ export default function Footer() {
 
       {/* section.footer-main (2276:567): px-312 py-72, gap-80 */}
       <div style={{ borderTop: "1px solid #e8e0ce" }}>
-        <div className="page-container grid grid-cols-1 md:grid-cols-3" style={{ paddingTop: 72, paddingBottom: 72, gap: 80 }}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, ease: EASE }}
-            className="flex flex-col"
-            style={{ gap: 24 }}
-          >
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          variants={staggerContainer(0.1)}
+          className="page-container grid grid-cols-1 md:grid-cols-3"
+          style={{ paddingTop: 72, paddingBottom: 72, gap: 80 }}
+        >
+          <motion.div variants={fadeUp} className="flex flex-col" style={{ gap: 24 }}>
             <Link href="/" className="inline-block">
               <span style={{ fontWeight: 800, fontSize: 24, color: "#0f1f3d" }}>BI GROUP</span>
             </Link>
@@ -182,10 +180,7 @@ export default function Footer() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, delay: 0.1, ease: EASE }}
+            variants={fadeUp}
             className="flex flex-col overflow-hidden self-start w-full"
             style={{ border: "1px solid #ede8df", borderRadius: 12 }}
           >
@@ -206,14 +201,7 @@ export default function Footer() {
             ))}
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, delay: 0.2, ease: EASE }}
-            className="flex flex-col"
-            style={{ gap: 32 }}
-          >
+          <motion.div variants={fadeUp} className="flex flex-col" style={{ gap: 32 }}>
             <div className="flex flex-col" style={{ gap: 20 }}>
               <h3 style={{ fontWeight: 700, fontSize: 22, color: "#0f1f3d" }}>
                 Looking for the right coating solution for your project?
@@ -245,7 +233,7 @@ export default function Footer() {
               </div>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
 
       {/* section.copyright (2276:629): bg #f5f3ee, px-312 py-20, text 13px */}

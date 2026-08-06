@@ -1,12 +1,20 @@
 "use client";
 
-import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { Layers, LayoutGrid, SlidersHorizontal } from "lucide-react";
-
-const EASE = [0.22, 1, 0.36, 1] as const;
+import {
+  cardUp,
+  fadeScaleIn,
+  fadeUp,
+  fadeUpSmall,
+  hoverScaleButton,
+  hoverTransition,
+  staggerContainer,
+  tapScaleButton,
+  viewportOnce,
+} from "@/lib/motion";
 
 const STYLES = [
   { label: "L-Shape", image: "/kitchen-lshape.jpg" },
@@ -21,16 +29,18 @@ const FEATURES = [
 ];
 
 export default function KitchenShowcaseSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section ref={ref} className="bg-white" style={{ paddingTop: 120, paddingBottom: 120 }}>
-      <div className="page-container flex flex-col items-center" style={{ gap: 80 }}>
+    <section className="bg-white" style={{ paddingTop: 120, paddingBottom: 120 }}>
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOnce}
+        variants={staggerContainer(0.15)}
+        className="page-container flex flex-col items-center"
+        style={{ gap: 80 }}
+      >
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, ease: EASE }}
+          variants={fadeUp}
           className="flex flex-col items-center text-center w-full"
           style={{ gap: 24 }}
         >
@@ -48,22 +58,18 @@ export default function KitchenShowcaseSection() {
 
         <div className="flex flex-col w-full" style={{ gap: 24 }}>
           <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.97 }}
-            transition={{ duration: 0.7, ease: EASE }}
+            variants={fadeScaleIn}
             className="relative w-full overflow-hidden"
             style={{ height: 560, borderRadius: 24, boxShadow: "0px 18px 40px -12px rgba(0,0,0,0.08)" }}
           >
             <Image src="/kitchen-hero.jpg" alt="BI Modular Kitchen" fill className="object-cover" sizes="100vw" />
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3" style={{ gap: 24 }}>
-            {STYLES.map((s, i) => (
+          <motion.div variants={staggerContainer(0.1)} className="grid grid-cols-1 sm:grid-cols-3" style={{ gap: 24 }}>
+            {STYLES.map((s) => (
               <motion.div
                 key={s.label}
-                initial={{ opacity: 0, y: 24 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-                transition={{ duration: 0.5, delay: 0.15 + i * 0.1, ease: EASE }}
+                variants={cardUp}
                 className="group relative overflow-hidden"
                 style={{ height: 260, borderRadius: 20, boxShadow: "0px 14px 30px -10px rgba(0,0,0,0.07)" }}
               >
@@ -71,7 +77,7 @@ export default function KitchenShowcaseSection() {
                   src={s.image}
                   alt={s.label}
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                   sizes="(min-width: 640px) 33vw, 100vw"
                 />
                 <span
@@ -92,16 +98,14 @@ export default function KitchenShowcaseSection() {
                 </span>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 w-full" style={{ gap: 24 }}>
-          {FEATURES.map((f, i) => (
+        <motion.div variants={staggerContainer(0.1)} className="grid grid-cols-1 sm:grid-cols-3 w-full" style={{ gap: 24 }}>
+          {FEATURES.map((f) => (
             <motion.div
               key={f.title}
-              initial={{ opacity: 0, y: 24 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-              transition={{ duration: 0.5, delay: 0.3 + i * 0.1, ease: EASE }}
+              variants={cardUp}
               className="flex flex-col items-start bg-white"
               style={{
                 gap: 16,
@@ -121,12 +125,12 @@ export default function KitchenShowcaseSection() {
               <p style={{ fontWeight: 400, fontSize: 14, lineHeight: "22px", color: "#555" }}>{f.description}</p>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-          transition={{ duration: 0.5, delay: 0.55, ease: EASE }}
+          variants={fadeUpSmall}
+          whileHover={{ ...hoverScaleButton, transition: hoverTransition }}
+          whileTap={{ ...tapScaleButton, transition: hoverTransition }}
         >
           <Link
             href="/products"
@@ -142,7 +146,7 @@ export default function KitchenShowcaseSection() {
             <span style={{ fontWeight: 700, fontSize: 15, color: "#ffffff" }}>Explore Kitchen Collections →</span>
           </Link>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 }

@@ -1,12 +1,20 @@
 "use client";
 
-import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-
-const EASE = [0.22, 1, 0.36, 1] as const;
+import {
+  cardUp,
+  fadeUp,
+  fadeUpSmall,
+  hoverLiftCard,
+  hoverScaleButton,
+  hoverTransition,
+  staggerContainer,
+  tapScaleButton,
+  viewportOnce,
+} from "@/lib/motion";
 
 const VERTICALS = [
   {
@@ -51,16 +59,18 @@ const VERTICALS = [
 ];
 
 export default function VerticalsSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section ref={ref} className="bg-white" style={{ paddingTop: 70, paddingBottom: 70 }}>
-      <div className="page-container flex flex-col items-end" style={{ gap: 56 }}>
+    <section className="bg-white" style={{ paddingTop: 70, paddingBottom: 70 }}>
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOnce}
+        variants={staggerContainer(0.15)}
+        className="page-container flex flex-col items-end"
+        style={{ gap: 56 }}
+      >
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, ease: EASE }}
+          variants={fadeUp}
           className="flex flex-col items-center text-center w-full"
           style={{ gap: 16 }}
         >
@@ -80,13 +90,16 @@ export default function VerticalsSection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 w-full" style={{ gap: 32 }}>
-          {VERTICALS.map((v, i) => (
+        <motion.div
+          variants={staggerContainer(0.12)}
+          className="grid grid-cols-1 md:grid-cols-3 w-full"
+          style={{ gap: 32 }}
+        >
+          {VERTICALS.map((v) => (
             <motion.div
               key={v.title}
-              initial={{ opacity: 0, y: 32 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
-              transition={{ duration: 0.6, delay: i * 0.12, ease: EASE }}
+              variants={cardUp}
+              whileHover={{ ...hoverLiftCard, transition: hoverTransition }}
             >
               <Link
                 href={v.href}
@@ -95,17 +108,14 @@ export default function VerticalsSection() {
                   border: `1px solid ${v.borderColor}`,
                   borderRadius: 20,
                   boxShadow: "0px 8px 32px 0px rgba(15,31,61,0.08)",
-                  transition: "transform 0.35s ease",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-6px)")}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}
               >
                 <div className="relative w-full overflow-hidden" style={{ height: 280 }}>
                   <Image
                     src={v.image}
                     alt={v.title}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(min-width: 768px) 33vw, 100vw"
                   />
                 </div>
@@ -132,12 +142,12 @@ export default function VerticalsSection() {
               </Link>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-          transition={{ duration: 0.5, delay: 0.4, ease: EASE }}
+          variants={fadeUpSmall}
+          whileHover={{ ...hoverScaleButton, transition: hoverTransition }}
+          whileTap={{ ...tapScaleButton, transition: hoverTransition }}
         >
           <Link
             href="/products"
@@ -154,7 +164,7 @@ export default function VerticalsSection() {
             <ArrowRight size={16} className="text-white transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 }

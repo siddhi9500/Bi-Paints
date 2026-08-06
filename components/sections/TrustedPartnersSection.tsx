@@ -1,10 +1,8 @@
 "use client";
 
-import { useRef } from "react";
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
-
-const EASE = [0.22, 1, 0.36, 1] as const;
+import { motion } from "framer-motion";
+import { fadeUp, fadeUpSmall, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const PARTNERS = [
   { name: "Ministry of Defence", logo: "/client-ministry-of-defence.png" },
@@ -16,17 +14,18 @@ const PARTNERS = [
 ];
 
 export default function TrustedPartnersSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
   return (
-    <section ref={ref} className="font-inter bg-white" style={{ paddingTop: 80, paddingBottom: 80 }}>
-      <div className="page-container flex flex-col items-center">
+    <section className="font-inter bg-white" style={{ paddingTop: 120, paddingBottom: 80 }}>
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOnce}
+        variants={staggerContainer(0.15)}
+        className="page-container flex flex-col items-center"
+      >
         {/* trusted-partners-heading (3028:225) */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, ease: EASE }}
+          variants={fadeUp}
           className="flex flex-col items-center text-center"
           style={{ gap: 12, paddingBottom: 20 }}
         >
@@ -43,21 +42,19 @@ export default function TrustedPartnersSection() {
         </motion.div>
 
         {/* logo-row (2958:230): gap-48, each 160x64 */}
-        <div className="flex flex-wrap items-center justify-center" style={{ gap: 48 }}>
-          {PARTNERS.map((p, i) => (
+        <motion.div variants={staggerContainer(0.08)} className="flex flex-wrap items-center justify-center pt-20" style={{ gap: 48 }}>
+          {PARTNERS.map((p) => (
             <motion.div
               key={p.name}
-              initial={{ opacity: 0, y: 16 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-              transition={{ duration: 0.5, delay: i * 0.08, ease: EASE }}
-              className="relative shrink-0 grayscale opacity-70 hover:grayscale-0 hover:opacity-100"
-              style={{ width: 160, height: 64, transition: "all 0.3s ease-in-out" }}
+              variants={fadeUpSmall}
+              className="relative shrink-0"
+              style={{ width: 160, height: 64 }}
             >
               <Image src={p.logo} alt={p.name} fill className="object-contain" sizes="160px" />
             </motion.div>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

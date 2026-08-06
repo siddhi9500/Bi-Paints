@@ -1,13 +1,106 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { EASE_OUT, hoverScaleButton, hoverTransition, tapScaleButton } from "@/lib/motion";
 
-const EASE = [0.22, 1, 0.36, 1] as const;
 const AUTOPLAY_MS = 6000;
+
+// Text-only entrance choreography for the hero copy — kept separate from the
+// image's own animation. The outer group only orchestrates mount/exit;
+// individual letters/words (see TypingReveal) carry the real animation.
+// Defined once at module scope so identity is stable across renders.
+const textGroupVariants: Variants = {
+  hidden: {},
+  visible: {},
+  exit: { opacity: 0, transition: { duration: 0.5, ease: EASE_OUT } },
+};
+
+// Pass-through variant for wrapper tags (h1/p) that hold TypingReveal spans —
+// no visual change of their own, just propagates "hidden"/"visible" down.
+const passThroughVariants: Variants = { hidden: {}, visible: {} };
+
+const buttonVariants: Variants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: EASE_OUT, delay: 2.5 } },
+};
+
+// A slow, GPU-only (opacity + y) cascade reveal — letters for short display
+// text, words for longer copy so a full sentence doesn't take 10+ seconds.
+// Each piece inherits "hidden"/"visible" from the nearest ancestor that
+// declares those variant states (see textGroupVariants), so it only plays
+// once per slide mount and never replays while the slide stays active.
+function TypingReveal({
+  text,
+  split,
+  charDelay,
+  charDuration,
+  baseDelay,
+}: {
+  text: string;
+  split: "letter" | "word";
+  charDelay: number;
+  charDuration: number;
+  baseDelay: number;
+}) {
+  const letterSpan = (key: number, char: string, delayIndex: number) => (
+    <motion.span
+      key={key}
+      variants={{
+        hidden: { opacity: 0, y: 6 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: charDuration, ease: EASE_OUT, delay: baseDelay + delayIndex * charDelay },
+        },
+      }}
+      style={{ display: "inline-block" }}
+    >
+      {char}
+    </motion.span>
+  );
+
+  if (split === "word") {
+    const words = text.split(" ");
+    return (
+      <>
+        {words.map((word, i) => (
+          <Fragment key={i}>
+            {letterSpan(i, word, i)}
+            {i < words.length - 1 ? " " : ""}
+          </Fragment>
+        ))}
+      </>
+    );
+  }
+
+  // Letter mode: each atomic inline-block letter is a valid line-break point
+  // to the browser, so wrap every word's letters in a nowrap group — the
+  // (unanimated, plain-text) space between groups stays the only break point.
+  const words = text.split(" ");
+  const wordStartIndexes = words.reduce<number[]>((acc, _word, wi) => {
+    acc.push(wi === 0 ? 0 : acc[wi - 1] + words[wi - 1].length);
+    return acc;
+  }, []);
+  return (
+    <>
+      {words.map((word, wi) => {
+        const startIndex = wordStartIndexes[wi];
+        return (
+          <Fragment key={wi}>
+            <span style={{ display: "inline-block", whiteSpace: "nowrap" }}>
+              {Array.from(word).map((letter, li) => letterSpan(li, letter, startIndex + li))}
+            </span>
+            {wi < words.length - 1 ? " " : ""}
+          </Fragment>
+        );
+      })}
+    </>
+  );
+}
 
 const SLIDES = [
   {
@@ -51,10 +144,10 @@ export default function HeroCarouselSection() {
         <AnimatePresence mode="sync">
           <motion.div
             key={index}
-            initial={{ opacity: 0, scale: 1.06 }}
+            initial={{ opacity: 0, scale: 1.04 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.1, ease: EASE }}
+            transition={{ duration: 1, ease: EASE_OUT }}
             className="absolute inset-0"
           >
             <Image
@@ -84,16 +177,17 @@ export default function HeroCarouselSection() {
           <AnimatePresence mode="wait">
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.6, ease: EASE }}
+              variants={textGroupVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
               className="flex flex-col"
               style={{ gap: 20 }}
             >
               {/* copy: gap-14 */}
               <div className="flex flex-col" style={{ gap: 14 }}>
-                <p
+                <motion.p
+                  variants={passThroughVariants}
                   className="uppercase"
                   style={{
                     fontWeight: 700,
@@ -103,9 +197,10 @@ export default function HeroCarouselSection() {
                     lineHeight: "normal",
                   }}
                 >
-                  {slide.eyebrow}
-                </p>
-                <h1
+                  <TypingReveal text={slide.eyebrow} split="letter" charDelay={0.03} charDuration={0.35} baseDelay={0} />
+                </motion.p>
+                <motion.h1
+                  variants={passThroughVariants}
                   style={{
                     fontWeight: 800,
                     fontSize: 40,
@@ -113,9 +208,10 @@ export default function HeroCarouselSection() {
                     color: "#ffffff",
                   }}
                 >
-                  {slide.title}
-                </h1>
-                <p
+                  <TypingReveal text={slide.title} split="letter" charDelay={0.018} charDuration={0.4} baseDelay={0.35} />
+                </motion.h1>
+                <motion.p
+                  variants={passThroughVariants}
                   style={{
                     fontWeight: 400,
                     fontSize: 18,
@@ -123,23 +219,29 @@ export default function HeroCarouselSection() {
                     color: "rgba(255,255,255,0.8)",
                   }}
                 >
-                  {slide.description}
-                </p>
+                  <TypingReveal text={slide.description} split="word" charDelay={0.06} charDuration={0.45} baseDelay={1.1} />
+                </motion.p>
               </div>
 
-              <Link
-                href={slide.href}
-                className="group inline-flex items-center w-fit rounded-full bg-white"
-                style={{
-                  gap: 12,
-                  padding: "14px 18px",
-                  boxShadow: "0px 10px 12px rgba(0,0,0,0.15)",
-                  transition: "transform 0.25s ease-in-out",
-                }}
+              <motion.div
+                variants={buttonVariants}
+                whileHover={{ ...hoverScaleButton, transition: hoverTransition }}
+                whileTap={{ ...tapScaleButton, transition: hoverTransition }}
+                className="w-fit"
               >
-                <span style={{ fontWeight: 800, fontSize: 15, color: "#0a1628" }}>{slide.cta}</span>
-                <ArrowRight size={18} className="text-[#0a1628] transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
+                <Link
+                  href={slide.href}
+                  className="group inline-flex items-center w-fit rounded-full bg-white"
+                  style={{
+                    gap: 12,
+                    padding: "14px 18px",
+                    boxShadow: "0px 10px 12px rgba(0,0,0,0.15)",
+                  }}
+                >
+                  <span style={{ fontWeight: 800, fontSize: 15, color: "#0a1628" }}>{slide.cta}</span>
+                  <ArrowRight size={18} className="text-[#0a1628] transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </motion.div>
             </motion.div>
           </AnimatePresence>
         </div>

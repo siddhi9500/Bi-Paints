@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Public_Sans } from "next/font/google";
+import { MotionConfig } from "framer-motion";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -37,9 +38,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${publicSans.variable} ${inter.variable}`}>
       <body className="min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        {/* reducedMotion="user" makes every motion.* component in the tree
+            honor prefers-reduced-motion automatically: transforms are
+            stripped and animations fall back to opacity-only fades. */}
+        <MotionConfig reducedMotion="user" transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </MotionConfig>
       </body>
     </html>
   );

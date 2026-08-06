@@ -1,10 +1,8 @@
 "use client";
 
-import { useRef } from "react";
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
-
-const EASE = [0.22, 1, 0.36, 1] as const;
+import { motion } from "framer-motion";
+import { cardUp, fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const SEGMENTS = [
   { num: "01", title: "Industrial Coating", description: "Heavy-duty protection for steel & infrastructure", image: "/business-industrial.jpg" },
@@ -18,16 +16,18 @@ const SEGMENTS = [
 ];
 
 export default function ProductApplicationSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section ref={ref} className="bg-white" style={{ paddingTop: 100, paddingBottom: 100 }}>
-      <div className="page-container flex flex-col items-center" style={{ gap: 56 }}>
+    <section className="bg-white" style={{ paddingTop: 100, paddingBottom: 100 }}>
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOnce}
+        variants={staggerContainer(0.15)}
+        className="page-container flex flex-col items-center"
+        style={{ gap: 56 }}
+      >
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, ease: EASE }}
+          variants={fadeUp}
           className="flex flex-col items-center text-center w-full"
           style={{ gap: 16 }}
         >
@@ -41,13 +41,15 @@ export default function ProductApplicationSection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full" style={{ gap: 24 }}>
-          {SEGMENTS.map((s, i) => (
+        <motion.div
+          variants={staggerContainer(0.08)}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full"
+          style={{ gap: 24 }}
+        >
+          {SEGMENTS.map((s) => (
             <motion.div
               key={s.title}
-              initial={{ opacity: 0, y: 28 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 28 }}
-              transition={{ duration: 0.5, delay: (i % 4) * 0.08 + Math.floor(i / 4) * 0.15, ease: EASE }}
+              variants={cardUp}
               className="group overflow-hidden"
               style={{ borderRadius: 16, boxShadow: "0px 4px 8px rgba(15,31,61,0.06)" }}
             >
@@ -56,7 +58,7 @@ export default function ProductApplicationSection() {
                   src={s.image}
                   alt={s.title}
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                   sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                 />
               </div>
@@ -72,8 +74,8 @@ export default function ProductApplicationSection() {
               </div>
             </motion.div>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }
