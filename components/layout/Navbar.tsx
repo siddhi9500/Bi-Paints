@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { Fragment, useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -23,10 +23,10 @@ const ABOUT_LINKS = [
 const ABOUT_MEGA_MENU = {
   links: [
     { label: "Overview", href: "/about" },
-    { label: "What We Do", href: "/about" },
+    { label: "What We Do", href: "/what-we-do" },
     { label: "Where We Are", href: "/about" },
-    { label: "Our Achievements", href: "/about" },
-    { label: "Our Journey", href: "/about" },
+    { label: "Our Achievements", href: "/about/achievements" },
+    { label: "Our Journey", href: "/about/journey" },
   ],
   primaryLink: { label: "About BiGroup", href: "/about" },
   secondaryLinks: [
@@ -53,6 +53,71 @@ const BUSINESS_LINKS = [
   { label: "Electronics & Home Appliances", href: "/products" },
   { label: "Modular Kitchen", href: "/products" },
   { label: "Paints", href: "/products/paints" },
+];
+
+// Desktop "Businesses" mega-menu (Figma: bi-businesses-mega-menu, node 3003:129)
+// — 5 columns of category groups, handled as a special case like "About Us".
+const BUSINESS_MEGA_COLUMNS: { category: string; href: string; links: string[] }[][] = [
+  [
+    {
+      category: "BI Paints & Color Coating",
+      href: "/products/paints",
+      links: ["Interior Paints", "Exterior Paints", "Industrial Coatings", "Wood Finishes", "Waterproofing Solutions"],
+    },
+    {
+      category: "BI Painting Solution",
+      href: "/products/paints",
+      links: ["Residential Painting", "Commercial Projects", "Texture & Decorative"],
+    },
+  ],
+  [
+    {
+      category: "BI Modular Kitchen",
+      href: "/products",
+      links: ["L-Shape Kitchen", "U-Shape Kitchen", "Island Kitchen", "Wardrobe Solutions", "Storage Systems"],
+    },
+    {
+      category: "BI Air Conditioner",
+      href: "/products",
+      links: ["Split AC", "Window AC", "Commercial HVAC"],
+    },
+  ],
+  [
+    {
+      category: "BI Agriculture",
+      href: "/products",
+      links: ["Crop Protection", "Seeds & Fertilizers", "Farm Equipment", "Agri Logistics"],
+    },
+    {
+      category: "BI Homeopathy",
+      href: "/products/homeopathy",
+      links: ["Clinical Care", "Wellness Products", "Research & Development"],
+    },
+  ],
+  [
+    {
+      category: "BI Clothes",
+      href: "/products/textile",
+      links: ["Men's Wear", "Women's Wear", "Kids Collection", "Ethnic Wear"],
+    },
+    {
+      category: "BI E-commerce",
+      href: "/ecommerce",
+      links: ["Online Marketplace", "B2B Portal", "Delivery Network"],
+    },
+  ],
+  [
+    {
+      category: "BI Electronics",
+      href: "/products",
+      links: ["Home Appliances", "Smart Devices", "Audio & Visual"],
+    },
+    {
+      category: "BI Engineering",
+      href: "/products",
+      links: ["Structural Fabrication", "Industrial Projects", "Infrastructure", "MEP Services"],
+    },
+  ],
 ];
 
 const INVESTOR_LINKS = [
@@ -114,6 +179,10 @@ export default function Navbar() {
   const close = () => {
     closeTimer.current = setTimeout(() => setOpenDropdown(null), 150);
   };
+  const closeDropdown = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpenDropdown(null);
+  };
 
   return (
     <header
@@ -123,15 +192,34 @@ export default function Navbar() {
         transition: "box-shadow 0.25s ease-in-out",
       }}
     >
+      {/* Backdrop — dims/blurs the page behind the "About Us"/"Businesses"
+          mega-menus while either is open. Sits behind the header's own nav
+          content in DOM order (paints first), and position:fixed covers the
+          full viewport since no ancestor establishes a transform/filter
+          containing block. */}
+      <AnimatePresence>
+        {(openDropdown === "about" || openDropdown === "businesses") && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: EASE_OUT }}
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm"
+            style={{ zIndex: -1 }}
+            onClick={() => setOpenDropdown(null)}
+          />
+        )}
+      </AnimatePresence>
+
       {/* ── Desktop ── */}
-      <div className="hidden xl:flex items-center justify-between px-8 h-20 mx-auto w-full">
-        <Link href="/" className="shrink-0">
+      <div className="hidden xl:flex items-center justify-between px-8 h-20 mx-auto w-full relative z-10 bg-white">
+        <Link href="/" className="shrink-0" onClick={closeDropdown}>
           <Image
             src="/bi-logo.svg"
             alt="BI Group"
             width={3305}
             height={550}
-            style={{ height: 40, width: "auto" }}
+            style={{ height: 40, width: "auto", maxWidth: 1600 }}
           />
         </Link>
 
@@ -145,6 +233,7 @@ export default function Navbar() {
             >
               <Link
                 href={item.href}
+                onClick={closeDropdown}
                 className="flex items-center gap-1 uppercase whitespace-nowrap text-black hover:text-brand"
                 style={NAV_TEXT_STYLE}
               >
@@ -156,7 +245,7 @@ export default function Navbar() {
                   />
                 )}
               </Link>
-              {item.dropdown && item.key !== "about" && (
+              {item.dropdown && item.key !== "about" && item.key !== "businesses" && (
                 <AnimatePresence>
                   {openDropdown === item.key && (
                     <motion.div
@@ -171,6 +260,7 @@ export default function Navbar() {
                         <Link
                           key={sub.label}
                           href={sub.href}
+                          onClick={closeDropdown}
                           className="block px-4 py-2.5 rounded-xl text-small font-medium text-ink-dark/85 hover:bg-brand/5 hover:text-brand"
                           style={{ transition: "all 0.15s ease-out" }}
                         >
@@ -202,18 +292,18 @@ export default function Navbar() {
                 className="absolute left-0 right-0 top-full bg-white border-t border-black/5 overflow-hidden"
                 style={{ boxShadow: "0 24px 48px -12px rgba(15,31,61,0.15)" }}
               >
-                <div className="grid grid-cols-[200px_300px_1fr]" style={{ gap: 56, padding: 40 }}>
+                <div className="grid grid-cols-[200px_820px_1fr]" style={{ gap: 56, padding: "40px 140px" }}>
                   <div className="flex flex-col items-start">
                     {ABOUT_MEGA_MENU.links.map((l) => (
                       <Link
                         key={l.label}
                         href={l.href}
-                        className="hover:text-brand"
+                        onClick={closeDropdown}
+                        className="hover:text-brand text-gray-600"
                         style={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          lineHeight: "32px",
-                          color: "rgba(0,0,0,0.75)",
+                          fontSize: 16,
+                          fontWeight: 500,
+                          lineHeight: "42px",
                           letterSpacing: "-0.176px",
                           transition: "color 0.2s ease-in-out",
                         }}
@@ -223,7 +313,8 @@ export default function Navbar() {
                     ))}
                     <Link
                       href={ABOUT_MEGA_MENU.primaryLink.href}
-                      className="group inline-flex items-center hover:text-brand"
+                      onClick={closeDropdown}
+                      className="group inline-flex items-center hover:text-brand text-gray-800"
                       style={{ gap: 10, marginTop: 16 }}
                     >
                       <span
@@ -238,15 +329,16 @@ export default function Navbar() {
                     </Link>
                   </div>
 
-                  <div className="flex flex-col">
+                  <div className="flex flex-col justify-self-center">
                     {ABOUT_MEGA_MENU.secondaryLinks.map((l) => (
                       <Link
                         key={l.label}
                         href={l.href}
-                        className="group flex items-center hover:text-brand"
-                        style={{ gap: 16, padding: "9px 0" }}
+                        onClick={closeDropdown}
+                        className="group flex items-center hover:text-brand justify-between"
+                        style={{ gap: 20, padding: "17px 0" }}
                       >
-                        <span style={{ fontWeight: 400, fontSize: 20, color: "rgba(0,0,0,0.75)", letterSpacing: "-0.176px" }}>
+                        <span className="text-gray-800 uppercase text-lg" style={{ letterSpacing: "-0.176px" }}>
                           {l.label}
                         </span>
                         <ChevronRight
@@ -275,6 +367,7 @@ export default function Navbar() {
                     </p>
                     <Link
                       href={ABOUT_MEGA_MENU.feature.cta.href}
+                      onClick={closeDropdown}
                       className="group inline-flex items-center w-fit hover:text-brand"
                       style={{ gap: 10 }}
                     >
@@ -291,8 +384,8 @@ export default function Navbar() {
                   </div>
                 </div>
 
-                <div style={{ background: "#05297c" }}>
-                  <div className="flex items-center" style={{ gap: 20, padding: "16px 40px" }}>
+                <div style={{ gap: 56, padding: "40px 140px" }}>
+                  <div className="flex items-center" style={{ gap: 20, background: "#05297c", padding : 10 }}>
                     <div className="relative shrink-0 overflow-hidden" style={{ width: 100, height: 62, borderRadius: 8 }}>
                       <Image
                         src={ABOUT_MEGA_MENU.banner.image}
@@ -308,6 +401,7 @@ export default function Navbar() {
                       </p>
                       <Link
                         href={ABOUT_MEGA_MENU.banner.cta.href}
+                        onClick={closeDropdown}
                         className="group inline-flex items-center w-fit"
                         style={{ gap: 8 }}
                       >
@@ -323,6 +417,80 @@ export default function Navbar() {
                       </Link>
                     </div>
                   </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* "Businesses" mega-menu — Figma: bi-businesses-mega-menu, node
+              3003:129. Same full-width, flush-attached positioning as the
+              "About Us" panel above (sibling of the nav items, containing
+              block is the fixed <header>). */}
+          <AnimatePresence>
+            {openDropdown === "businesses" && (
+              <motion.div
+                initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                transition={{ duration: 0.35, ease: EASE_OUT }}
+                onMouseEnter={() => open("businesses")}
+                onMouseLeave={close}
+                className="absolute left-0 right-0 top-full bg-white border-t border-black/5 overflow-hidden"
+                style={{ boxShadow: "0 24px 48px -12px rgba(15,31,61,0.15)" }}
+              >
+                {/* A true 2D grid (column-major auto-flow, 4 explicit rows: heading1,
+                    links1, heading2, links2) instead of 5 independent flex-col
+                    stacks — CSS Grid sizes each row to its tallest cell across all
+                    columns, so "BI Engineering" etc. line up even when an earlier
+                    category in that column has fewer/more links than its neighbors. */}
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(5, 1fr)",
+                    gridTemplateRows: "auto auto auto auto",
+                    gridAutoFlow: "column",
+                    columnGap: 32,
+                    rowGap: 12,
+                    padding: "40px 140px",
+                  }}
+                >
+                  {BUSINESS_MEGA_COLUMNS.map((column, ci) => (
+                    <Fragment key={ci}>
+                      {column.map((group) => (
+                        <Fragment key={group.category}>
+                          <div className="flex flex-col self-end" style={{ gap: 8 }}>
+                            <Link
+                              href={group.href}
+                              onClick={closeDropdown}
+                              className="hover:text-brand"
+                              style={{ fontWeight: 700, fontSize: 15, color: "#111111", letterSpacing: "0.5px" }}
+                            >
+                              {group.category}
+                            </Link>
+                            <div style={{ borderBottom: "1px solid #e5e7eb" }} />
+                          </div>
+                          <div className="flex flex-col">
+                            {group.links.map((label) => (
+                              <Link
+                                key={label}
+                                href={group.href}
+                                onClick={closeDropdown}
+                                className="hover:text-brand"
+                                style={{
+                                  padding: "6px 0",
+                                  fontSize: 14,
+                                  color: "#555555",
+                                  transition: "color 0.2s ease-in-out",
+                                }}
+                              >
+                                {label}
+                              </Link>
+                            ))}
+                          </div>
+                        </Fragment>
+                      ))}
+                    </Fragment>
+                  ))}
                 </div>
               </motion.div>
             )}
@@ -392,7 +560,7 @@ export default function Navbar() {
       </div>
 
       {/* ── Mobile ── */}
-      <div className="xl:hidden flex items-center justify-between px-6 h-16">
+      <div className="xl:hidden flex items-center justify-between px-6 h-16 relative z-10 bg-white">
         <Link href="/">
           <Image
             src="/bi-logo.svg"
