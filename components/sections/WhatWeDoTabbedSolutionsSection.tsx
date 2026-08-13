@@ -2,27 +2,21 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { cardUp, fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
+import { EASE_OUT, fadeScaleIn, fadeUp, hoverLiftCard, hoverTransition, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const TABS = ["For Homes", "For Businesses", "For Industries", "For Projects"];
 
 const SOLUTIONS = [
-  { title: "Interior Paints", description: "Vibrant, low-VOC finishes for luxury aesthetics and healthy home air quality.", image: "/wwd-solution-0.jpg" },
-  { title: "Exterior Paints", description: "All-weather extreme shield protection to prevent cracking and dampness.", image: "/wwd-solution-1.jpg" },
-  { title: "Waterproofing", description: "Multi-layered advanced dynamic protection systems for roof and concrete slabs.", image: "/wwd-solution-2.jpg" },
-  { title: "Modular Kitchens", description: "Bespoke high-end kitchen installations equipped with soft-close global hardware.", image: "/wwd-solution-3.jpg" },
-  {
-    title: "Interior Solutions",
-    description: "Integrated wardrobes, custom partitions, and modern architectural solutions.",
-    // Figma's source asset here was also the Ministry of Defence emblem mix-up —
-    // reusing the "BI Modular" kitchen photo from this same design instead.
-    image: "/wwd-intro-modular.jpg",
-  },
+  { title: "Interior Paints", description: "Vibrant, low-VOC finishes for luxury aesthetics and healthy home air quality.", image: "/wwd2-solution-0.jpg" },
+  { title: "Exterior Paints", description: "All-weather extreme shield protection to prevent cracking and dampness.", image: "/wwd2-solution-1.jpg" },
+  { title: "Waterproofing", description: "Multi-layered advanced dynamic protection systems for roof and concrete slabs.", image: "/wwd2-solution-2.jpg" },
+  { title: "Modular Kitchens", description: "Bespoke high-end kitchen installations equipped with soft-close global hardware.", image: "/wwd2-solution-3.jpg" },
+  { title: "Interior Solutions", description: "Integrated wardrobes, custom partitions, and modern architectural solutions.", image: "/wwd2-solution-4.jpg" },
 ];
 
 export default function WhatWeDoTabbedSolutionsSection() {
   return (
-    <section style={{ background: "#f5f3ee", paddingTop: 100, paddingBottom: 100 }}>
+    <section style={{ background: "#f4f7fb", paddingTop: 100, paddingBottom: 100 }}>
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -60,16 +54,31 @@ export default function WhatWeDoTabbedSolutionsSection() {
           ))}
         </motion.div>
 
-        <motion.div variants={staggerContainer(0.06)} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 w-full" style={{ gap: 24 }}>
+        <motion.div variants={staggerContainer(0.07)} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 w-full" style={{ gap: 24 }}>
           {SOLUTIONS.map((s) => (
             <motion.div
               key={s.title}
-              variants={cardUp}
-              className="flex flex-col items-start bg-white overflow-hidden"
+              variants={fadeScaleIn}
+              whileHover={{ ...hoverLiftCard, transition: hoverTransition }}
+              className="group flex flex-col items-start bg-white overflow-hidden"
               style={{ border: "1px solid #eaeaea" }}
             >
-              <div className="relative w-full" style={{ height: 180 }}>
-                <Image src={s.image} alt={s.title} fill className="object-cover" sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" />
+              <div className="relative w-full overflow-hidden" style={{ height: 180 }}>
+                <motion.div
+                  initial={{ scale: 1.15, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={viewportOnce}
+                  transition={{ duration: 0.9, ease: EASE_OUT }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={s.image}
+                    alt={s.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw"
+                  />
+                </motion.div>
               </div>
               <div className="flex flex-col items-start w-full" style={{ gap: 8, padding: 20 }}>
                 <h3 style={{ fontWeight: 700, fontSize: 18, color: "#0b1f3a", margin: 0 }}>{s.title}</h3>

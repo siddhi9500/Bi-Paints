@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
-import { cardUp, fadeUp, hoverScaleButton, hoverTransition, staggerContainer, tapScaleButton, viewportOnce } from "@/lib/motion";
+import { fadeScaleIn, fadeUp, hoverScaleButton, hoverTransition, staggerContainer, tapScaleButton, viewportOnce } from "@/lib/motion";
 
 const DISTRIBUTION = [
   { label: "Corporate Office", value: "1" },
@@ -16,7 +17,7 @@ const DISTRIBUTION = [
 
 export default function WhatWeDoPresenceSection() {
   return (
-    <section style={{ background: "#f5f3ee", paddingTop: 100, paddingBottom: 100 }}>
+    <section style={{ background: "#f4f7fb", paddingTop: 100, paddingBottom: 100 }}>
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -44,20 +45,25 @@ export default function WhatWeDoPresenceSection() {
         </div>
 
         <div className="flex flex-col lg:flex-row items-center" style={{ gap: 40 }}>
-          <motion.div variants={cardUp} className="relative w-full flex-1 overflow-hidden bg-white" style={{ height: 420, borderRadius: 8, border: "1px solid #eaeaea" }}>
+          <motion.div variants={fadeScaleIn} className="relative w-full flex-1 overflow-hidden bg-white" style={{ height: 500, borderRadius: 8, border: "1px solid #eaeaea" }}>
             <Image src="/wwd-india-map.jpg" alt="BI Group presence across India" fill className="object-contain p-8" sizes="(min-width: 1024px) 55vw, 100vw" />
           </motion.div>
 
-          <motion.div variants={cardUp} className="flex flex-col items-start w-full lg:w-[420px] shrink-0" style={{ gap: 24, padding: 40, borderRadius: 8, background: "#0b1f3a" }}>
+          <motion.div variants={fadeScaleIn} className="flex flex-col items-start w-full lg:w-[420px] shrink-0" style={{ gap: 24, padding: 40, borderRadius: 8, background: "#0b1f3a" }}>
             <span className="uppercase" style={{ fontWeight: 800, fontSize: 18, color: "#d9a441" }}>Our Distribution</span>
-            <div className="flex flex-col w-full">
+            <motion.div variants={staggerContainer(0.05)} className="flex flex-col w-full">
               {DISTRIBUTION.map((d) => (
-                <div key={d.label} className="flex items-center justify-between w-full" style={{ padding: "12px 0", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
+                <motion.div
+                  key={d.label}
+                  variants={fadeUp}
+                  className="flex items-center justify-between w-full"
+                  style={{ padding: "12px 0", borderBottom: "1px solid rgba(255,255,255,0.1)" }}
+                >
                   <span className="uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "1px", color: "#ffffff" }}>{d.label}</span>
                   <span style={{ fontWeight: 800, fontSize: 18, color: "#d9a441" }}>{d.value}</span>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
         </div>
 
@@ -68,7 +74,7 @@ export default function WhatWeDoPresenceSection() {
           whileTap={{ ...tapScaleButton, transition: hoverTransition }}
           style={{ alignSelf: "center" }}
         >
-          <a
+          <Link
             href="/investors"
             className="inline-flex items-center"
             style={{ gap: 12, background: "#d9a441", padding: "16px 32px", borderRadius: 4 }}
@@ -77,7 +83,7 @@ export default function WhatWeDoPresenceSection() {
               Explore Our Locations
             </span>
             <ChevronRight size={16} color="#0b1f3a" />
-          </a>
+          </Link>
         </motion.div>
       </motion.div>
     </section>

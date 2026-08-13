@@ -64,7 +64,7 @@ export default function Footer() {
   return (
     <footer className="bg-white">
       {/* section.newsletter (2276:549): px-312 py-64, gap-80 */}
-      <div style={{ borderTop: "1px solid #e8e0ce" }}>
+      <div style={{ borderTop: "1px solid ##f4f7fb",background: "#f4f7fb" }}>
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -237,7 +237,7 @@ export default function Footer() {
       </div>
 
       {/* section.copyright (2276:629): bg #f5f3ee, px-312 py-20, text 13px */}
-      <div style={{ borderTop: "1px solid #e8e0ce", background: "#f5f3ee" }}>
+      <div style={{ borderTop: "1px solid #f4f7fb", background: "#f4f7fb" }}>
         <div className="page-container flex flex-col sm:flex-row items-center justify-between" style={{ paddingTop: 20, paddingBottom: 20, gap: 12 }}>
           <p style={{ fontSize: 13, color: "#777" }}>{new Date().getFullYear()} © BI Group of Companies. All rights reserved.</p>
           <div className="flex flex-wrap items-center justify-center" style={{ columnGap: 32, rowGap: 4 }}>

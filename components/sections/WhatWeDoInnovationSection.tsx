@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { FlaskConical, Palette, Workflow } from "lucide-react";
-import { cardUp, fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
+import { fadeScaleIn, fadeUp, hoverLiftCard, hoverTransition, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const CARDS = [
   {
@@ -27,7 +27,7 @@ const CARDS = [
 
 export default function WhatWeDoInnovationSection() {
   return (
-    <section style={{ background: "#0b1f3a", paddingTop: 100, paddingBottom: 100 }}>
+    <section style={{ background: "#0f1a2e", paddingTop: 100, paddingBottom: 100 }}>
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -52,15 +52,18 @@ export default function WhatWeDoInnovationSection() {
           </p>
         </motion.div>
 
-        <motion.div variants={staggerContainer(0.1)} className="grid grid-cols-1 md:grid-cols-3" style={{ gap: 40 }}>
+        <motion.div variants={staggerContainer(0.12)} className="grid grid-cols-1 md:grid-cols-3" style={{ gap: 40 }}>
           {CARDS.map((c) => (
             <motion.div
               key={c.title}
-              variants={cardUp}
+              variants={fadeScaleIn}
+              whileHover={{ ...hoverLiftCard, transition: hoverTransition }}
               className="flex flex-col items-start"
               style={{ gap: 28, padding: 48, borderRadius: 8, background: "#122b4a" }}
             >
-              <c.icon size={40} color="#d9a441" strokeWidth={1.5} />
+              <motion.div whileHover={{ scale: 1.12, rotate: -4, transition: hoverTransition }}>
+                <c.icon size={40} color="#d9a441" strokeWidth={1.5} />
+              </motion.div>
               <div className="flex flex-col items-start" style={{ gap: 16 }}>
                 <span className="uppercase" style={{ fontWeight: 800, fontSize: 18, letterSpacing: "1px", color: "#d9a441" }}>
                   {c.title}

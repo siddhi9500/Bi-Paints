@@ -24,7 +24,7 @@ const ABOUT_MEGA_MENU = {
   links: [
     { label: "Overview", href: "/about" },
     { label: "What We Do", href: "/what-we-do" },
-    { label: "Where We Are", href: "/about" },
+    { label: "Where We Are", href: "/where-we-are" },
     { label: "Our Achievements", href: "/about/achievements" },
     { label: "Our Journey", href: "/about/journey" },
   ],
@@ -39,7 +39,7 @@ const ABOUT_MEGA_MENU = {
     description:
       "From manufacturing hubs to distribution networks across India, BI Group's footprint spans the industries and regions that keep the country building, moving, and protected.",
     image: "/about-mega-warehouse.jpg",
-    cta: { label: "Discover more", href: "/about" },
+    cta: { label: "Discover more", href: "/where-we-are" },
   },
   banner: {
     title: "Looking for paint and colour for your home?",
@@ -450,7 +450,7 @@ export default function Navbar() {
                     gridTemplateRows: "auto auto auto auto",
                     gridAutoFlow: "column",
                     columnGap: 32,
-                    rowGap: 12,
+                    rowGap: 28,
                     padding: "40px 140px",
                   }}
                 >
@@ -458,16 +458,16 @@ export default function Navbar() {
                     <Fragment key={ci}>
                       {column.map((group) => (
                         <Fragment key={group.category}>
-                          <div className="flex flex-col self-end" style={{ gap: 8 }}>
+                          <div className="flex flex-col self-end" style={{ gap: 10 }}>
                             <Link
                               href={group.href}
                               onClick={closeDropdown}
                               className="hover:text-brand"
-                              style={{ fontWeight: 700, fontSize: 15, color: "#111111", letterSpacing: "0.5px" }}
+                              style={{ fontWeight: 600, fontSize: 14, color: "#1a1a1a", letterSpacing: "0.2px" }}
                             >
                               {group.category}
                             </Link>
-                            <div style={{ borderBottom: "1px solid #e5e7eb" }} />
+                            <div style={{ borderBottom: "1px solid #e2e2e2" }} />
                           </div>
                           <div className="flex flex-col">
                             {group.links.map((label) => (
@@ -477,9 +477,10 @@ export default function Navbar() {
                                 onClick={closeDropdown}
                                 className="hover:text-brand"
                                 style={{
-                                  padding: "6px 0",
-                                  fontSize: 14,
-                                  color: "#555555",
+                                  padding: "9px 0",
+                                  fontSize: 15,
+                                  fontWeight: 400,
+                                  color: "#6b7280",
                                   transition: "color 0.2s ease-in-out",
                                 }}
                               >

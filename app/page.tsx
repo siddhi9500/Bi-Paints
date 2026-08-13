@@ -1,6 +1,6 @@
 import HeroCarouselSection from "@/components/sections/HeroCarouselSection";
 import VerticalsSection from "@/components/sections/VerticalsSection";
-import ProductApplicationSection from "@/components/sections/ProductApplicationSection";
+import BusinessPortfolioSection from "@/components/sections/BusinessPortfolioSection";
 import CareerBannerSection from "@/components/sections/CareerBannerSection";
 import KitchenShowcaseSection from "@/components/sections/KitchenShowcaseSection";
 import SustainabilityBannerSection from "@/components/sections/SustainabilityBannerSection";
@@ -11,7 +11,7 @@ export default function Home() {
     <>
       <HeroCarouselSection />
       <VerticalsSection />
-      <ProductApplicationSection />
+      <BusinessPortfolioSection />
       <CareerBannerSection />
       <KitchenShowcaseSection />
       <SustainabilityBannerSection />

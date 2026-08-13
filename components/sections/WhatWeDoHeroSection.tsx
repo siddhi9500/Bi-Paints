@@ -8,72 +8,59 @@ import { EASE_OUT, fadeUp, hoverScaleButton, hoverTransition, staggerContainer, 
 
 export default function WhatWeDoHeroSection() {
   return (
-    <section className="w-full flex flex-col lg:flex-row items-stretch" style={{ paddingTop: "var(--header-height)", minHeight: 640 }}>
+    <section className="relative w-full overflow-hidden" style={{ paddingTop: "var(--header-height)", minHeight: 640 }}>
+      <motion.div
+        initial={{ opacity: 0, scale: 1.08 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.4, ease: EASE_OUT }}
+        className="absolute inset-0"
+      >
+        <Image src="/wwd2-hero.jpg" alt="BI Group coating application" fill priority className="object-cover" sizes="100vw" />
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, ease: EASE_OUT }}
+        className="absolute inset-0"
+        style={{ background: "linear-gradient(180deg, rgba(11,31,58,0.55) 0%, rgba(11,31,58,0.75) 100%), radial-gradient(60% 60% at 50% 50%, rgba(11,31,58,0.55) 0%, rgba(11,31,58,0.25) 100%)" }}
+      />
+
       <motion.div
         initial="hidden"
         animate="visible"
-        variants={staggerContainer(0.12)}
-        className="flex flex-1 flex-col justify-center"
-        style={{ background: "#f5f3ee", gap: 32, padding: "80px 100px" }}
+        variants={staggerContainer(0.15, 0.3)}
+        className="page-container relative flex flex-col items-center justify-center text-center mx-auto"
+        style={{ minHeight: 560, gap: 28, maxWidth: 680 }}
       >
-        <motion.div variants={fadeUp} className="flex items-center" style={{ gap: 8 }}>
-          <span style={{ width: 12, height: 2, background: "#0b1f3a" }} />
-          <span className="uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#0b1f3a" }}>
-            What We Do
-          </span>
-        </motion.div>
-        <motion.h1
-          variants={fadeUp}
-          style={{ fontWeight: 800, fontSize: 48, lineHeight: 1.1, letterSpacing: "-1px", color: "#0b1f3a", margin: 0 }}
-        >
-          Building Better. Protecting Better. Living Better.
+        <motion.h1 variants={fadeUp} style={{ fontWeight: 700, fontSize: 40, lineHeight: 1.1, color: "#ffffff", margin: 0 }}>
+          What we do
         </motion.h1>
-        <motion.p variants={fadeUp} style={{ fontWeight: 400, fontSize: 18, lineHeight: 1.6, color: "rgba(11,31,58,0.85)" }}>
-          BI Group brings together products, solutions and services that create lasting value across homes, businesses
-          and infrastructure.
+        <motion.p variants={fadeUp} style={{ fontWeight: 400, fontSize: 16, lineHeight: 1.6, color: "rgba(255,255,255,0.85)" }}>
+          BI Group brings together paints, coatings, and surface solutions that transform and protect homes,
+          businesses and infrastructure.
         </motion.p>
-        <motion.div variants={fadeUp} className="flex flex-wrap items-center" style={{ gap: 16 }}>
+        <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center" style={{ gap: 16 }}>
           <motion.div whileHover={{ ...hoverScaleButton, transition: hoverTransition }} whileTap={{ ...tapScaleButton, transition: hoverTransition }}>
             <Link
               href="/products"
               className="inline-flex items-center"
-              style={{
-                gap: 12,
-                background: "#d9a441",
-                padding: "16px 32px",
-                borderRadius: 999,
-                boxShadow: "0px 10px 12px rgba(0,0,0,0.08)",
-              }}
+              style={{ gap: 8, background: "#eda633", padding: "13px 28px", borderRadius: 24 }}
             >
-              <span className="uppercase" style={{ fontWeight: 700, fontSize: 14, letterSpacing: "1px", color: "#0b1f3a" }}>
-                Explore Our Businesses
-              </span>
-              <ArrowRight size={16} color="#0b1f3a" />
+              <span style={{ fontWeight: 500, fontSize: 14, color: "#ffffff" }}>Explore Our Businesses</span>
+              <ArrowRight size={15} color="#ffffff" />
             </Link>
           </motion.div>
           <motion.div whileHover={{ ...hoverScaleButton, transition: hoverTransition }} whileTap={{ ...tapScaleButton, transition: hoverTransition }}>
             <Link
               href="/about"
-              className="inline-flex items-center bg-white"
-              style={{ gap: 12, padding: "16px 32px", borderRadius: 999, border: "1px solid #0b1f3a" }}
+              className="inline-flex items-center"
+              style={{ gap: 8, padding: "12px 28px", borderRadius: 24, border: "1.5px solid #ffffff" }}
             >
-              <span className="uppercase" style={{ fontWeight: 700, fontSize: 14, letterSpacing: "1px", color: "#0b1f3a" }}>
-                Discover BI Group
-              </span>
-              <ArrowRight size={16} color="#0b1f3a" />
+              <span style={{ fontWeight: 500, fontSize: 14, color: "#ffffff" }}>Discover BI Group</span>
+              <ArrowRight size={15} color="#ffffff" />
             </Link>
           </motion.div>
         </motion.div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, scale: 1.04 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1, ease: EASE_OUT }}
-        className="relative flex-1"
-        style={{ minHeight: 420 }}
-      >
-        <Image src="/wwd-hero.jpg" alt="BI Group building" fill priority className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />
       </motion.div>
     </section>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { fadeUp, fadeUpSmall, staggerContainer, viewportOnce } from "@/lib/motion";
+import { EASE_OUT, fadeUp, fadeUpSmall, hoverTransition, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const STEPS = [
   { num: "01", title: "Paint", description: "Premium architectural coatings and colour collections." },
@@ -27,7 +27,7 @@ export default function WhatWeDoColourJourneySection() {
             <div className="flex items-center" style={{ gap: 8 }}>
               <span style={{ width: 12, height: 2, background: "#d9a441" }} />
               <span className="uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
-                From Colour to Complete Spaces
+                From Colour To Complete Spaces
               </span>
             </div>
             <h2 style={{ fontWeight: 800, fontSize: 32, lineHeight: 1.15, color: "#0b1f3a", margin: 0 }}>
@@ -41,17 +41,32 @@ export default function WhatWeDoColourJourneySection() {
         </div>
 
         <motion.div variants={staggerContainer(0.1)} className="relative flex flex-col sm:flex-row items-start justify-between w-full" style={{ gap: 32 }}>
-          <span className="hidden sm:block absolute" style={{ left: "10%", right: "10%", top: 52, height: 1, background: "repeating-linear-gradient(90deg, #d9a441 0 6px, transparent 6px 12px)" }} />
+          <motion.span
+            className="hidden sm:block absolute"
+            style={{
+              left: "10%",
+              right: "10%",
+              top: 52,
+              height: 1,
+              transformOrigin: "left",
+              background: "repeating-linear-gradient(90deg, #d9a441 0 6px, transparent 6px 12px)",
+            }}
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={viewportOnce}
+            transition={{ duration: 1.4, ease: EASE_OUT, delay: 0.2 }}
+          />
           {STEPS.map((s) => (
             <motion.div key={s.num} variants={fadeUpSmall} className="relative flex flex-col items-center text-center" style={{ gap: 24, flex: 1 }}>
-              <span
+              <motion.span
+                whileHover={{ scale: 1.08, transition: hoverTransition }}
                 className="flex items-center justify-center shrink-0 bg-white"
                 style={{ width: 104, height: 104, borderRadius: 52, border: "2px solid #d9a441" }}
               >
                 <span className="flex items-center justify-center" style={{ width: 80, height: 80, borderRadius: 40, background: "#0b1f3a" }}>
                   <span style={{ fontWeight: 800, fontSize: 20, color: "#d9a441" }}>{s.num}</span>
                 </span>
-              </span>
+              </motion.span>
               <div className="flex flex-col items-center" style={{ gap: 8 }}>
                 <span className="uppercase" style={{ fontWeight: 800, fontSize: 14, letterSpacing: "2px", color: "#0b1f3a" }}>
                   {s.title}
