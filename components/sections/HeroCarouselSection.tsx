@@ -102,16 +102,34 @@ function TypingReveal({
   );
 }
 
-const SLIDES = [
+type Slide = {
+  eyebrow?: string;
+  title: string;
+  description: string;
+  cta?: string;
+  href?: string;
+  image: string;
+  fit?: "cover" | "contain";
+};
+
+const SLIDES: Slide[] = [
   {
-    eyebrow: "BI Group",
-    title: "Your Trusted Partner in Protective Coatings",
+    // Figma: hero-carousel-banner, node 3900:222 — slide-paints (default slide)
+    title: "Transforming Spaces with Color",
     description:
-      "From marine vessels to industrial infrastructure - engineering coatings that protect what matters most.",
-    cta: "Our Services",
-    href: "/products/paints",
-    image: "/hero-carousel-1.jpg",
+      "A modern palette for architects, builders, and homeowners-crafted for performance, sustainability, and timeless beauty.",
+    image: "/hero-slide-paints.jpg",
   },
+  // {
+  //   eyebrow: "Interior Finishes",
+  //   title: "Refined Coatings for Modern Living Spaces",
+  //   description:
+  //     "Durable, low-VOC finishes that bring lasting color and protection to kitchens and interiors.",
+  //   cta: "Our Services",
+  //   href: "/products/paints",
+  //   image: "/hero-carousel-2.png",
+  //   fit: "contain",
+  // },
 ];
 
 export default function HeroCarouselSection() {
@@ -150,29 +168,43 @@ export default function HeroCarouselSection() {
             transition={{ duration: 1, ease: EASE_OUT }}
             className="absolute inset-0"
           >
+            {slide.fit === "contain" && (
+              // Blurred, scaled-up copy of the same image fills the space around the
+              // sharp foreground image instead of a flat letterbox color.
+              <Image
+                src={slide.image}
+                alt=""
+                aria-hidden
+                fill
+                className="object-cover scale-110 blur-2xl"
+                style={{ opacity: 0.7 }}
+                sizes="100vw"
+              />
+            )}
             <Image
               src={slide.image}
               alt={slide.title}
               fill
               priority={index === 0}
-              className="object-cover"
+              className={slide.fit === "contain" ? "object-contain" : "object-cover"}
+              style={slide.fit === "contain" ? { objectPosition: "right center" } : undefined}
               sizes="100vw"
             />
-            {/* Figma gradient: linear-gradient(90deg, rgba(10,22,40,.55) 0%, rgba(10,22,40,0) 55%, rgba(26,82,118,.55) 100%) */}
+            {/* Figma gradient: linear-gradient(90deg, rgba(10,10,26,.32) 0%, rgba(10,10,26,.15) 50%, rgba(10,10,26,.28) 100%) */}
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  "linear-gradient(90deg, rgba(10,22,40,0.55) 0%, rgba(10,22,40,0) 55%, rgba(26,82,118,0.55) 100%)",
+                  "linear-gradient(90deg, rgba(10,10,26,0.32) 0%, rgba(10,10,26,0.15) 50%, rgba(10,10,26,0.28) 100%)",
               }}
             />
           </motion.div>
         </AnimatePresence>
 
-        {/* hero-content: px-80 py-72, width 960, gap-20 */}
+        {/* hero-text, node 4011:196: left-136, top calc(50% + 135px), width 760 */}
         <div
-          className="relative h-full flex flex-col justify-center"
-          style={{ width: 960, maxWidth: "100%", padding: "72px 80px" }}
+          className="absolute left-6 right-6 sm:left-10 sm:right-10 lg:right-auto lg:left-35"
+          style={{ top: "calc(50% + 135px)", transform: "translateY(-50%)", width: 760, maxWidth: "100%" }}
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -184,27 +216,29 @@ export default function HeroCarouselSection() {
               className="flex flex-col"
               style={{ gap: 20 }}
             >
-              {/* copy: gap-14 */}
-              <div className="flex flex-col" style={{ gap: 14 }}>
-                <motion.p
-                  variants={passThroughVariants}
-                  className="uppercase"
-                  style={{
-                    fontWeight: 700,
-                    fontSize: 14,
-                    letterSpacing: "1.12px",
-                    color: "rgba(255,255,255,0.8)",
-                    lineHeight: "normal",
-                  }}
-                >
-                  <TypingReveal text={slide.eyebrow} split="letter" charDelay={0.03} charDuration={0.35} baseDelay={0} />
-                </motion.p>
+              {/* hero-text: gap-16 */}
+              <div className="flex flex-col" style={{ gap: 16 }}>
+                {slide.eyebrow && (
+                  <motion.p
+                    variants={passThroughVariants}
+                    className="uppercase"
+                    style={{
+                      fontWeight: 700,
+                      fontSize: 14,
+                      letterSpacing: "1.12px",
+                      color: "rgba(255,255,255,0.8)",
+                      lineHeight: "normal",
+                    }}
+                  >
+                    <TypingReveal text={slide.eyebrow} split="letter" charDelay={0.03} charDuration={0.35} baseDelay={0} />
+                  </motion.p>
+                )}
                 <motion.h1
                   variants={passThroughVariants}
                   style={{
-                    fontWeight: 800,
-                    fontSize: 40,
-                    lineHeight: 1.1,
+                    fontSize: 32,
+                    lineHeight: 1.3,
+                    letterSpacing: "1px",
                     color: "#ffffff",
                   }}
                 >
@@ -214,8 +248,8 @@ export default function HeroCarouselSection() {
                   variants={passThroughVariants}
                   style={{
                     fontWeight: 400,
-                    fontSize: 18,
-                    lineHeight: 1.6,
+                    fontSize: 15,
+                    lineHeight: 1.5,
                     color: "rgba(255,255,255,0.8)",
                   }}
                 >
@@ -223,25 +257,27 @@ export default function HeroCarouselSection() {
                 </motion.p>
               </div>
 
-              <motion.div
-                variants={buttonVariants}
-                whileHover={{ ...hoverScaleButton, transition: hoverTransition }}
-                whileTap={{ ...tapScaleButton, transition: hoverTransition }}
-                className="w-fit"
-              >
-                <Link
-                  href={slide.href}
-                  className="group inline-flex items-center w-fit rounded-full bg-white"
-                  style={{
-                    gap: 12,
-                    padding: "14px 18px",
-                    boxShadow: "0px 10px 12px rgba(0,0,0,0.15)",
-                  }}
+              {slide.cta && slide.href && (
+                <motion.div
+                  variants={buttonVariants}
+                  whileHover={{ ...hoverScaleButton, transition: hoverTransition }}
+                  whileTap={{ ...tapScaleButton, transition: hoverTransition }}
+                  className="w-fit"
                 >
-                  <span style={{ fontWeight: 800, fontSize: 15, color: "#0a1628" }}>{slide.cta}</span>
-                  <ArrowRight size={18} className="text-[#0a1628] transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
-              </motion.div>
+                  <Link
+                    href={slide.href}
+                    className="group inline-flex items-center w-fit rounded-full bg-white"
+                    style={{
+                      gap: 12,
+                      padding: "14px 18px",
+                      boxShadow: "0px 10px 12px rgba(0,0,0,0.15)",
+                    }}
+                  >
+                    <span style={{ fontWeight: 800, fontSize: 15, color: "#0a1628" }}>{slide.cta}</span>
+                    <ArrowRight size={18} className="text-[#0a1628] transition-transform duration-300 group-hover:translate-x-1" />
+                  </Link>
+                </motion.div>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>

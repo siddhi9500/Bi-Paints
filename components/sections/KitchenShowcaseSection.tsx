@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Layers, LayoutGrid, SlidersHorizontal } from "lucide-react";
+import { ArrowRight, Layers, LayoutGrid, SlidersHorizontal } from "lucide-react";
 import {
   cardUp,
   fadeScaleIn,
@@ -36,7 +36,7 @@ export default function KitchenShowcaseSection() {
         whileInView="visible"
         viewport={viewportOnce}
         variants={staggerContainer(0.15)}
-        className="page-container flex flex-col items-center"
+        className="flex flex-col items-center px-6 sm:px-10 lg:px-35"
         style={{ gap: 80 }}
       >
         <motion.div
@@ -44,10 +44,10 @@ export default function KitchenShowcaseSection() {
           className="flex flex-col items-center text-center w-full"
           style={{ gap: 24 }}
         >
-          <span className="uppercase" style={{ fontWeight: 600, fontSize: 13, letterSpacing: "3px", color: "#1a5276" }}>
+          <span className="uppercase" style={{ fontWeight: 600, fontSize: 13, letterSpacing: "3px", color: "#c8963e" }}>
             Our Kitchens
           </span>
-          <h2 className="mx-auto" style={{ fontWeight: 700, fontSize: 52, color: "#0f1f3d", maxWidth: 900 }}>
+          <h2 className="mx-auto" style={{ fontWeight: 700, fontSize: 36, maxWidth: 900 }}>
             BI Modular Kitchens for Modern Living
           </h2>
           <p className="mx-auto" style={{ fontWeight: 400, fontSize: 18, lineHeight: "30px", color: "#555", maxWidth: 760 }}>
@@ -117,12 +117,12 @@ export default function KitchenShowcaseSection() {
             >
               <span
                 className="flex items-center justify-center"
-                style={{ width: 48, height: 48, borderRadius: 16, background: "#e0f2fe", color: "#1a5276" }}
+                style={{ width: 48, height: 48, borderRadius: 16, background: "#fef9e7", color: "#c8963e" }}
               >
                 <f.icon size={24} strokeWidth={2} />
               </span>
-              <h3 style={{ fontWeight: 700, fontSize: 18, color: "#0f1f3d" }}>{f.title}</h3>
-              <p style={{ fontWeight: 400, fontSize: 14, lineHeight: "22px", color: "#555" }}>{f.description}</p>
+              <h3 style={{ fontWeight: 700, fontSize: 15 }}>{f.title}</h3>
+              <p style={{ fontWeight: 400, fontSize: 13, lineHeight: "22px", color: "#555" }}>{f.description}</p>
             </motion.div>
           ))}
         </motion.div>
@@ -134,16 +134,18 @@ export default function KitchenShowcaseSection() {
         >
           <Link
             href="/products"
-            className="flex items-center justify-center hover:opacity-90"
+            className="group flex items-center hover:bg-[#1b1b2f]/5"
             style={{
-              background: "#1a5276",
-              padding: "16px 28px",
+              gap: 10,
+              border: "1.5px solid #1b1b2f",
+              padding: "12px 24px",
               borderRadius: 999,
               boxShadow: "0px 14px 15px rgba(26,82,118,0.2)",
-              transition: "opacity 0.2s ease-in-out",
+              transition: "background-color 0.2s ease-in-out",
             }}
           >
-            <span style={{ fontWeight: 700, fontSize: 15, color: "#ffffff" }}>Explore Kitchen Collections →</span>
+            <span style={{ fontWeight: 600, fontSize: 14, color: "#1b1b2f" }}>Explore Kitchen Collections</span>
+            <ArrowRight size={16} className="text-[#1b1b2f] transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </motion.div>
       </motion.div>

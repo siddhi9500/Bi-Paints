@@ -17,10 +17,12 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-public-sans);
   --font-inter: var(--font-inter);
+  --font-serif: var(--font-pt-serif);
 }
 
 /* "BI Group" design system — sourced directly from the Figma homepage
-   (html.to.design import, node 2276:188). This is the only design system
+   (html.to.design import, node 2276:188; refreshed against the 1920w
+   homepage redesign, node 3900:201). This is the only design system
    in the project; every component maps to these tokens. */
 @theme {
   --color-brand: #1a5276;
@@ -30,6 +32,15 @@
   --color-slate-light: #777777;
   --color-line: #e8e0ce;
   --color-cream: #f5f3ee;
+
+  /* Added with the 1920w homepage redesign (node 3900:201) — new gold
+     accent (replaces the old #d9a441/#c59b27 seen in older sections) and
+     the cooler neutrals/surfaces used by the new footer/newsletter/cards. */
+  --color-gold: #c8963e;
+  --color-slate-cool: #6b7280;
+  --color-slate-cool-light: #9ca3af;
+  --color-surface-soft: #f5f5f5;
+  --color-surface-subtle: #f9fafb;
 
   /* Type scale distilled from the Figma frame's recurring heading/body sizes */
   --text-h1: 3rem; /* 48px */
@@ -65,7 +76,7 @@ html {
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-public-sans), Arial, Helvetica, sans-serif;
+    font-family: var(--font-pt-serif), Georgia, "Times New Roman", serif;
     color: var(--color-ink-dark);
   }
 

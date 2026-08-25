@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Public_Sans } from "next/font/google";
+import { Inter, PT_Serif, Public_Sans } from "next/font/google";
 import { MotionConfig } from "framer-motion";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
@@ -13,11 +13,19 @@ const publicSans = Public_Sans({
   display: "swap",
 });
 
-// Inter — used only by the hero carousel and career banner, per the Figma spec.
+// Inter — used for eyebrow/label text across the site, per the Figma spec.
 const inter = Inter({
   weight: ["400", "700", "800"],
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+// PT Serif — the site's display/heading typeface (see globals.css h1-h6 rule).
+const ptSerif = PT_Serif({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-pt-serif",
   display: "swap",
 });
 
@@ -36,7 +44,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${publicSans.variable} ${inter.variable}`}>
+    <html lang="en" className={`${publicSans.variable} ${inter.variable} ${ptSerif.variable}`}>
       <body className="min-h-screen flex flex-col">
         {/* reducedMotion="user" makes every motion.* component in the tree
             honor prefers-reduced-motion automatically: transforms are

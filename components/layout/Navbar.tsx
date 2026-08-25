@@ -212,18 +212,18 @@ export default function Navbar() {
       </AnimatePresence>
 
       {/* ── Desktop ── */}
-      <div className="hidden xl:flex items-center justify-between px-8 h-20 mx-auto w-full relative z-10 bg-white">
+      <div className="hidden xl:flex items-center justify-between px-15 h-18 mx-auto w-full relative z-10 bg-white">
         <Link href="/" className="shrink-0" onClick={closeDropdown}>
           <Image
             src="/bi-logo.svg"
             alt="BI Group"
             width={3305}
             height={550}
-            style={{ height: 40, width: "auto", maxWidth: 1600 }}
+            style={{ height: 35, width: "auto", maxWidth: 1600 }}
           />
         </Link>
 
-        <nav className="flex items-center gap-6.75">
+        <nav className="flex items-center gap-5.75 2xl:gap-9.75">
           {NAV_ITEMS.map((item) => (
             <div
               key={item.key}
@@ -234,7 +234,7 @@ export default function Navbar() {
               <Link
                 href={item.href}
                 onClick={closeDropdown}
-                className="flex items-center gap-1 uppercase whitespace-nowrap text-black hover:text-brand"
+                className="flex items-center gap-1 uppercase whitespace-nowrap text-black hover:text-brand "
                 style={NAV_TEXT_STYLE}
               >
                 {item.label}

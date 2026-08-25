@@ -21,9 +21,9 @@ const slideIn = {
 
 export default function CareerBannerSection() {
   return (
-    // Figma: section.behind-coating (2276:440), aspect-[1440/600]
-    <section className="font-inter relative overflow-hidden w-full" style={{ aspectRatio: "1440 / 600" }}>
-      <Image src="/career-banner.jpg" alt="Career at BI Group" fill className="object-cover object-center" sizes="100vw" />
+    // Figma: section.behind-coating, node 3900:336, aspect-[1440/600]
+    <section className="font-inter relative overflow-hidden w-full" style={{ aspectRatio: "1819 / 563" }}>
+      <Image src="/career-banner-2.jpg" alt="Career at BI Group" fill className="object-cover object-center" sizes="100vw" />
 
       <div
         className="absolute inset-0"
@@ -33,22 +33,22 @@ export default function CareerBannerSection() {
         }}
       />
 
-      {/* Content Container: pl-100 pr-40 py-120, width 1230, gap-32 */}
-      <div className="relative h-full flex items-center" style={{ paddingLeft: 100, paddingRight: 40 }}>
+      {/* Content Container: pl-140 pr-40 py-80, width 760, gap-32 */}
+      <div className="relative h-full flex items-center pl-6 sm:pl-10 lg:pl-35" style={{ paddingRight: 40 }}>
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={viewportOnce}
           variants={staggerContainer(0.12)}
           className="flex flex-col items-start"
-          style={{ gap: 32, maxWidth: 1230 }}
+          style={{ gap: 32, maxWidth: 760 }}
         >
           {/* Text Stack: gap-20 */}
           <div className="flex flex-col items-start w-full" style={{ gap: 20 }}>
             <motion.h2
               variants={slideIn}
               className="w-full"
-              style={{ fontWeight: 700, fontSize: 52, lineHeight: 1.15, letterSpacing: "-1.5px", color: "#ffffff" }}
+              style={{ fontSize: 36, lineHeight: 1.15, letterSpacing: "-1.5px", color: "#ffffff" }}
             >
               Career at BI Group
             </motion.h2>
@@ -57,10 +57,10 @@ export default function CareerBannerSection() {
               variants={slideIn}
               style={{ fontWeight: 400, fontSize: 15, color: "rgba(255,255,255,0.85)" }}
             >
-              <p style={{ lineHeight: 1.7, margin: 0 }}>We believe in people who are passionate,</p>
-              <p style={{ lineHeight: 1.7, margin: 0 }}>driven and ready to make a difference.</p>
-              <p style={{ lineHeight: 1.7, margin: 0 }}>Explore opportunities and grow with</p>
-              <p style={{ lineHeight: 1.7, margin: 0 }}>India&apos;s trusted paint company.</p>
+              <p style={{ lineHeight: 1.7, margin: 0 }}>We believe in people who are passionate,driven and ready </p>
+              <p style={{ lineHeight: 1.7, margin: 0 }}>to make a difference. </p>
+              <p style={{ lineHeight: 1.7, margin: 0 }}>Explore opportunities and grow with India&apos;s</p>
+              <p style={{ lineHeight: 1.7, margin: 0 }}> trusted paint company.</p>
             </motion.div>
           </div>
 
@@ -71,20 +71,25 @@ export default function CareerBannerSection() {
           >
             <Link
               href="/careers"
-              className="group inline-flex items-center justify-center hover:opacity-90"
+              className="group inline-flex items-center justify-center hover:bg-white/10"
               style={{
                 gap: 10,
-                background: "#005c8a",
-                padding: "14px 28px",
-                borderRadius: 4,
-                transition: "opacity 0.25s ease-in-out",
+                padding: "12px 24px",
+                borderRadius: 24,
+                border: "1.5px solid #ffffff",
+                transition: "background-color 0.25s ease-in-out",
               }}
             >
-              <span style={{ fontWeight: 600, fontSize: 16, color: "#ffffff" }}>Learn more</span>
+              <span style={{ fontWeight: 600, fontSize: 14, color: "#ffffff" }}>Learn more</span>
               <ArrowRight size={16} className="text-white transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </motion.div>
         </motion.div>
+      </div>
+
+      {/* jacket-logo watermark, bottom-right */}
+      <div className="absolute hidden sm:block" style={{ bottom: 143, right: 391, width: 160, mixBlendMode: "multiply", opacity: 0.85 }}>
+        <Image src="/bi-paints-logo.svg" alt="" aria-hidden width={775} height={151} style={{ width: "100%", height: "auto" }} />
       </div>
     </section>
   );

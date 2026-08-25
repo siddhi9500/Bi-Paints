@@ -10,6 +10,7 @@ const PARTNERS = [
   { name: "ElectroMech", logo: "/client-electromech.png" },
   { name: "Lohr", logo: "/client-lohr.png" },
   { name: "Godrej", logo: "/client-godrej.png" },
+  { name: "Marini", logo: "/client-marini.png" },
   { name: "Larsen & Toubro", logo: "/client-lt.png" },
 ];
 
@@ -21,7 +22,7 @@ export default function TrustedPartnersSection() {
         whileInView="visible"
         viewport={viewportOnce}
         variants={staggerContainer(0.15)}
-        className="page-container flex flex-col items-center"
+        className="flex flex-col items-center px-6 sm:px-10 lg:px-15"
       >
         {/* trusted-partners-heading (3028:225) */}
         <motion.div
@@ -29,13 +30,13 @@ export default function TrustedPartnersSection() {
           className="flex flex-col items-center text-center"
           style={{ gap: 12, paddingBottom: 20 }}
         >
-          <p style={{ fontWeight: 600, fontSize: 13, letterSpacing: "3px", color: "#0b2d5b", margin: 0 }}>
-            OUR PARTNERS
+          <p className="uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#c8963e", margin: 0 }}>
+            Our Partners
           </p>
-          <p style={{ fontWeight: 600, fontSize: 32, color: "#222222", margin: 0 }}>
+          <p style={{ fontFamily: "var(--font-pt-serif)", fontWeight: 700, fontSize: 32, color: "#0f1f3d", margin: 0 }}>
             Trusted by India&apos;s Leading Industries
           </p>
-          <p style={{ fontWeight: 400, fontSize: 16, color: "#787878", margin: 0 }}>
+          <p style={{ fontWeight: 400, fontSize: 14, color: "#20252b", margin: 0 }}>
             Partnering with top organizations across defence, steel, energy, and engineering
             sectors
           </p>

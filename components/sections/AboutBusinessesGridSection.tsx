@@ -5,16 +5,16 @@ import { motion } from "framer-motion";
 import { cardUp, fadeUp, hoverLiftCard, hoverTransition, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const BUSINESSES = [
-  { title: "BI Paints", description: "Premium protective coatings and colors.", image: "/about-biz-0.jpg" },
-  { title: "BI Modular Kitchen", description: "Smart high-end kitchen cabinets.", image: "/about-biz-1.jpg" },
-  { title: "BI Agriculture", description: "Sustainable organic farming inputs.", image: "/about-biz-2.jpg" },
-  { title: "BI Homeopathy", description: "Holistic, traditional wellness formulas.", image: "/about-biz-3.jpg" },
-  { title: "BI Clothes", description: "Contemporary lifestyle fashion brand.", image: "/about-biz-4.jpg" },
-  { title: "BI Electronics", description: "Smart appliances built for comfort.", image: "/about-biz-5.jpg" },
-  { title: "BI Air Conditioner", description: "Advanced HVAC systems for heavy cooling.", image: "/about-biz-6.jpg" },
-  { title: "BI Painting Solution", description: "End-to-end master commercial service.", image: "/about-biz-7.jpg" },
-  { title: "BI Engineering", description: "Heavy mechanical and industrial works.", image: "/about-biz-8.jpg" },
-  { title: "BI E-commerce", description: "Unified direct corporate retail portal.", image: "/about-biz-9.jpg" },
+  { title: "BI Paints",           description: "Premium protective coatings and colors.", image: "/about-biz-0.jpg" },
+  { title: "BI Modular Kitchen",  description: "Smart high-end kitchen cabinets.", image: "/about-biz-1.jpg" },
+  { title: "BI Agriculture",      description: "Sustainable organic farming inputs.", image: "/about-biz-2.jpg" },
+  { title: "BI Homeopathy",       description: "Holistic, traditional wellness formulas.", image: "/about-biz-3.jpg" },
+  { title: "BI Clothes",          description: "Contemporary lifestyle fashion brand.", image: "/about-biz-4.jpg" },
+  { title: "BI Electronics",      description: "Smart appliances built for comfort.", image: "/about-biz-5.jpg" },
+  { title: "BI Air Conditioner",  description: "Advanced HVAC systems for heavy cooling.", image: "/about-biz-6.jpg" },
+  { title: "BI Painting Solution",   description: "End-to-end master commercial service.", image: "/about-biz-7.jpg" },
+  { title: "BI Engineering",      description: "Heavy mechanical and industrial works.", image: "/about-biz-8.jpg" },
+  { title: "BI E-commerce",       description: "Unified direct corporate retail portal.", image: "/about-biz-9.jpg" },
 ];
 
 export default function AboutBusinessesGridSection() {

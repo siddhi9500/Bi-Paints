@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Factory, Globe2, MapPin, Warehouse } from "lucide-react";
-import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
+import { EASE_OUT, fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 import { LOCATION_TYPE_LABEL, WHERE_WE_ARE_LOCATIONS, type LocationType } from "@/lib/data/whereWeAre";
 
 const TYPE_ICON: Record<LocationType, typeof Factory> = {
@@ -24,6 +24,25 @@ const MARKERS = [
   { key: "export-srilanka", mapPosition: { xPct: 72.2, yPct: 70.2 }, locationIds: ["export-srilanka"] },
   { key: "export-maldives", mapPosition: { xPct: 89.5, yPct: 35.2 }, locationIds: ["export-maldives"] },
 ];
+
+// Map image is locked to this aspect ratio (see the container's `aspectRatio`
+// style below), so a matching viewBox lets these coordinates line up exactly
+// with the percentage-positioned marker buttons with zero distortion.
+const MAP_VIEWBOX = { w: 1400, h: 773 };
+const HQ_MARKER = MARKERS.find((m) => m.key === "surat")!;
+
+// Flight-path connections from HQ to every export market, arced upward like a
+// route line on a network map. Computed once at module scope since the
+// marker positions never change at runtime.
+const ROUTES = MARKERS.filter((m) => m.key !== "surat").map((marker) => {
+  const x1 = (HQ_MARKER.mapPosition.xPct / 100) * MAP_VIEWBOX.w;
+  const y1 = (HQ_MARKER.mapPosition.yPct / 100) * MAP_VIEWBOX.h;
+  const x2 = (marker.mapPosition.xPct / 100) * MAP_VIEWBOX.w;
+  const y2 = (marker.mapPosition.yPct / 100) * MAP_VIEWBOX.h;
+  const mx = (x1 + x2) / 2;
+  const my = (y1 + y2) / 2 - Math.hypot(x2 - x1, y2 - y1) * 0.22;
+  return { key: marker.key, d: `M ${x1} ${y1} Q ${mx} ${my} ${x2} ${y2}` };
+});
 
 export default function WhereWeAreGlobalFootprintSection() {
   const [activeKey, setActiveKey] = useState("surat");
@@ -62,6 +81,51 @@ export default function WhereWeAreGlobalFootprintSection() {
             style={{ aspectRatio: "1400 / 773", borderRadius: 8, border: "1px solid #eaeaea" }}
           >
             <Image src="/global-footprint-map.png" alt="BI Group global footprint map" fill className="object-cover" sizes="(min-width: 1024px) 65vw, 100vw" />
+
+            <svg
+              className="absolute inset-0 w-full h-full"
+              viewBox={`0 0 ${MAP_VIEWBOX.w} ${MAP_VIEWBOX.h}`}
+              style={{ pointerEvents: "none" }}
+              aria-hidden
+            >
+              {ROUTES.map((route, i) => {
+                const isActive = route.key === activeKey;
+                return (
+                  <motion.path
+                    key={route.key}
+                    d={route.d}
+                    fill="none"
+                    stroke="#d9a441"
+                    strokeWidth={2.5}
+                    strokeLinecap="round"
+                    strokeDasharray="8 8"
+                    vectorEffect="non-scaling-stroke"
+                    initial={{ pathLength: 0 }}
+                    whileInView={{ pathLength: 1 }}
+                    viewport={viewportOnce}
+                    transition={{ duration: 1.4, ease: EASE_OUT, delay: i * 0.15 }}
+                    style={{
+                      strokeOpacity: isActive ? 0.95 : 0.28,
+                      filter: isActive ? "drop-shadow(0 0 4px rgba(217,164,65,0.65))" : "none",
+                      transition: "stroke-opacity 0.4s ease, filter 0.4s ease",
+                    }}
+                  />
+                );
+              })}
+              {ROUTES.filter((r) => r.key === activeKey).map((route) => (
+                <motion.circle
+                  key={`pulse-${route.key}`}
+                  r={4.5}
+                  fill="#d9a441"
+                  style={{
+                    offsetPath: `path("${route.d}")`,
+                    filter: "drop-shadow(0 0 4px rgba(217,164,65,0.8))",
+                  }}
+                  animate={{ offsetDistance: ["0%", "100%"] }}
+                  transition={{ duration: 2.2, ease: "linear", repeat: Infinity, delay: 1.2 }}
+                />
+              ))}
+            </svg>
 
             {MARKERS.map((marker) => {
               const isActive = marker.key === activeKey;

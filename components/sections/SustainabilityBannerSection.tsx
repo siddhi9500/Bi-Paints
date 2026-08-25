@@ -16,9 +16,9 @@ import {
 
 export default function SustainabilityBannerSection() {
   return (
-    // Figma: bi-sustainability-banner (3021:150), px-120 py-80
-    <section className="relative overflow-hidden w-full flex flex-col justify-center" style={{ padding: "80px 120px", minHeight: 640 }}>
-      <Image src="/sustainability-banner.jpg" alt="BI Group sustainability" fill className="object-cover" sizes="100vw" />
+    // Figma: bi-sustainability-banner, node 3900:462, px-140 py-64
+    <section className="relative overflow-hidden w-full flex flex-col justify-center" style={{ padding: "64px 140px", minHeight: 560 }}>
+      <Image src="/sustainability-banner-2.jpg" alt="BI Group sustainability" fill className="object-cover" sizes="100vw" />
       <div
         className="absolute inset-0"
         style={{
@@ -32,13 +32,13 @@ export default function SustainabilityBannerSection() {
         viewport={viewportOnce}
         variants={staggerContainer(0.12)}
         className="relative flex flex-col items-start"
-        style={{ gap: 32, width: 840, maxWidth: "100%" }}
+        style={{ gap: 24, width: 640, maxWidth: "100%" }}
       >
         <div className="flex flex-col items-start w-full" style={{ gap: 20 }}>
           <motion.span
             variants={fadeUpSmall}
             className="uppercase w-full"
-            style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "rgba(255,255,255,0.8)" }}
+            style={{ fontWeight: 700, fontSize: 11, letterSpacing: "2px", color: "rgba(255,255,255,0.8)" }}
           >
             At BI Group, we are driven by a purpose to build and protect India&apos;s future
           </motion.span>
@@ -46,16 +46,16 @@ export default function SustainabilityBannerSection() {
           <motion.div
             variants={fadeUp}
             className="w-full"
-            style={{ fontWeight: 800, fontSize: 52, letterSpacing: "-1.5px", color: "#ffffff" }}
+            style={{ fontFamily: "var(--font-pt-serif)", fontWeight: 700, fontSize: 28, letterSpacing: "-1.5px", color: "#ffffff" }}
           >
-            <p style={{ lineHeight: 1.15, margin: 0 }}>Protecting Surfaces,</p>
-            <p style={{ lineHeight: 1.15, margin: 0 }}>Preserving the Future</p>
+            <p style={{ lineHeight: 1.2, margin: 0 }}>Protecting Surfaces,</p>
+            <p style={{ lineHeight: 1.2, margin: 0 }}>Preserving the Future</p>
           </motion.div>
 
           <motion.p
             variants={fadeUp}
             className="w-full"
-            style={{ fontWeight: 400, fontSize: 16, lineHeight: 1.6, color: "rgba(255,255,255,0.85)" }}
+            style={{ fontWeight: 400, fontSize: 13, lineHeight: 1.6, color: "rgba(255,255,255,0.85)" }}
           >
             Together with our partners and customers, we are committed to delivering
             world-class coatings and solutions that protect infrastructure, empower
@@ -79,7 +79,7 @@ export default function SustainabilityBannerSection() {
               transition: "all 0.25s ease-in-out",
             }}
           >
-            <span style={{ fontWeight: 600, fontSize: 15 }}>Read more about Sustainability</span>
+            <span style={{ fontWeight: 600, fontSize: 13 }}>Read more about Sustainability</span>
             <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </motion.div>
