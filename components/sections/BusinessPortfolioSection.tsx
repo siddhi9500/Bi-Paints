@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import ScrollRevealImage from "@/components/ScrollRevealImage";
 import { cardUp, fadeUp, hoverLiftCard, hoverScaleButton, hoverTransition, staggerContainer, tapScaleButton, viewportOnce } from "@/lib/motion";
 
 // Images pulled directly from Figma's Category Cards Grid (node 3920:265),
@@ -53,6 +54,37 @@ const BUSINESSES = [
   },
 ];
 
+function BusinessCard({ business }: { business: (typeof BUSINESSES)[number] }) {
+  return (
+    <motion.div variants={cardUp} whileHover={hoverLiftCard}>
+      <Link
+        href={business.href}
+        className="group flex flex-col h-full overflow-hidden bg-white"
+        style={{ border: "1px solid #eaeaea", borderRadius: 12, boxShadow: "0px 4px 12px rgba(15,31,61,0.05)" }}
+      >
+        <div className="relative w-full overflow-hidden" style={{ height: 240 }}>
+          <ScrollRevealImage>
+            <Image
+              src={business.image}
+              alt={business.title}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            />
+          </ScrollRevealImage>
+        </div>
+        <div className="flex flex-col items-start justify-center bg-white" style={{ gap: 12, padding: 20, height: 140 }}>
+          <div className="flex items-center justify-between w-full">
+            <h3 style={{ fontWeight: 700, fontSize: 18, margin: 0 }}>{business.title}</h3>
+            <ArrowRight size={16} className="shrink-0 text-brand transition-transform duration-300 group-hover:translate-x-1" />
+          </div>
+          <p style={{ fontWeight: 400, fontSize: 13, lineHeight: 1.5, color: "#666", margin: 0 }}>{business.description}</p>
+        </div>
+      </Link>
+    </motion.div>
+  );
+}
+
 export default function BusinessPortfolioSection() {
   return (
     <section className="bg-white" style={{ paddingTop: 100, paddingBottom: 100 }}>
@@ -78,30 +110,7 @@ export default function BusinessPortfolioSection() {
 
         <motion.div variants={staggerContainer(0.08)} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full" style={{ gap: 24 }}>
           {BUSINESSES.map((b) => (
-            <motion.div key={b.title} variants={cardUp} whileHover={hoverLiftCard}>
-              <Link
-                href={b.href}
-                className="group flex flex-col h-full overflow-hidden bg-white"
-                style={{ border: "1px solid #eaeaea", borderRadius: 12, boxShadow: "0px 4px 12px rgba(15,31,61,0.05)" }}
-              >
-                <div className="relative w-full overflow-hidden" style={{ height: 240 }}>
-                  <Image
-                    src={b.image}
-                    alt={b.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                  />
-                </div>
-                <div className="flex flex-col items-start justify-center bg-white" style={{ gap: 12, padding: 20, height: 140 }}>
-                  <div className="flex items-center justify-between w-full">
-                    <h3 style={{ fontWeight: 700, fontSize: 18, margin: 0 }}>{b.title}</h3>
-                    <ArrowRight size={16} className="shrink-0 text-brand transition-transform duration-300 group-hover:translate-x-1" />
-                  </div>
-                  <p style={{ fontWeight: 400, fontSize: 13, lineHeight: 1.5, color: "#666", margin: 0 }}>{b.description}</p>
-                </div>
-              </Link>
-            </motion.div>
+            <BusinessCard key={b.title} business={b} />
           ))}
         </motion.div>
 

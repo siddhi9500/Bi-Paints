@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Layers, LayoutGrid, SlidersHorizontal } from "lucide-react";
+import ScrollRevealImage from "@/components/ScrollRevealImage";
 import {
   cardUp,
   fadeScaleIn,
@@ -73,13 +74,15 @@ export default function KitchenShowcaseSection() {
                 className="group relative overflow-hidden"
                 style={{ height: 260, borderRadius: 20, boxShadow: "0px 14px 30px -10px rgba(0,0,0,0.07)" }}
               >
-                <Image
-                  src={s.image}
-                  alt={s.label}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  sizes="(min-width: 640px) 33vw, 100vw"
-                />
+                <ScrollRevealImage>
+                  <Image
+                    src={s.image}
+                    alt={s.label}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(min-width: 640px) 33vw, 100vw"
+                  />
+                </ScrollRevealImage>
                 <span
                   className="absolute"
                   style={{

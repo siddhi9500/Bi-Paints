@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import ScrollRevealImage from "@/components/ScrollRevealImage";
 import { cardUp, fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const MILESTONES = [
@@ -85,7 +86,9 @@ function MilestoneCard({ m }: { m: (typeof MILESTONES)[number] }) {
       style={{ gap: 20, padding: 32, borderRadius: 16, border: "1px solid #e5e7eb", maxWidth: 640, boxShadow: "0px 4px 8px rgba(0,0,0,0.04)" }}
     >
       <div className="relative w-full overflow-hidden" style={{ height: 220, borderRadius: 8 }}>
-        <Image src={m.image} alt={m.title} fill className="object-cover" sizes="(min-width: 1024px) 640px, 100vw" />
+        <ScrollRevealImage>
+          <Image src={m.image} alt={m.title} fill className="object-cover" sizes="(min-width: 1024px) 640px, 100vw" />
+        </ScrollRevealImage>
       </div>
       <div className="flex flex-col items-start" style={{ gap: 6 }}>
         <span style={{ fontWeight: 700, fontSize: 28, color: "#f5a623" }}>{m.year}</span>

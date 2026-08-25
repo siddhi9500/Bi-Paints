@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import ScrollRevealImage from "@/components/ScrollRevealImage";
 import { fadeUp, fadeUpSmall, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const PARTNERS = [
@@ -48,10 +49,12 @@ export default function TrustedPartnersSection() {
             <motion.div
               key={p.name}
               variants={fadeUpSmall}
-              className="relative shrink-0"
+              className="relative shrink-0 overflow-hidden"
               style={{ width: 160, height: 64 }}
             >
-              <Image src={p.logo} alt={p.name} fill className="object-contain" sizes="160px" />
+              <ScrollRevealImage>
+                <Image src={p.logo} alt={p.name} fill className="object-contain" sizes="160px" />
+              </ScrollRevealImage>
             </motion.div>
           ))}
         </motion.div>

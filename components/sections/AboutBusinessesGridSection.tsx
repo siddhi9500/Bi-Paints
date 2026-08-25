@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import ScrollRevealImage from "@/components/ScrollRevealImage";
 import { cardUp, fadeUp, hoverLiftCard, hoverTransition, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const BUSINESSES = [
@@ -53,13 +54,15 @@ export default function AboutBusinessesGridSection() {
               style={{ borderRadius: 16, border: "1px solid #ede8df", boxShadow: "0px 4px 12px rgba(15,31,61,0.02)" }}
             >
               <div className="relative w-full overflow-hidden" style={{ height: 160 }}>
-                <Image
-                  src={b.image}
-                  alt={b.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                />
+                <ScrollRevealImage>
+                  <Image
+                    src={b.image}
+                    alt={b.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  />
+                </ScrollRevealImage>
               </div>
               <div className="flex flex-col items-start w-full" style={{ gap: 8, padding: 20 }}>
                 <h3 className="truncate w-full" style={{ fontWeight: 700, fontSize: 16, color: "#0f1f3d" }}>

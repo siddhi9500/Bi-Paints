@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { EASE_OUT, fadeScaleIn, fadeUp, hoverLiftCard, hoverTransition, staggerContainer, viewportOnce } from "@/lib/motion";
+import ScrollRevealImage from "@/components/ScrollRevealImage";
+import { fadeScaleIn, fadeUp, hoverLiftCard, hoverTransition, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const CATEGORIES = [
   {
@@ -76,13 +77,7 @@ export default function WhatWeDoIntroSection() {
               style={{ border: "1px solid #e5e7eb", borderRadius: 16, height: 380 }}
             >
               <div className="relative w-full shrink-0 overflow-hidden" style={{ height: 240 }}>
-                <motion.div
-                  initial={{ scale: 1.15, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={viewportOnce}
-                  transition={{ duration: 0.9, ease: EASE_OUT }}
-                  className="absolute inset-0"
-                >
+                <ScrollRevealImage>
                   <Image
                     src={c.image}
                     alt={c.title}
@@ -90,7 +85,7 @@ export default function WhatWeDoIntroSection() {
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   />
-                </motion.div>
+                </ScrollRevealImage>
               </div>
               <div className="flex flex-col items-start w-full flex-1" style={{ gap: 10, padding: 20 }}>
                 <div className="flex items-center justify-between w-full">

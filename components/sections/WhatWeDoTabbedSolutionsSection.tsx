@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { EASE_OUT, fadeScaleIn, fadeUp, hoverLiftCard, hoverTransition, staggerContainer, viewportOnce } from "@/lib/motion";
+import ScrollRevealImage from "@/components/ScrollRevealImage";
+import { fadeScaleIn, fadeUp, hoverLiftCard, hoverTransition, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const TABS = ["For Homes", "For Businesses", "For Industries", "For Projects"];
 
@@ -64,13 +65,7 @@ export default function WhatWeDoTabbedSolutionsSection() {
               style={{ border: "1px solid #eaeaea" }}
             >
               <div className="relative w-full overflow-hidden" style={{ height: 180 }}>
-                <motion.div
-                  initial={{ scale: 1.15, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={viewportOnce}
-                  transition={{ duration: 0.9, ease: EASE_OUT }}
-                  className="absolute inset-0"
-                >
+                <ScrollRevealImage>
                   <Image
                     src={s.image}
                     alt={s.title}
@@ -78,7 +73,7 @@ export default function WhatWeDoTabbedSolutionsSection() {
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                     sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw"
                   />
-                </motion.div>
+                </ScrollRevealImage>
               </div>
               <div className="flex flex-col items-start w-full" style={{ gap: 8, padding: 20 }}>
                 <h3 style={{ fontWeight: 700, fontSize: 18, color: "#0b1f3a", margin: 0 }}>{s.title}</h3>

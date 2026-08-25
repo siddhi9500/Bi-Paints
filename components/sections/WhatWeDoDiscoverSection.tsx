@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
-import { EASE_OUT, fadeScaleIn, fadeUp, hoverLiftCard, staggerContainer, viewportOnce } from "@/lib/motion";
+import ScrollRevealImage from "@/components/ScrollRevealImage";
+import { fadeScaleIn, fadeUp, hoverLiftCard, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const CARDS = [
   { tag: "Who We Are", title: "Discover our story, vision and businesses.", href: "/about", image: "/wwd2-editorial-who.jpg" },
@@ -44,13 +45,7 @@ export default function WhatWeDoDiscoverSection() {
                 className="relative flex flex-col justify-end overflow-hidden"
                 style={{ gap: 12, height: 440, padding: 32, borderRadius: 8 }}
               >
-                <motion.div
-                  initial={{ scale: 1.15 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={viewportOnce}
-                  transition={{ duration: 1, ease: EASE_OUT }}
-                  className="absolute inset-0"
-                >
+                <ScrollRevealImage>
                   <Image
                     src={c.image}
                     alt={c.tag}
@@ -58,7 +53,7 @@ export default function WhatWeDoDiscoverSection() {
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                     sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                   />
-                </motion.div>
+                </ScrollRevealImage>
                 <div
                   className="absolute inset-0"
                   style={{

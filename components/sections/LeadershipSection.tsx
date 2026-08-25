@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import ScrollRevealImage from "@/components/ScrollRevealImage";
 import { cardUp, fadeUp, hoverLiftCard, hoverTransition, staggerContainer, viewportOnce } from "@/lib/motion";
 
 // lucide-react ships no brand/social icons — mirrors Footer.tsx's inline SvgLinkedin.
@@ -67,7 +68,9 @@ export default function LeadershipSection() {
               style={{ gap: 24, padding: 24, borderRadius: 20, background: "#f4f7fb", border: "1px solid #ede8df" }}
             >
               <div className="relative w-full overflow-hidden" style={{ height: 360, borderRadius: 12 }}>
-                <Image src={l.image} alt={l.name} fill className="object-cover" sizes="(min-width: 768px) 33vw, 100vw" />
+                <ScrollRevealImage>
+                  <Image src={l.image} alt={l.name} fill className="object-cover" sizes="(min-width: 768px) 33vw, 100vw" />
+                </ScrollRevealImage>
               </div>
               <div className="flex flex-col items-start w-full" style={{ gap: 12 }}>
                 <div className="flex items-center justify-between w-full">

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import ScrollRevealImage from "@/components/ScrollRevealImage";
 import { cardUp, fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const NEWS = [
@@ -51,13 +52,15 @@ export default function NewsInsightsSection() {
           {NEWS.map((item) => (
             <motion.div key={item.title} variants={cardUp} className="flex flex-col items-start" style={{ gap: 12 }}>
               <div className="relative w-full overflow-hidden" style={{ height: 300, borderRadius: 8 }}>
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="object-cover"
-                  sizes="(min-width: 768px) 33vw, 100vw"
-                />
+                <ScrollRevealImage>
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover"
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                  />
+                </ScrollRevealImage>
               </div>
               <p style={{ fontSize: 12, color: "#c8963e" }}>{item.date}</p>
               <h3 style={{ fontSize: 18, fontWeight: 700 }}>{item.title}</h3>
