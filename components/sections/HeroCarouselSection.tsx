@@ -1,10 +1,11 @@
 "use client";
 
-import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { passThroughVariants, TypingReveal } from "@/components/TypingReveal";
 import { EASE_OUT, hoverScaleButton, hoverTransition, tapScaleButton } from "@/lib/motion";
 
 const AUTOPLAY_MS = 6000;
@@ -19,88 +20,10 @@ const textGroupVariants: Variants = {
   exit: { opacity: 0, transition: { duration: 0.5, ease: EASE_OUT } },
 };
 
-// Pass-through variant for wrapper tags (h1/p) that hold TypingReveal spans —
-// no visual change of their own, just propagates "hidden"/"visible" down.
-const passThroughVariants: Variants = { hidden: {}, visible: {} };
-
 const buttonVariants: Variants = {
   hidden: { opacity: 0, y: 15 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: EASE_OUT, delay: 2.5 } },
 };
-
-// A slow, GPU-only (opacity + y) cascade reveal — letters for short display
-// text, words for longer copy so a full sentence doesn't take 10+ seconds.
-// Each piece inherits "hidden"/"visible" from the nearest ancestor that
-// declares those variant states (see textGroupVariants), so it only plays
-// once per slide mount and never replays while the slide stays active.
-function TypingReveal({
-  text,
-  split,
-  charDelay,
-  charDuration,
-  baseDelay,
-}: {
-  text: string;
-  split: "letter" | "word";
-  charDelay: number;
-  charDuration: number;
-  baseDelay: number;
-}) {
-  const letterSpan = (key: number, char: string, delayIndex: number) => (
-    <motion.span
-      key={key}
-      variants={{
-        hidden: { opacity: 0, y: 6 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: charDuration, ease: EASE_OUT, delay: baseDelay + delayIndex * charDelay },
-        },
-      }}
-      style={{ display: "inline-block" }}
-    >
-      {char}
-    </motion.span>
-  );
-
-  if (split === "word") {
-    const words = text.split(" ");
-    return (
-      <>
-        {words.map((word, i) => (
-          <Fragment key={i}>
-            {letterSpan(i, word, i)}
-            {i < words.length - 1 ? " " : ""}
-          </Fragment>
-        ))}
-      </>
-    );
-  }
-
-  // Letter mode: each atomic inline-block letter is a valid line-break point
-  // to the browser, so wrap every word's letters in a nowrap group — the
-  // (unanimated, plain-text) space between groups stays the only break point.
-  const words = text.split(" ");
-  const wordStartIndexes = words.reduce<number[]>((acc, _word, wi) => {
-    acc.push(wi === 0 ? 0 : acc[wi - 1] + words[wi - 1].length);
-    return acc;
-  }, []);
-  return (
-    <>
-      {words.map((word, wi) => {
-        const startIndex = wordStartIndexes[wi];
-        return (
-          <Fragment key={wi}>
-            <span style={{ display: "inline-block", whiteSpace: "nowrap" }}>
-              {Array.from(word).map((letter, li) => letterSpan(li, letter, startIndex + li))}
-            </span>
-            {wi < words.length - 1 ? " " : ""}
-          </Fragment>
-        );
-      })}
-    </>
-  );
-}
 
 type Slide = {
   eyebrow?: string;
