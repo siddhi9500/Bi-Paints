@@ -62,7 +62,7 @@ export default function WhereWeAreGlobalFootprintSection() {
         <motion.div variants={fadeUp} className="flex flex-col items-center text-center mx-auto" style={{ gap: 20, maxWidth: 720 }}>
           <div className="flex items-center" style={{ gap: 8 }}>
             <span style={{ width: 12, height: 2, background: "#d9a441" }} />
-            <span className="uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
+            <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
               Global Footprint
             </span>
           </div>
@@ -174,7 +174,7 @@ export default function WhereWeAreGlobalFootprintSection() {
                 <div key={loc.id} className="flex flex-col" style={{ gap: 12, paddingTop: i > 0 ? 20 : 0, borderTop: i > 0 ? "1px solid rgba(255,255,255,0.12)" : "none" }}>
                   <div className="flex items-center" style={{ gap: 10 }}>
                     <Icon size={20} color="#d9a441" strokeWidth={1.75} />
-                    <span className="uppercase" style={{ fontWeight: 700, fontSize: 11, letterSpacing: "1.5px", color: "#d9a441" }}>
+                    <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 11, letterSpacing: "1.5px", color: "#d9a441" }}>
                       {LOCATION_TYPE_LABEL[loc.type]}
                     </span>
                   </div>

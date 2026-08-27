@@ -33,7 +33,7 @@ export default function WhereWeAreManufacturingSection() {
           <motion.div variants={fadeUp} className="flex flex-col items-start" style={{ gap: 20 }}>
             <div className="flex items-center" style={{ gap: 8 }}>
               <span style={{ width: 12, height: 2, background: "#d9a441" }} />
-              <span className="uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
+              <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
                 Manufacturing
               </span>
             </div>
@@ -65,7 +65,7 @@ export default function WhereWeAreManufacturingSection() {
               className="inline-flex items-center"
               style={{ gap: 12, background: "#0b1f3a", padding: "16px 32px", borderRadius: 4 }}
             >
-              <span className="uppercase" style={{ fontWeight: 700, fontSize: 14, letterSpacing: "1px", color: "#ffffff" }}>
+              <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 14, letterSpacing: "1px", color: "#ffffff" }}>
                 Explore Our Manufacturing
               </span>
               <ArrowRight size={16} color="#ffffff" />

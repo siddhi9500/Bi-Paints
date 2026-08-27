@@ -59,7 +59,7 @@ export default function WhereWeAreHeroSection() {
               className="inline-flex items-center justify-center"
               style={{ background: "#0a1628", padding: "14px 28px", borderRadius: 24 }}
             >
-              <span className="uppercase" style={{ fontWeight: 700, fontSize: 14, letterSpacing: "1px", color: "#ffffff" }}>
+              <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 14, letterSpacing: "1px", color: "#ffffff" }}>
                 Explore Our Presence
               </span>
             </Link>
@@ -70,7 +70,7 @@ export default function WhereWeAreHeroSection() {
               className="inline-flex items-center justify-center"
               style={{ padding: "14px 28px", borderRadius: 24, border: "1.5px solid #ffffff" }}
             >
-              <span className="uppercase" style={{ fontWeight: 700, fontSize: 14, letterSpacing: "1px", color: "#ffffff" }}>
+              <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 14, letterSpacing: "1px", color: "#ffffff" }}>
                 Contact Us
               </span>
             </Link>

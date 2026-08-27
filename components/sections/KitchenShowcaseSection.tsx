@@ -70,46 +70,6 @@ export default function KitchenShowcaseSection() {
               </ScrollRevealImage>
             </div>
 
-            {HOTSPOTS.map((h, i) => (
-              <motion.span
-                key={i}
-                className="hidden sm:flex absolute items-center justify-center bg-white"
-                style={{
-                  left: h.left,
-                  top: h.top,
-                  transform: "translate(-50%, -50%)",
-                  width: 36,
-                  height: 36,
-                  borderRadius: 18,
-                  border: "1px solid #e8e8e8",
-                  boxShadow: "0px 4px 6px rgba(0,0,0,0.13)",
-                }}
-                animate={{ scale: [1, 1.12, 1] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
-              >
-                <Play size={14} className="text-brand" fill="currentColor" />
-              </motion.span>
-            ))}
-
-            <div
-              className="hidden sm:flex flex-col items-center absolute"
-              style={{ left: TOOLTIP_HOTSPOT.left, top: TOOLTIP_HOTSPOT.top, transform: "translate(-50%, -100%)" }}
-            >
-              <span
-                className="bg-white whitespace-nowrap"
-                style={{ padding: "8px 16px", borderRadius: 8, boxShadow: "0px 4px 8px rgba(0,0,0,0.2)", marginBottom: 6 }}
-              >
-                <span style={{ fontWeight: 600, fontSize: 13, color: "#1b1b2f" }}>{TOOLTIP_HOTSPOT.label}</span>
-              </span>
-              <motion.span
-                className="flex items-center justify-center bg-white"
-                style={{ width: 36, height: 36, borderRadius: 18, border: "1px solid #e8e8e8", boxShadow: "0px 4px 6px rgba(0,0,0,0.13)" }}
-                animate={{ scale: [1, 1.12, 1] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <Play size={14} className="text-brand" fill="currentColor" />
-              </motion.span>
-            </div>
           </motion.div>
         </div>
       </motion.div>

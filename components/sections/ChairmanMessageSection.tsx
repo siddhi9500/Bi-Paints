@@ -30,7 +30,7 @@ export default function ChairmanMessageSection() {
           <motion.div variants={fadeUp} className="flex flex-col" style={{ gap: 6 }}>
             <span style={{ fontWeight: 700, fontSize: 18, color: "#1b1b2f" }}>Bhikam Jain</span>
             <span
-              className="uppercase"
+              className="font-inter uppercase"
               style={{ fontWeight: 600, fontSize: 14, letterSpacing: "1px", color: "#d97706" }}
             >
               Chairman &amp; Founder, BI Group

@@ -48,7 +48,7 @@ export default function LeadershipSection() {
           <div className="flex items-center" style={{ gap: 8 }}>
             <span style={{ width: 16, height: 2, background: "#1a5276" }} />
             <span
-              className="uppercase"
+              className="font-inter uppercase"
               style={{ fontWeight: 700, fontSize: 13, letterSpacing: "2px", color: "#1a5276" }}
             >
               Board of Directors
@@ -86,7 +86,7 @@ export default function LeadershipSection() {
                   </span>
                 </div>
                 <span
-                  className="uppercase"
+                  className="font-inter uppercase"
                   style={{ fontWeight: 600, fontSize: 14, letterSpacing: "1px", color: "#1a5276" }}
                 >
                   {l.title}

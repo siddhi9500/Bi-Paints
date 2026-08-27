@@ -53,7 +53,7 @@ export default function WhatWeDoIntroSection() {
         <motion.div variants={fadeUp} className="flex flex-col items-center text-center mx-auto" style={{ gap: 20, maxWidth: 760 }}>
           <div className="flex items-center" style={{ gap: 8 }}>
             <span style={{ width: 12, height: 2, background: "#c8963e" }} />
-            <span className="uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#c8963e" }}>
+            <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#c8963e" }}>
               One Group. Multiple Possibilities.
             </span>
           </div>

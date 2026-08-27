@@ -63,7 +63,7 @@ export default function SustainabilityHeroSection() {
             marginBottom: 20,
           }}
         >
-          <span className="uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "2px", color: "#ffffff" }}>
+          <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "2px", color: "#ffffff" }}>
             BI Group Sustainability
           </span>
         </motion.div>

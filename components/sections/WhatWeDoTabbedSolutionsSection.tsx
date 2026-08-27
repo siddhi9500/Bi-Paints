@@ -29,7 +29,7 @@ export default function WhatWeDoTabbedSolutionsSection() {
         <motion.div variants={fadeUp} className="flex flex-col items-center text-center" style={{ gap: 20 }}>
           <div className="flex items-center" style={{ gap: 8 }}>
             <span style={{ width: 12, height: 2, background: "#d9a441" }} />
-            <span className="uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
+            <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
               Our Solutions
             </span>
           </div>
@@ -45,7 +45,7 @@ export default function WhatWeDoTabbedSolutionsSection() {
           {TABS.map((t, i) => (
             <div key={t} className="flex flex-col items-center" style={{ gap: 12, paddingBottom: 12 }}>
               <span
-                className="uppercase"
+                className="font-inter uppercase"
                 style={{ fontWeight: 700, fontSize: 14, letterSpacing: "2px", color: i === 0 ? "#d9a441" : "#20252b" }}
               >
                 {t}

@@ -37,7 +37,7 @@ export default function SustainabilityBannerSection() {
         <div className="flex flex-col items-start w-full" style={{ gap: 20 }}>
           <motion.span
             variants={fadeUpSmall}
-            className="uppercase w-full"
+            className="font-inter uppercase w-full"
             style={{ fontWeight: 700, fontSize: 11, letterSpacing: "2px", color: "rgba(255,255,255,0.8)" }}
           >
             At BI Group, we are driven by a purpose to build and protect India&apos;s future

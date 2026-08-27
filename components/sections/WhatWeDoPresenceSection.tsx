@@ -30,7 +30,7 @@ export default function WhatWeDoPresenceSection() {
           <motion.div variants={fadeUp} className="flex flex-col items-start flex-1" style={{ gap: 20 }}>
             <div className="flex items-center" style={{ gap: 8 }}>
               <span style={{ width: 12, height: 2, background: "#d9a441" }} />
-              <span className="uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
+              <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
                 Our Presence
               </span>
             </div>
@@ -50,7 +50,7 @@ export default function WhatWeDoPresenceSection() {
           </motion.div>
 
           <motion.div variants={fadeScaleIn} className="flex flex-col items-start w-full lg:w-[420px] shrink-0" style={{ gap: 24, padding: 40, borderRadius: 8, background: "#0b1f3a" }}>
-            <span className="uppercase" style={{ fontWeight: 800, fontSize: 18, color: "#d9a441" }}>Our Distribution</span>
+            <span className="font-inter uppercase" style={{ fontWeight: 800, fontSize: 18, color: "#d9a441" }}>Our Distribution</span>
             <motion.div variants={staggerContainer(0.05)} className="flex flex-col w-full">
               {DISTRIBUTION.map((d) => (
                 <motion.div
@@ -59,7 +59,7 @@ export default function WhatWeDoPresenceSection() {
                   className="flex items-center justify-between w-full"
                   style={{ padding: "12px 0", borderBottom: "1px solid rgba(255,255,255,0.1)" }}
                 >
-                  <span className="uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "1px", color: "#ffffff" }}>{d.label}</span>
+                  <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "1px", color: "#ffffff" }}>{d.label}</span>
                   <span style={{ fontWeight: 800, fontSize: 18, color: "#d9a441" }}>{d.value}</span>
                 </motion.div>
               ))}
@@ -79,7 +79,7 @@ export default function WhatWeDoPresenceSection() {
             className="inline-flex items-center"
             style={{ gap: 12, background: "#d9a441", padding: "16px 32px", borderRadius: 4 }}
           >
-            <span className="uppercase" style={{ fontWeight: 700, fontSize: 14, letterSpacing: "1px", color: "#0b1f3a" }}>
+            <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 14, letterSpacing: "1px", color: "#0b1f3a" }}>
               Explore Our Locations
             </span>
             <ChevronRight size={16} color="#0b1f3a" />

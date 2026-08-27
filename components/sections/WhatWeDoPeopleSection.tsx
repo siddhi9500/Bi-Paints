@@ -27,7 +27,7 @@ export default function WhatWeDoPeopleSection() {
           <motion.div variants={fadeUp} className="flex flex-col items-start" style={{ gap: 20 }}>
             <div className="flex items-center" style={{ gap: 8 }}>
               <span style={{ width: 12, height: 2, background: "#d9a441" }} />
-              <span className="uppercase" style={{ fontWeight: 600, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
+              <span className="font-inter uppercase" style={{ fontWeight: 600, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
                 Our People
               </span>
             </div>
@@ -44,7 +44,7 @@ export default function WhatWeDoPeopleSection() {
             {STATS.map((s) => (
               <motion.div key={s.label} variants={fadeUp} className="flex flex-col items-start" style={{ gap: 8 }}>
                 <span style={{ fontWeight: 800, fontSize: 40, color: "#d19e33" }}>{s.value}</span>
-                <span className="uppercase" style={{ fontWeight: 600, fontSize: 12, letterSpacing: "1px", color: "#1a1f2e" }}>
+                <span className="font-inter uppercase" style={{ fontWeight: 600, fontSize: 12, letterSpacing: "1px", color: "#1a1f2e" }}>
                   {s.label}
                 </span>
               </motion.div>
@@ -61,7 +61,7 @@ export default function WhatWeDoPeopleSection() {
               className="inline-flex items-center"
               style={{ gap: 12, background: "#0b1f3a", padding: "16px 32px", borderRadius: 4 }}
             >
-              <span className="uppercase" style={{ fontWeight: 600, fontSize: 14, letterSpacing: "1px", color: "#ffffff" }}>
+              <span className="font-inter uppercase" style={{ fontWeight: 600, fontSize: 14, letterSpacing: "1px", color: "#ffffff" }}>
                 Life at BI Group
               </span>
               <ArrowRight size={16} color="#ffffff" />

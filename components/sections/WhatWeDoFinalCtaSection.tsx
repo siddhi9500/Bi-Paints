@@ -30,7 +30,7 @@ export default function WhatWeDoFinalCtaSection() {
       >
         <motion.div variants={fadeUp} className="flex items-center" style={{ gap: 8 }}>
           <span style={{ width: 12, height: 2, background: "#ffffff" }} />
-          <span className="uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#ffffff" }}>
+          <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#ffffff" }}>
             Partner With Us
           </span>
         </motion.div>
@@ -53,7 +53,7 @@ export default function WhatWeDoFinalCtaSection() {
               className="inline-flex items-center"
               style={{ gap: 12, background: "#d9a441", padding: "16px 32px", borderRadius: 4 }}
             >
-              <span className="uppercase" style={{ fontWeight: 700, fontSize: 14, letterSpacing: "1px", color: "#0b1f3a" }}>
+              <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 14, letterSpacing: "1px", color: "#0b1f3a" }}>
                 Talk to BI Group
               </span>
               <ChevronRight size={16} color="#0b1f3a" />
@@ -70,7 +70,7 @@ export default function WhatWeDoFinalCtaSection() {
               className="inline-flex items-center"
               style={{ gap: 12, background: "transparent", padding: "16px 32px", borderRadius: 4, border: "1px solid #ffffff" }}
             >
-              <span className="uppercase" style={{ fontWeight: 700, fontSize: 14, letterSpacing: "1px", color: "#ffffff" }}>
+              <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 14, letterSpacing: "1px", color: "#ffffff" }}>
                 Explore Our Businesses
               </span>
               <ChevronRight size={16} color="#ffffff" />

@@ -27,7 +27,7 @@ export default function WhereWeAreIndiaPresenceSection() {
         <motion.div variants={fadeUp} className="flex flex-col items-start" style={{ gap: 20, maxWidth: 720 }}>
           <div className="flex items-center" style={{ gap: 8 }}>
             <span style={{ width: 12, height: 2, background: "#d9a441" }} />
-            <span className="uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
+            <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
               India Presence
             </span>
           </div>
@@ -82,7 +82,7 @@ export default function WhereWeAreIndiaPresenceSection() {
                   boxShadow: "0 12px 24px -8px rgba(15,31,61,0.25)",
                 }}
               >
-                <span className="uppercase block" style={{ fontWeight: 800, fontSize: 12, letterSpacing: "1px", color: "#0b1f3a" }}>
+                <span className="font-inter uppercase block" style={{ fontWeight: 800, fontSize: 12, letterSpacing: "1px", color: "#0b1f3a" }}>
                   Surat, Gujarat
                 </span>
                 <span className="block" style={{ fontSize: 12, color: "#777", marginTop: 4 }}>
@@ -94,7 +94,7 @@ export default function WhereWeAreIndiaPresenceSection() {
 
           <motion.div variants={staggerContainer(0.06)} className="flex flex-col items-start flex-1" style={{ gap: 28 }}>
             <motion.div variants={fadeUp} className="flex flex-col items-start" style={{ gap: 12 }}>
-              <span className="uppercase" style={{ fontWeight: 800, fontSize: 13, letterSpacing: "1.5px", color: "#0b1f3a" }}>
+              <span className="font-inter uppercase" style={{ fontWeight: 800, fontSize: 13, letterSpacing: "1.5px", color: "#0b1f3a" }}>
                 Manufacturing &amp; Head Office
               </span>
               {SURAT_LOCATIONS.map((loc) => (
@@ -108,14 +108,14 @@ export default function WhereWeAreIndiaPresenceSection() {
             </motion.div>
 
             <motion.div variants={fadeUp} className="flex flex-col items-start" style={{ gap: 12 }}>
-              <span className="uppercase" style={{ fontWeight: 800, fontSize: 13, letterSpacing: "1.5px", color: "#0b1f3a" }}>
+              <span className="font-inter uppercase" style={{ fontWeight: 800, fontSize: 13, letterSpacing: "1.5px", color: "#0b1f3a" }}>
                 States Covered
               </span>
               <div className="flex flex-wrap" style={{ gap: 10 }}>
                 {STATES_COVERED.map((state) => (
                   <span
                     key={state}
-                    className="uppercase"
+                    className="font-inter uppercase"
                     style={{
                       fontWeight: 700,
                       fontSize: 12,
@@ -132,7 +132,7 @@ export default function WhereWeAreIndiaPresenceSection() {
                 ))}
                 {STATES_COVERAGE_OPEN_ENDED && (
                   <span
-                    className="uppercase"
+                    className="font-inter uppercase"
                     style={{
                       fontWeight: 700,
                       fontSize: 12,

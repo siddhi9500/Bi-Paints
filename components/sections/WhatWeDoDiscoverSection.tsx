@@ -28,7 +28,7 @@ export default function WhatWeDoDiscoverSection() {
         <motion.div variants={fadeUp} className="flex flex-col items-start" style={{ gap: 20 }}>
           <div className="flex items-center" style={{ gap: 8 }}>
             <span style={{ width: 12, height: 2, background: "#d9a441" }} />
-            <span className="uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
+            <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
               Learn More
             </span>
           </div>
@@ -62,13 +62,13 @@ export default function WhatWeDoDiscoverSection() {
                   }}
                 />
                 <div className="relative flex flex-col items-start" style={{ gap: 8 }}>
-                  <span className="uppercase" style={{ fontWeight: 800, fontSize: 12, letterSpacing: "2px", color: "#d9a441" }}>
+                  <span className="font-inter uppercase" style={{ fontWeight: 800, fontSize: 12, letterSpacing: "2px", color: "#d9a441" }}>
                     {c.tag}
                   </span>
                   <p style={{ fontWeight: 700, fontSize: 20, lineHeight: 1.3, color: "#ffffff", margin: 0 }}>{c.title}</p>
                 </div>
                 <span className="relative inline-flex items-center" style={{ gap: 6 }}>
-                  <span className="uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "1px", color: "#d9a441" }}>
+                  <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "1px", color: "#d9a441" }}>
                     Explore
                   </span>
                   <ChevronRight size={14} color="#d9a441" />

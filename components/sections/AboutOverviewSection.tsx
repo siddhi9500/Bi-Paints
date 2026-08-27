@@ -122,7 +122,7 @@ export default function AboutOverviewSection() {
               <s.icon size={36} className="text-[#1b1b2f]" strokeWidth={1.5} />
               <p style={{ fontSize: 48, color: "#1b1b2f", margin: 0 }}>{s.value}</p>
               <div className="flex flex-col items-start" style={{ gap: 12 }}>
-                <span className="uppercase" style={{ fontWeight: 700, fontSize: 16, color: "#d97706" }}>{s.label}</span>
+                <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 16, color: "#d97706" }}>{s.label}</span>
                 <p style={{ fontSize: 15, lineHeight: 1.6, color: "#4b5563", margin: 0 }}>{s.description}</p>
               </div>
             </motion.div>

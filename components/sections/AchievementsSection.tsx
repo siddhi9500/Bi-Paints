@@ -25,7 +25,7 @@ export default function AchievementsSection() {
           <div className="flex items-center" style={{ gap: 8 }}>
             <span style={{ width: 16, height: 2, background: "#ffc72c" }} />
             <span
-              className="uppercase"
+              className="font-inter uppercase"
               style={{ fontWeight: 700, fontSize: 13, letterSpacing: "2px", color: "#ffc72c" }}
             >
               Milestones of Trust

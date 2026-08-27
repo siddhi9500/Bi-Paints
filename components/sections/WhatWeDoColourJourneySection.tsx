@@ -26,7 +26,7 @@ export default function WhatWeDoColourJourneySection() {
           <motion.div variants={fadeUp} className="flex flex-col items-start flex-1" style={{ gap: 20 }}>
             <div className="flex items-center" style={{ gap: 8 }}>
               <span style={{ width: 12, height: 2, background: "#d9a441" }} />
-              <span className="uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
+              <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d9a441" }}>
                 From Colour To Complete Spaces
               </span>
             </div>
@@ -68,7 +68,7 @@ export default function WhatWeDoColourJourneySection() {
                 </span>
               </motion.span>
               <div className="flex flex-col items-center" style={{ gap: 8 }}>
-                <span className="uppercase" style={{ fontWeight: 800, fontSize: 14, letterSpacing: "2px", color: "#0b1f3a" }}>
+                <span className="font-inter uppercase" style={{ fontWeight: 800, fontSize: 14, letterSpacing: "2px", color: "#0b1f3a" }}>
                   {s.title}
                 </span>
                 <p style={{ fontWeight: 400, fontSize: 14, lineHeight: 1.4, color: "#555", maxWidth: 220 }}>{s.description}</p>
