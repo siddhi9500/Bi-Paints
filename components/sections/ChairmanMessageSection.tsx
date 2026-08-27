@@ -3,43 +3,50 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Quote } from "lucide-react";
-import { cardUp, viewportOnce } from "@/lib/motion";
+import ScrollRevealImage from "@/components/ScrollRevealImage";
+import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
+// Figma: chairmans-message-section, node 3117:287
 export default function ChairmanMessageSection() {
   return (
-    <section className="bg-white" style={{ paddingTop: 100, paddingBottom: 100 }}>
+    <section style={{ background: "#f9fafb", padding: "120px 0" }}>
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
-        variants={cardUp}
-        className="page-container flex flex-col lg:flex-row items-center"
-        style={{ gap: 64, padding: 48, borderRadius: 24, background: "#f4f7fb", border: "1px solid #ede8df" }}
+        variants={staggerContainer(0.15)}
+        className="flex flex-col-reverse lg:flex-row items-center px-6 sm:px-10 lg:px-35"
+        style={{ gap: 80 }}
       >
-        <div
-          className="relative w-full lg:w-[360px] shrink-0 overflow-hidden"
-          style={{ height: 420, borderRadius: 16, border: "1px solid #ede8df" }}
-        >
-          <Image src="/about-chairman.jpg" alt="Bhikam Jain, Chairman & Founder, BI Group" fill className="object-cover" sizes="(min-width: 1024px) 360px, 100vw" />
-        </div>
-
-        <div className="flex flex-col items-start flex-1" style={{ gap: 24 }}>
-          <Quote size={40} className="text-brand" strokeWidth={1.5} />
-          <p style={{ fontWeight: 500, fontSize: 22, lineHeight: "36px", color: "#0f1f3d", margin: 0 }}>
+        <div className="flex flex-col items-start flex-1" style={{ gap: 38 }}>
+          <motion.div variants={fadeUp}>
+            <Quote size={48} className="text-[#d97706]" strokeWidth={1.5} />
+          </motion.div>
+          <motion.p variants={fadeUp} style={{ fontSize: 24, lineHeight: "40px", color: "#1b1b2f", margin: 0 }}>
             &quot;At BI Group, we believe that true growth comes from building with integrity, innovating with
             purpose, and serving with commitment. Our journey from a single paint company to a diversified
             industrial group reflects our unwavering dedication to India&apos;s progress.&quot;
-          </p>
-          <div className="flex flex-col" style={{ gap: 4 }}>
-            <span style={{ fontWeight: 700, fontSize: 18, color: "#0f1f3d" }}>Bhikam Jain</span>
+          </motion.p>
+          <motion.div variants={fadeUp} className="flex flex-col" style={{ gap: 6 }}>
+            <span style={{ fontWeight: 700, fontSize: 18, color: "#1b1b2f" }}>Bhikam Jain</span>
             <span
               className="uppercase"
-              style={{ fontWeight: 600, fontSize: 14, letterSpacing: "1px", color: "#1a5276" }}
+              style={{ fontWeight: 600, fontSize: 14, letterSpacing: "1px", color: "#d97706" }}
             >
               Chairman &amp; Founder, BI Group
             </span>
-          </div>
+          </motion.div>
         </div>
+
+        <motion.div
+          variants={fadeUp}
+          className="relative w-full shrink-0 overflow-hidden"
+          style={{ maxWidth: 386, height: 430, borderRadius: 16, border: "1px solid #ede8df" }}
+        >
+          <ScrollRevealImage>
+            <Image src="/about-chairman.jpg" alt="Bhikam Jain, Chairman & Founder, BI Group" fill className="object-cover" sizes="(min-width: 1024px) 386px, 100vw" />
+          </ScrollRevealImage>
+        </motion.div>
       </motion.div>
     </section>
   );

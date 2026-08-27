@@ -2,13 +2,14 @@
 
 import { motion } from "framer-motion";
 import { Eye, Target, ShieldCheck } from "lucide-react";
+import { passThroughVariants, TypingReveal } from "@/components/TypingReveal";
 import { cardUp, fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const CARDS = [
   {
     icon: Eye,
-    iconBg: "#e0f2fe",
-    iconColor: "#1a5276",
+    iconBg: "#fef9e7",
+    iconColor: "#d97706",
     title: "Vision",
     description:
       "To manufacture sustainable coating solutions by constantly investing in research and development for delivering products that create value for customers and accelerate growth and diversification across paints, modular kitchens, and electronics.",
@@ -30,27 +31,27 @@ const CARDS = [
   },
 ];
 
+// Figma: vision-mission-values-section, node 3117:299
 export default function VisionMissionValuesSection() {
   return (
-    <section style={{ background: "#f4f7fb", paddingTop: 100, paddingBottom: 100 }}>
+    <section style={{ background: "#f9fafb", paddingTop: 120, paddingBottom: 120 }}>
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={viewportOnce}
         variants={staggerContainer(0.15)}
-        className="page-container flex flex-col items-center"
-        style={{ gap: 56 }}
+        className="flex flex-col items-center px-6 sm:px-10 lg:px-35"
+        style={{ gap: 64 }}
       >
-        <motion.div variants={fadeUp} className="flex flex-col items-center text-center" style={{ gap: 16 }}>
-          <span
-            className="uppercase"
-            style={{ fontWeight: 600, fontSize: 13, letterSpacing: "3px", color: "#1a5276" }}
-          >
+        <div className="flex flex-col items-center text-center" style={{ gap: 16 }}>
+          <motion.span variants={fadeUp} className="font-inter uppercase" style={{ fontWeight: 600, fontSize: 13, letterSpacing: "3px", color: "#d97706" }}>
             Our Foundation
-          </span>
-          <h2 style={{ fontWeight: 700, fontSize: 40, color: "#0f1f3d" }}>Vision, Mission &amp; Values</h2>
-          <span style={{ width: 40, height: 4, borderRadius: 2, background: "#c59b27" }} />
-        </motion.div>
+          </motion.span>
+          <motion.h2 variants={passThroughVariants} style={{ fontSize: 32, lineHeight: 1.15, color: "#1b1b2f" }}>
+            <TypingReveal text="Vision, Mission & Values" split="word" charDelay={0.05} charDuration={0.4} baseDelay={0} />
+          </motion.h2>
+          <motion.span variants={fadeUp} style={{ width: 40, height: 4, borderRadius: 2, background: "#d97706" }} />
+        </div>
 
         <motion.div variants={staggerContainer(0.1)} className="grid grid-cols-1 md:grid-cols-3 w-full" style={{ gap: 24 }}>
           {CARDS.map((c) => (
@@ -64,10 +65,10 @@ export default function VisionMissionValuesSection() {
                 className="flex items-center justify-center shrink-0"
                 style={{ width: 52, height: 52, borderRadius: 12, background: c.iconBg }}
               >
-                <c.icon size={26} color={c.iconColor} strokeWidth={2} />
+                <c.icon size={28} color={c.iconColor} strokeWidth={2} />
               </span>
-              <h3 style={{ fontWeight: 700, fontSize: 22, color: "#0f1f3d" }}>{c.title}</h3>
-              <p style={{ fontWeight: 400, fontSize: 14, lineHeight: "21px", color: "#4b5563" }}>{c.description}</p>
+              <h3 style={{ fontSize: 22, color: "#1b1b2f" }}>{c.title}</h3>
+              <p style={{ fontWeight: 400, fontSize: 14, lineHeight: "24px", color: "#4b5563" }}>{c.description}</p>
             </motion.div>
           ))}
         </motion.div>

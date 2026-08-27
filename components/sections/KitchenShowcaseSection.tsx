@@ -34,7 +34,7 @@ export default function KitchenShowcaseSection() {
           <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d97706" }}>
             Our Kitchens
           </span>
-          <motion.h2 variants={passThroughVariants} style={{ fontSize: 32, lineHeight: 1.2, letterSpacing: "1px", color: "#1b1b2f" }}>
+          <motion.h2 variants={passThroughVariants} style={{ fontSize: 32, lineHeight: 1.2, letterSpacing: "1px", color: "#1b1b2f", fontWeight: 700  }}>
             <TypingReveal text="BI Modular Kitchens for Modern Living" split="word" charDelay={0.05} charDuration={0.4} baseDelay={0} />
           </motion.h2>
           <p style={{ fontSize: 15, lineHeight: 1.7, letterSpacing: "0.2px", color: "#6b7280" }}>

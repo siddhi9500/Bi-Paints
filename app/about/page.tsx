@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import AboutHeroSection from "@/components/sections/AboutHeroSection";
 import AboutOverviewSection from "@/components/sections/AboutOverviewSection";
-import AboutJourneySection from "@/components/sections/AboutJourneySection";
 import ChairmanMessageSection from "@/components/sections/ChairmanMessageSection";
+import AboutJourneySection from "@/components/sections/AboutJourneySection";
 import VisionMissionValuesSection from "@/components/sections/VisionMissionValuesSection";
-import AboutBusinessesGridSection from "@/components/sections/AboutBusinessesGridSection";
 import AboutSustainabilitySection from "@/components/sections/AboutSustainabilitySection";
 
 export const metadata: Metadata = {
@@ -18,10 +17,9 @@ export default function AboutPage() {
     <>
       <AboutHeroSection />
       <AboutOverviewSection />
-      <AboutJourneySection />
       <ChairmanMessageSection />
+      <AboutJourneySection />
       <VisionMissionValuesSection />
-      <AboutBusinessesGridSection />
       <AboutSustainabilitySection />
     </>
   );
