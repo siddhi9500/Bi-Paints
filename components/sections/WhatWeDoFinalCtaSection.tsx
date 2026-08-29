@@ -25,7 +25,7 @@ export default function WhatWeDoFinalCtaSection() {
         whileInView="visible"
         viewport={viewportOnce}
         variants={staggerContainer(0.15)}
-        className="page-container relative flex flex-col items-center text-center"
+        className="px-6 sm:px-10 lg:px-35 relative flex flex-col items-center text-center"
         style={{ gap: 32 }}
       >
         <motion.div variants={fadeUp} className="flex items-center" style={{ gap: 8 }}>

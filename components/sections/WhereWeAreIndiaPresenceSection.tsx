@@ -21,7 +21,7 @@ export default function WhereWeAreIndiaPresenceSection() {
         whileInView="visible"
         viewport={viewportOnce}
         variants={staggerContainer(0.15)}
-        className="page-container flex flex-col"
+        className="px-6 sm:px-10 lg:px-35 flex flex-col"
         style={{ gap: 56 }}
       >
         <motion.div variants={fadeUp} className="flex flex-col items-start" style={{ gap: 20, maxWidth: 720 }}>

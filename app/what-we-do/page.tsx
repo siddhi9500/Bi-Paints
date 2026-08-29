@@ -25,7 +25,7 @@ export default function WhatWeDoPage() {
       <WhatWeDoInnovationSection />
       <WhatWeDoPeopleSection />
       <WhatWeDoPresenceSection />
-      <WhatWeDoDiscoverSection />
+      {/* <WhatWeDoDiscoverSection /> */}
       <WhatWeDoFinalCtaSection />
     </>
   );

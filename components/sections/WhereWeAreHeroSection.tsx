@@ -25,23 +25,23 @@ export default function WhereWeAreHeroSection() {
         style={{ background: "rgba(13,20,38,0.55)" }}
       />
 
-      <div className="page-container relative flex flex-col items-center text-center" style={{ gap: 32, paddingTop: 140, paddingBottom: 140 }}>
+      <div className="relative flex flex-col items-center text-center" style={{ gap: 20, paddingTop: 140, paddingBottom: 140 }}>
         <div style={{ overflow: "hidden" }}>
-          <motion.h1
+          <motion.h3
             initial={{ y: "110%" }}
             animate={{ y: "0%" }}
             transition={{ duration: 1, ease: EASE_OUT, delay: 0.35 }}
-            style={{ fontWeight: 700, fontSize: 56, lineHeight: 1.15, color: "#ffffff", margin: 0 }}
+            style={{ fontWeight: 700, fontSize: 40, lineHeight: 1.15, color: "#ffffff", margin: 0 }}
           >
             Where We Are
-          </motion.h1>
+          </motion.h3 >
         </div>
 
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.75 }}
-          style={{ fontWeight: 600, fontSize: 24, lineHeight: 1.35, color: "rgba(255,255,255,0.9)" }}
+          style={{ fontWeight: 300, fontSize: 18, lineHeight: 1.35, color: "rgba(255,255,255,0.9)" }}
         >
           Growing our presence. Connecting markets. Delivering solutions.
         </motion.p>
@@ -57,9 +57,9 @@ export default function WhereWeAreHeroSection() {
             <Link
               href="#global-footprint"
               className="inline-flex items-center justify-center"
-              style={{ background: "#0a1628", padding: "14px 28px", borderRadius: 24 }}
+              style={{ background: "rgb(237, 166, 51)", padding: "14px 28px", borderRadius: 24 }}
             >
-              <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 14, letterSpacing: "1px", color: "#ffffff" }}>
+              <span className="font-inter uppercase" style={{ fontWeight: 400, fontSize: 12, letterSpacing: "1px", color: "#ffffff" }}>
                 Explore Our Presence
               </span>
             </Link>
@@ -70,7 +70,7 @@ export default function WhereWeAreHeroSection() {
               className="inline-flex items-center justify-center"
               style={{ padding: "14px 28px", borderRadius: 24, border: "1.5px solid #ffffff" }}
             >
-              <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 14, letterSpacing: "1px", color: "#ffffff" }}>
+              <span className="font-inter uppercase" style={{ fontWeight: 400, fontSize: 12, letterSpacing: "1px", color: "#ffffff" }}>
                 Contact Us
               </span>
             </Link>

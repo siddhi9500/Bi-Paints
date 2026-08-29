@@ -29,7 +29,7 @@ export default function WhatWeDoHeroSection() {
         initial="hidden"
         animate="visible"
         variants={staggerContainer(0.15, 0.3)}
-        className="page-container relative flex flex-col items-center justify-center text-center mx-auto"
+        className="relative flex flex-col items-center justify-center text-center mx-auto"
         style={{ minHeight: 560, gap: 28, maxWidth: 680 }}
       >
         <motion.h1 variants={fadeUp} style={{ fontWeight: 700, fontSize: 40, lineHeight: 1.1, color: "#ffffff", margin: 0 }}>

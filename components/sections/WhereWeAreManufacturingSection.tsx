@@ -22,7 +22,7 @@ export default function WhereWeAreManufacturingSection() {
         whileInView="visible"
         viewport={viewportOnce}
         variants={staggerContainer(0.15)}
-        className="page-container flex flex-col lg:flex-row items-center"
+        className="px-6 sm:px-10 lg:px-35 flex flex-col lg:flex-row items-center"
         style={{ gap: 80 }}
       >
         <motion.div variants={cardUp} className="relative w-full flex-1 overflow-hidden" style={{ height: 480, borderRadius: 8 }}>

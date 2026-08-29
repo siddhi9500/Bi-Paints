@@ -19,6 +19,7 @@ const QUICK_LINKS = [
   { label: "About Us", href: "/about" },
   { label: "Leadership", href: "/about" },
   { label: "Sustainability", href: "/sustainability" },
+  { label: "BI Foundation", href: "/bi-foundation" },
   { label: "Careers", href: "/careers" },
   { label: "News & Insights", href: "/newsroom" },
   { label: "Partners", href: "/about" },

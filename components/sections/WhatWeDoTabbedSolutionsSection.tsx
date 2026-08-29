@@ -23,7 +23,7 @@ export default function WhatWeDoTabbedSolutionsSection() {
         whileInView="visible"
         viewport={viewportOnce}
         variants={staggerContainer(0.12)}
-        className="page-container flex flex-col items-center"
+        className="px-6 sm:px-10 lg:px-35 flex flex-col items-center"
         style={{ gap: 40 }}
       >
         <motion.div variants={fadeUp} className="flex flex-col items-center text-center" style={{ gap: 20 }}>

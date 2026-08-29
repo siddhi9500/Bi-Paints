@@ -22,7 +22,7 @@ export default function ChairmanMessageSection() {
           <motion.div variants={fadeUp}>
             <Quote size={48} className="text-[#d97706]" strokeWidth={1.5} />
           </motion.div>
-          <motion.p variants={fadeUp} style={{ fontSize: 24, lineHeight: "40px", color: "#1b1b2f", margin: 0 }}>
+          <motion.p variants={fadeUp} style={{ fontFamily: "var(--font-pt-serif)", fontWeight: 500, fontSize: 22, lineHeight: "40px", color: "#1b1b2f", margin: 0 }}>
             &quot;At BI Group, we believe that true growth comes from building with integrity, innovating with
             purpose, and serving with commitment. Our journey from a single paint company to a diversified
             industrial group reflects our unwavering dedication to India&apos;s progress.&quot;

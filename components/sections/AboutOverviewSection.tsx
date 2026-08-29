@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Award, Briefcase, MapPin, Users } from "lucide-react";
+import AnimatedCounter from "@/components/AnimatedCounter";
 import ScrollRevealImage from "@/components/ScrollRevealImage";
 import { passThroughVariants, TypingReveal } from "@/components/TypingReveal";
 import { cardUp, fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
@@ -10,25 +11,29 @@ import { cardUp, fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 const STATS = [
   {
     icon: Award,
-    value: "14+",
+    value: 14,
+    suffix: "+",
     label: "Years of Excellence",
     description: "Years of building trust and delivering results across industries.",
   },
   {
     icon: Briefcase,
-    value: "10",
+    value: 10,
+    suffix: "",
     label: "Business Verticals",
     description: "Diverse sectors served with balanced solutions and expertise.",
   },
   {
     icon: Users,
-    value: "500+",
+    value: 500,
+    suffix: "+",
     label: "Dealer Network",
     description: "Strong partnerships that power distribution and local support.",
   },
   {
     icon: MapPin,
-    value: "20+",
+    value: 20,
+    suffix: "+",
     label: "States Presence",
     description: "Nationwide reach with localized operations and consistent delivery.",
   },
@@ -50,11 +55,11 @@ export default function AboutOverviewSection() {
           <motion.div variants={fadeUp} className="flex flex-col items-start flex-1" style={{ gap: 27 }}>
             <div className="flex items-center" style={{ gap: 8 }}>
               <span style={{ width: 16, height: 2, background: "#d97706" }} />
-              <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d97706" }}>
+              <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d97706"}}>
                 Who We Are
               </span>
             </div>
-            <motion.p variants={passThroughVariants} style={{ fontSize: 22, lineHeight: "30px", color: "#1b1b2f" }}>
+            <motion.p variants={passThroughVariants} style={{ fontFamily: "var(--font-pt-serif)", fontWeight: 700, fontSize: 22, lineHeight: "30px", color: "#1b1b2f" }}>
               <TypingReveal
                 text="Founded in 2012, BI Group is a diversified Indian industrial conglomerate built on a legacy of trust, quality, and commitment."
                 split="word"
@@ -105,7 +110,7 @@ export default function AboutOverviewSection() {
                 boxShadow: "0px 8px 12px rgba(0,0,0,0.12)",
               }}
             >
-              <span style={{ fontWeight: 700, fontSize: 40, lineHeight: 1, color: "#d97706" }}>14+</span>
+              <AnimatedCounter value={14} suffix="+" duration={1.6} style={{ fontWeight: 700, fontSize: 40, lineHeight: 1, color: "#d97706" }} />
               <span style={{ fontWeight: 500, fontSize: 13, color: "#6b7280" }}>Years Of Excellence</span>
             </div>
           </motion.div>
@@ -117,12 +122,20 @@ export default function AboutOverviewSection() {
               key={s.label}
               variants={cardUp}
               className="flex flex-col items-start flex-1 w-full"
-              style={{ gap: 20, padding: "0 40px", borderLeft: i > 0 ? "1px solid rgba(217,119,6,0.3)" : "none" }}
+              style={{ padding: "0 40px", borderLeft: i > 0 ? "1px solid rgba(217,119,6,0.3)" : "none" }}
             >
-              <s.icon size={36} className="text-[#1b1b2f]" strokeWidth={1.5} />
-              <p style={{ fontSize: 48, color: "#1b1b2f", margin: 0 }}>{s.value}</p>
+              <motion.span
+                initial={{ scale: 0.6, opacity: 0, rotate: -8 }}
+                whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
+                viewport={viewportOnce}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="inline-block"
+              >
+                <s.icon size={36} className="text-[#1b1b2f]" strokeWidth={1.5} />
+              </motion.span>
+              <AnimatedCounter value={s.value} suffix={s.suffix} duration={1.6} style={{ fontFamily: "var(--font-pt-serif)", fontWeight: 700, fontSize: 48, color: "#1b1b2f" }} />
               <div className="flex flex-col items-start" style={{ gap: 12 }}>
-                <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 16, color: "#d97706" }}>{s.label}</span>
+                <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 15, color: "#d97706" }}>{s.label}</span>
                 <p style={{ fontSize: 15, lineHeight: 1.6, color: "#4b5563", margin: 0 }}>{s.description}</p>
               </div>
             </motion.div>

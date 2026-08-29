@@ -47,7 +47,7 @@ export default function VisionMissionValuesSection() {
           <motion.span variants={fadeUp} className="font-inter uppercase" style={{ fontWeight: 600, fontSize: 13, letterSpacing: "3px", color: "#d97706" }}>
             Our Foundation
           </motion.span>
-          <motion.h2 variants={passThroughVariants} style={{ fontSize: 32, lineHeight: 1.15, color: "#1b1b2f" }}>
+          <motion.h2 variants={passThroughVariants} style={{ fontSize: 32, lineHeight: 1.15, color: "#1b1b2f", fontWeight: 700 }}>
             <TypingReveal text="Vision, Mission & Values" split="word" charDelay={0.05} charDuration={0.4} baseDelay={0} />
           </motion.h2>
           <motion.span variants={fadeUp} style={{ width: 40, height: 4, borderRadius: 2, background: "#d97706" }} />
@@ -59,7 +59,7 @@ export default function VisionMissionValuesSection() {
               key={c.title}
               variants={cardUp}
               className="flex flex-col items-start bg-white h-full"
-              style={{ gap: 24, padding: 40, borderRadius: 16, boxShadow: "0px 6px 12px rgba(15,31,61,0.04)" }}
+              style={{ gap: 24, padding: 40, borderRadius: 16, boxShadow: "0px 6px 12px rgba(15,31,61,0.04)", fontWeight: 700 }}
             >
               <span
                 className="flex items-center justify-center shrink-0"

@@ -20,7 +20,7 @@ export default function WhatWeDoPeopleSection() {
         whileInView="visible"
         viewport={viewportOnce}
         variants={staggerContainer(0.15)}
-        className="page-container flex flex-col lg:flex-row items-center"
+        className="px-6 sm:px-10 lg:px-35 flex flex-col lg:flex-row items-center"
         style={{ gap: 80 }}
       >
         <div className="flex flex-col items-start flex-1" style={{ gap: 48 }}>
