@@ -116,7 +116,7 @@ export default function BusinessPortfolioSection() {
 
         <motion.div variants={fadeUp} whileHover={{ ...hoverScaleButton, transition: hoverTransition }} whileTap={{ ...tapScaleButton, transition: hoverTransition }}>
           <Link
-            href="/about"
+            href="/businesses"
             className="inline-flex items-center rounded-full"
             style={{ gap: 10, padding: "14px 28px", border: "1.5px solid #1b1b2f" }}
           >

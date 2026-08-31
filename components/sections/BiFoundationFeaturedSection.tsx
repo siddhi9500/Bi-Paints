@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { fadeUp, hoverScaleButton, hoverTransition, staggerContainer, tapScaleButton, viewportOnce } from "@/lib/motion";
+import { passThroughVariants, TypingReveal } from "@/components/TypingReveal";
+import { fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 // Figma: Featured Initiative, node 4445:282
 export default function BiFoundationFeaturedSection() {
@@ -25,25 +25,15 @@ export default function BiFoundationFeaturedSection() {
           <p className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "2px", color: "#c8963e" }}>
             Featured Initiative
           </p>
-          <h2 style={{ fontWeight: 700, fontSize: 32, color: "#0f1f3d" }}>Creating Change Where It Matters</h2>
+          <motion.h2 variants={passThroughVariants} style={{ fontWeight: 700, fontSize: 32, color: "#0f1f3d" }}>
+            <TypingReveal text="Creating Change Where It Matters" split="word" charDelay={0.04} charDuration={0.4} baseDelay={0} />
+          </motion.h2>
           <p style={{ fontSize: 16, lineHeight: 1.8, color: "#20252b" }}>
             From supporting education to contributing to greener communities, BI Foundation focuses on initiatives
             that create meaningful and lasting change. We partner with local schools and environmental agencies to
             ensure every contribution counts.
           </p>
 
-          <motion.div
-            whileHover={{ ...hoverScaleButton, transition: hoverTransition }}
-            whileTap={{ ...tapScaleButton, transition: hoverTransition }}
-          >
-            <Link
-              href="/contact"
-              className="inline-flex items-center"
-              style={{ background: "#0f1f3d", padding: "12px 24px", borderRadius: 24 }}
-            >
-              <span style={{ fontWeight: 600, fontSize: 14, color: "#ffffff" }}>Explore Our Initiatives →</span>
-            </Link>
-          </motion.div>
         </motion.div>
       </motion.div>
     </section>

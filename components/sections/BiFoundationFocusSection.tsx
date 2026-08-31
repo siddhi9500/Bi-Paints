@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { BookOpen, Globe, Heart, Users } from "lucide-react";
+import { passThroughVariants, TypingReveal } from "@/components/TypingReveal";
 import { cardUp, fadeUp, staggerContainer, viewportOnce } from "@/lib/motion";
 
 const FOCUS_AREAS = [
@@ -44,7 +45,9 @@ export default function BiFoundationFocusSection() {
         style={{ gap: 48 }}
       >
         <motion.div variants={fadeUp} className="flex flex-col items-center text-center" style={{ gap: 12, maxWidth: 700 }}>
-          <h2 style={{ fontWeight: 700, fontSize: 34, color: "#0f1f3d" }}>Where We Focus</h2>
+          <motion.h2 variants={passThroughVariants} style={{ fontWeight: 700, fontSize: 34, color: "#0f1f3d" }}>
+            <TypingReveal text="Where We Focus" split="word" charDelay={0.04} charDuration={0.4} baseDelay={0} />
+          </motion.h2>
           <p style={{ fontSize: 16, color: "#6b7280" }}>
             Our initiatives are built around areas where we can create meaningful and lasting impact.
           </p>
