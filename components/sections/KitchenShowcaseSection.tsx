@@ -31,7 +31,7 @@ export default function KitchenShowcaseSection() {
         style={{ gap: 80 }}
       >
         <motion.div variants={fadeUp} className="flex flex-col items-center text-center w-full" style={{ gap: 12, maxWidth: 900 }}>
-          <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#d97706" }}>
+          <span className="font-inter uppercase" style={{ fontWeight: 700, fontSize: 13, letterSpacing: "3px", color: "#c8963e" }}>
             Our Kitchens
           </span>
           <motion.h2 variants={passThroughVariants} style={{ fontSize: 32, lineHeight: 1.2, letterSpacing: "1px", color: "#1b1b2f", fontWeight: 700  }}>

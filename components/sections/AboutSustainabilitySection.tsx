@@ -52,7 +52,7 @@ export default function AboutSustainabilitySection() {
                 Green Future
               </span>
             </motion.div>
-            <motion.h2 variants={passThroughVariants} style={{ fontSize: 32, lineHeight: 1.15, color: "#1b1b2f" }}>
+            <motion.h2 variants={passThroughVariants} style={{ fontSize: 32, lineHeight: 1.15, color: "#1b1b2f", fontWeight: 700 }}>
               <TypingReveal text="Commitment to Sustainability" split="word" charDelay={0.05} charDuration={0.4} baseDelay={0} />
             </motion.h2>
             <motion.span variants={fadeUp} style={{ width: 40, height: 4, borderRadius: 2, background: "#d97706" }} />

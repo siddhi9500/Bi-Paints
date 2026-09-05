@@ -30,7 +30,7 @@ export default function AboutJourneySection() {
       whileInView="visible"
       viewport={viewportOnce}
       variants={staggerContainer(0.1)}
-      className="w-full flex flex-col lg:flex-row items-stretch"
+      className="w-full flex flex-col lg:flex-row items-stretch px-6 sm:px-10 lg:px-35"
       style={{ minHeight: 570 }}
     >
       <motion.div variants={imageVariant} className="relative w-full lg:flex-1 overflow-hidden" style={{ height: 570 }}>
@@ -41,7 +41,7 @@ export default function AboutJourneySection() {
 
       <div className="bg-white flex flex-1 flex-col justify-center px-6 sm:px-10 lg:px-18" style={{ gap: 32, paddingTop: 64, paddingBottom: 64 }}>
         <div className="flex flex-col items-start w-full" style={{ gap: 20 }}>
-          <motion.h2 variants={passThroughVariants} className="uppercase" style={{ fontSize: 32, lineHeight: 1.15, letterSpacing: "2px", color: "#0a1b3f", margin: 0 }}>
+          <motion.h2 variants={passThroughVariants} className="uppercase" style={{ fontSize: 28, lineHeight: 1.15, letterSpacing: "2px", color: "#0a1b3f", margin: 0, fontWeight: 700 }}>
             <TypingReveal text="Our Journey" split="letter" charDelay={0.03} charDuration={0.35} baseDelay={0} />
           </motion.h2>
           <motion.p variants={bodyVariant} style={{ fontWeight: 400, fontSize: 15, lineHeight: "24px", color: "#4b5563", margin: 0 }}>
